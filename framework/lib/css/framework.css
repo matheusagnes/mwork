@@ -1,0 +1,49 @@
+/* -- styles for forms -- */
+
+.mform
+{
+	width:500px;
+	margin:auto;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.item label
+{
+	float:left;
+	width: 40%;
+	height: auto;
+	padding-top:10px;
+	font-weight: bolder;
+}
+
+.item-vertical label
+{
+	float: left;
+	width: 100%;
+	padding-top:10px;
+	font-weight: bolder;
+}
+
+.item-vertical input select
+{
+	float:left;	
+}
+
+.item input select
+{
+	float:left;
+}
+
+/* -- end styles for forms -- */
+
+.obligatory
+{
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 9pt;
+    color: red;
+    margin-top: -2px;
+}
+
+
