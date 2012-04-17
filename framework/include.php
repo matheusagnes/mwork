@@ -28,10 +28,8 @@ function __autoload($classe)
     }
     else
     {
-        
-        if(count(explode('formView', $classe)) >= 1)
+        if(count(explode('FormView', $classe)) >= 1)
         {
-            
             $arquivo = 'class/view/'.$classe.'.class.php';
 
             if (file_exists($arquivo))
@@ -40,6 +38,16 @@ function __autoload($classe)
                 return true;
             }
         }
+		if(count(explode('FormControl', $classe)) >= 1)
+		{
+			$arquivo = 'class/control/'.$classe.'.class.php';
+
+            if (file_exists($arquivo))
+            {
+                require_once $arquivo;
+                return true;
+            }
+		}
     }
 
 }
