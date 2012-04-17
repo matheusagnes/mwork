@@ -17,9 +17,6 @@ var stringDefaultError = 'Erro ao carregar página';
 //Carregar imagens para nao precisar carregar no momento em que chama o ajax
 imgLoad = new Image(); 
 imgLoad.src = 'lib/ajax/images/ajax-loader.png';
-//imgClose = new Image(); 
-//imgClose.src = 'images/close.gif';
-
 
 
 var cache = {
@@ -194,10 +191,14 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
                 alert(erro.responseText );
             }
         }        
-    });   
-    
+    }); 
+
 }
 
+function ajaxSubmit(url,id,formId)
+{
+	requestPage('ajax.php?class='+url,id,formId,'', 'POST', true, false);
+} 
 
 function showPageLoadingMsg() {
     
