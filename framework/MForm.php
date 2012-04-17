@@ -135,7 +135,6 @@ class MForm
                 }			
 		
                 $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
-
                 $htmlForm .= "	<div class='{$classItem}'> 
 									<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>
 									{$field->show()}
