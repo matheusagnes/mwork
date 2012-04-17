@@ -1,0 +1,141 @@
+.loginform h1,
+.loginform a.logo {
+    display: block;
+    text-align: center;
+}
+
+.loginform {
+    text-align: center;
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0.5em;
+    color: #444;
+    background: white;
+    font-size: 80%;
+}
+
+.loginform div.container {
+    text-align: left;
+    width: 30em;
+    margin: 0 auto;
+}
+
+form.login label {
+    float: left;
+    width: 10em;
+    font-weight: bolder;
+}
+/* user privileges */
+#fieldset_add_user_login div.item {
+    border-bottom:      1px solid silver;
+    padding-bottom:     0.3em;
+    margin-bottom:      0.3em;
+}
+
+#fieldset_add_user_login label {
+    float:              left;
+    display:            block;
+    width:              10em;
+    max-width:          100%;
+    text-align:         right;
+    padding-right:      0.5em;
+}
+
+#fieldset_add_user_login span.options #select_pred_username,
+#fieldset_add_user_login span.options #select_pred_hostname,
+#fieldset_add_user_login span.options #select_pred_password {
+    width:              100%;
+    max-width:          100%;
+}
+
+#fieldset_add_user_login span.options {
+    float: left;
+    display: block;
+    width: 12em;
+    max-width: 100%;
+    padding-right: 0.5em;
+}
+
+#fieldset_add_user_login input {
+    width: 12em;
+    clear: right;
+    max-width: 100%;
+}
+
+#fieldset_add_user_login span.options input {
+    width: auto;
+}
+
+#topmenucontainer{background:url(images/tab_bg.png) repeat-x;    border-top:1px solid #aaa;}
+
+div#querywindowcontainer {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+div#querywindowcontainer fieldset {
+    margin-top: 0;
+}
+
+div#sqlquerycontainer {
+    float: left;
+    width: 69%;
+    /* height: 15em; */
+}
+
+div#tablefieldscontainer {
+    float: right;
+    width: 29%;
+    /* height: 15em; */
+}
+
+div#tablefieldscontainer select {
+    width: 100%;
+    background:#fff;
+    /* height: 12em; */
+}
+
+
+div#queryboxcontainer div#bookmarkoptions {
+    margin-top: 0.5em;
+}
+/* end querybox */
+
+/* main page */
+#maincontainer {
+    /* background-image: url(images/logo_right.png); */
+    /* background-position: right bottom; */
+    /* background-repeat: no-repeat; */
+}
+
+#mysqlmaininformation,
+#pmamaininformation {
+    float: left;
+    width: 49%;
+}
+
+#maincontainer ul {
+    list-style-type: disc;
+    vertical-align: middle;
+}
+
+#maincontainer li {
+    margin-bottom:  0.3em;
+}
+
+
+#TooltipContainer {
+    position:           absolute;
+    z-index:            99;
+    width:              20em;
+    height:             auto;
+    overflow:           visible;
+    visibility:         hidden;
+    background-color:   #ffffcc;
+    color:              #006600;
+    border:             0.1em solid #000000;
+    padding:            0.5em;
+}
+
+
