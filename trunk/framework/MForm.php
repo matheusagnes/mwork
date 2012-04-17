@@ -26,10 +26,9 @@ class MForm
 		$callerClass = $debug[1]['class'];
 		
 		$urlTarget = str_replace('View', 'Control', $callerClass).'::save()';
+		#FIXME trocar para content
+		$this->setSubmit($urlTarget,'conteudo');
 
-		$this->setSubmit($urlTarget,'content');
-
-		// Page where post go
 		$this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
         $this->cont = 0;
@@ -115,8 +114,8 @@ class MForm
 
     public function show()
     {
-
-        $htmlForm = "<form method = 'POST' name = '{$this->name}' id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}');\" class='mform' >";
+		#FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
+        $htmlForm = "<form name = '{$this->name}' id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
 	    $htmlForm.= '<fieldset>
 						<legend>
 							'.$this->getFormLegend().'
