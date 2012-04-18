@@ -8,6 +8,11 @@ class MControl
 		echo $view;
     }
 
+    #FIXME
+    public function save()
+    {
+    }
+
 	public function getPost()
 	{
 		return $this->arrayToObject($_POST);
