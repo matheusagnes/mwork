@@ -2,8 +2,6 @@
 
 class MForm
 {
-
-    protected $name;
     private $fields;
     private $id;
     private $cont;
@@ -14,12 +12,26 @@ class MForm
     private $is_horizontal;
     private $urlTarget;
     private $divTarget;
+	private $MCore = null;
 
-    public function __construct($name, $legend, $is_horizontal = true, $botoes = true)
+    public function __construct($id, $legend, $is_horizontal = true, $botoes = true)
     {
-        $this->setName($name);
-        $this->setId($name);
+		// get mcore instance
+		$this->MCore = MCore::getInstance();
+
+        $this->setId($id);
         $this->setFormLegend($legend);
+		
+		// create objForm to use in session for validade the form in control
+		$objForm->id = $id;
+		$objForm->obligatory;
+
+		$this->MCore->setSession('form',$objForm);
+
+
+		var_dump($_SESSION);
+		var_dump(MCore::getInstance());die;
+		
 
         #FIXME trocar para content
         $this->setSubmit(self::getSaveUrlTarget(), 'conteudo');
