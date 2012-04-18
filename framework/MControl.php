@@ -22,7 +22,6 @@ class MControl
 
 		$this->aObligatories = $this->MCore->getSession($this->sessionFormName);	
 		$this->post = $this->getPost();
-		     dbug($this->sessionFormName);
     }
 
     public function save()
