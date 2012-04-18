@@ -10,21 +10,21 @@ class MForm
     private $onSubmit;
     private $botoes;
     private $newButton;
-	private $formLegend;
-	private $is_horizontal;
+    private $formLegend;
+    private $is_horizontal;
     private $urlTarget;
     private $divTarget;
 
-    public function __construct($name,$legend,$is_horizontal = true, $botoes = true)
+    public function __construct($name, $legend, $is_horizontal = true, $botoes = true)
     {
-		$this->setName($name);
-		$this->setId($name);
-		$this->setFormLegend($legend);
-		
-		#FIXME trocar para content
-		$this->setSubmit(self::getSaveUrlTarget(),'conteudo');
+        $this->setName($name);
+        $this->setId($name);
+        $this->setFormLegend($legend);
 
-		$this->is_horizontal = $is_horizontal;
+        #FIXME trocar para content
+        $this->setSubmit(self::getSaveUrlTarget(), 'conteudo');
+
+        $this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
         $this->cont = 0;
     }
@@ -32,10 +32,10 @@ class MForm
     // Return the view form save function
     private static function getSaveUrlTarget()
     {
-		$debug = debug_backtrace();
-	    // Get MForm caller class
-		$callerClass = $debug[1]['class'];
-		$urlTarget = str_replace('View', 'Control', $callerClass).'::save()';
+        $debug = debug_backtrace();
+        // Get MForm caller class
+        $callerClass = $debug[1]['class'];
+        $urlTarget = str_replace('View', 'Control', $callerClass) . '::save()';
     }
 
     public function setOnSubmit($onSubmit)
@@ -43,15 +43,16 @@ class MForm
         $this->onSubmit = $onSubmit;
     }
 
-	public function setFormLegend($legend)
-	{
-		$this->formLegend = $legend;
-	}
+    public function setFormLegend($legend)
+    {
+        $this->formLegend = $legend;
+    }
 
-	public function getFormLegend()
-	{
-		return $this->formLegend;
-	}
+    public function getFormLegend()
+    {
+        return $this->formLegend;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
@@ -118,13 +119,13 @@ class MForm
 
     public function show()
     {
-		#FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
+        #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
         $htmlForm = "<form name = '{$this->name}' id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
-	    $htmlForm.= '<fieldset>
-						<legend>
-							'.$this->getFormLegend().'
-						</legend>					
-					';
+        $htmlForm.= '<fieldset>
+                        <legend>
+                                ' . $this->getFormLegend() . '
+                        </legend>					
+                ';
 
         $fields = $this->getFields();
 
@@ -132,30 +133,28 @@ class MForm
         {
             foreach ($fields as $field)
             {
-            	$obligatory = null;
+                $obligatory = null;
                 if ($field->getObligatory())
                 {
                     $obligatory = '<span class="obligatory">*</span>';
-                }			
-		
+                }
+
                 $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
                 $htmlForm .= "	<div class='{$classItem}'> 
-									<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>
-									{$field->show()}
-								</div>";
+                                        <label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>
+                                        {$field->show()}
+                                </div>";
             }
-			$htmlForm.='</fieldset>';
+            $htmlForm.='</fieldset>';
 
-		    $htmlForm
-		            .= "
-						<fieldset class='tblFooters'>
-							<input type='submit' value='Salvar'>
-						</fieldset>
-					</form>
+            $htmlForm.= "
+                        <fieldset class='tblFooters'>
+                                <input type='submit' value='Salvar'>
+                        </fieldset>
+                    </form>
 
 		    ";
-        
-      	}
+        }
         echo $htmlForm;
     }
 
