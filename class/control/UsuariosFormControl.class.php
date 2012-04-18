@@ -8,6 +8,7 @@ class UsuariosFormControl
 		
 		$control = new MControl();
 		
+		// Caso queira utilizar a save padrão
 		if($control->save())
 		{
 			echo 'salvo';

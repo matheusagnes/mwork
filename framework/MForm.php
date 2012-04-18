@@ -5,7 +5,6 @@ class MForm
     private $fields;
     private $id;
     private $cont;
-    private $onSubmit;
     private $botoes;
     private $newButton;
     private $formLegend;
@@ -16,7 +15,7 @@ class MForm
 	private $aObligatories;
 	private $sessionFormName;
 
-    public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null)
+    public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null, $divTarget = 'conteudo')
     {
 		// get mcore instance
 		$this->MCore = MCore::getInstance();
@@ -34,16 +33,10 @@ class MForm
 		}
 		
         #FIXME trocar para content
-        $this->setSubmit($urlTarget, 'conteudo');
+        $this->setSubmit($urlTarget, $divTarget);
         $this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
         $this->cont = 0;
-    }
-
-
-    public function setOnSubmit($onSubmit)
-    {
-        $this->onSubmit = $onSubmit;
     }
 
     public function setFormLegend($legend)
