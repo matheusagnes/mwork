@@ -13,8 +13,10 @@ class MForm
     private $urlTarget;
     private $divTarget;
 	private $MCore = null;
+	private $aObligatories;
+	private $sessionFormName;
 
-    public function __construct($id, $legend, $is_horizontal = true, $botoes = true)
+    public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null)
     {
 		// get mcore instance
 		$this->MCore = MCore::getInstance();
@@ -22,33 +24,22 @@ class MForm
         $this->setId($id);
         $this->setFormLegend($legend);
 		
-		// create objForm to use in session for validade the form in control
-		$objForm->id = $id;
-		$objForm->obligatory;
-
-		$this->MCore->setSession('form',$objForm);
-
-
-		var_dump($_SESSION);
-		var_dump(MCore::getInstance());die;
+		if(!$urlTarget)
+		{
+			$debug = debug_backtrace();
+		    // Get MForm caller class
+		    $callerClass = $debug[1]['class'];
+			$this->sessionFormName = $callerClass.'::save'; // sempre retirar parentesis
+		    $urlTarget = str_replace('View', 'Control', $callerClass) . '::save()';
+		}
 		
-
         #FIXME trocar para content
-        $this->setSubmit(self::getSaveUrlTarget(), 'conteudo');
-
+        $this->setSubmit($urlTarget, 'conteudo');
         $this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
         $this->cont = 0;
     }
 
-    // Return the view form save function
-    private static function getSaveUrlTarget()
-    {
-        $debug = debug_backtrace();
-        // Get MForm caller class
-        $callerClass = $debug[1]['class'];
-        $urlTarget = str_replace('View', 'Control', $callerClass) . '::save()';
-    }
 
     public function setOnSubmit($onSubmit)
     {
@@ -102,6 +93,9 @@ class MForm
         $objInput->setLabel($label);
         $objInput->setName($name);
         $objInput->setObligatory($obligatory);
+		
+		if($obligatory)
+			$this->aObligatories[$name] = $obligatory;		
 
         if (!$objInput->getId())
         {
@@ -124,20 +118,18 @@ class MForm
 
     public function addButton($nome = 'Salvar', $type = 'submit', $action = null)
     {
-        $this->newButton = "
-                        <input class='bt' type='{$type}'  name='{$nome}' value='{$nome}' {$action} />
-                    ";
+        $this->newButton = " <input class='bt' type='{$type}'  name='{$nome}' value='{$nome}' {$action} /> ";
     }
 
     public function show()
     {
+		
+		// create objForm to use in session for validade the form in control
+		$this->MCore->setSession($this->sessionFormName,$this->aObligatories);
+
         #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
         $htmlForm = "<form name = '{$this->name}' id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
-        $htmlForm.= '<fieldset>
-                        <legend>
-                                ' . $this->getFormLegend() . '
-                        </legend>					
-                ';
+        $htmlForm.= '<fieldset><legend>'.$this->getFormLegend().'</legend>';
 
         $fields = $this->getFields();
 
@@ -152,20 +144,17 @@ class MForm
                 }
 
                 $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
-                $htmlForm .= "	<div class='{$classItem}'> 
-                                        <label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>
-                                        {$field->show()}
-                                </div>";
+                $htmlForm .= "<div class='{$classItem}'> ".
+                                   "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>".
+                                        $field->show().
+                                "</div>";
             }
             $htmlForm.='</fieldset>';
 
-            $htmlForm.= "
-                        <fieldset class='tblFooters'>
-                                <input type='submit' value='Salvar'>
-                        </fieldset>
-                    </form>
-
-		    ";
+            $htmlForm.= '<fieldset class="tblFooters">'.
+                            '<input type="submit" value="Salvar">'.
+                        '</fieldset>'.
+                    '</form>';
         }
         echo $htmlForm;
     }
