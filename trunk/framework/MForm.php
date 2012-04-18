@@ -21,17 +21,21 @@ class MForm
 		$this->setId($name);
 		$this->setFormLegend($legend);
 		
-		// Get MForm caller class
-		$debug = debug_backtrace();
-		$callerClass = $debug[1]['class'];
-		
-		$urlTarget = str_replace('View', 'Control', $callerClass).'::save()';
 		#FIXME trocar para content
-		$this->setSubmit($urlTarget,'conteudo');
+		$this->setSubmit(self::getSaveUrlTarget(),'conteudo');
 
 		$this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
         $this->cont = 0;
+    }
+
+    // Return the view form save function
+    private static function getSaveUrlTarget()
+    {
+		$debug = debug_backtrace();
+	    // Get MForm caller class
+		$callerClass = $debug[1]['class'];
+		$urlTarget = str_replace('View', 'Control', $callerClass).'::save()';
     }
 
     public function setOnSubmit($onSubmit)
