@@ -24,6 +24,7 @@ class MCore
     {
         require_once 'include.php';
         require_once 'configs.php';
+        require_once 'lib/php/tools.php';
 
 		$this->projectName = $mgProjectName;
 		session_start();

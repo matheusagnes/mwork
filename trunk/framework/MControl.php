@@ -22,7 +22,7 @@ class MControl
 
 		$this->aObligatories = $this->MCore->getSession($this->sessionFormName);	
 		$this->post = $this->getPost();
-		     
+		     dbug($this->sessionFormName);
     }
 
     public function save()
@@ -64,31 +64,9 @@ class MControl
 
 	public function getPost()
 	{
-		return $this->arrayToObject($_POST);
+		return arrayToObject($_POST);
 	}
 
-	function arrayToObject($array) 
-	{
-		if(!is_array($array)) 
-		{
-		    return $array;
-		}
-    
-    $object = new stdClass();
-    if (is_array($array) && count($array) > 0) 
-	{
-      foreach ($array as $name=>$value) 
-	   {
-         $name = strtolower(trim($name));
-         if (!empty($name)) {
-            $object->$name = $this->arrayToObject($value);
-         }
-      }
-      return $object; 
-    }
-    else {
-      return FALSE;
-    }
-}
+	
 
 }
