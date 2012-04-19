@@ -4,13 +4,14 @@ class MCore
 {
 
 	private $projectName;
+	private $siteName;
 	private static $instance;
 
-    public function __construct($new = false)
+    public function __construct($new = true)
     {
 		if($new)
 		{
-			self::$instance = new MCore();
+			self::$instance = new MCore(false);
 			$this->init();        
 		}
     }
@@ -27,7 +28,18 @@ class MCore
         require_once 'lib/php/tools.php';
 
 		$this->projectName = $mgProjectName;
+		$this->siteName = $mgSiteName;
 		session_start();
+    }
+
+    public function getProjectName()
+    {
+        return $this->projectName;
+    }
+
+    public function getSiteName()
+    {
+        return $this->siteName;
     }
 
 	public function setSession($position, $value)

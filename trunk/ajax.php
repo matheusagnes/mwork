@@ -1,7 +1,7 @@
 <?php
 
 include_once 'framework/MCore.php';
-$mcore = new MCore(true);
+$mcore = new MCore();
 
 
 if ($_GET['class'])

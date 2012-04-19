@@ -15,9 +15,9 @@ class MControl
 		$this->MCore = MCore::getInstance();
 
 		$debug = debug_backtrace();
-        $callerClass = $debug[1]['class'];
+        $callerClass = get_called_class();//$debug[1]['class'];
         $callerFunction = $debug[1]['function'];
-		
+
 		$this->sessionFormName = str_replace('Control', 'View', $callerClass).'::'.$callerFunction;
 
 		$this->aObligatories = $this->MCore->getSession($this->sessionFormName);	
@@ -26,6 +26,7 @@ class MControl
 
     public function save()
     {
+	dbug($debug);	
 		if($this->validatePost())
 		{
 			// Grava no banco
@@ -51,13 +52,16 @@ class MControl
 
 	public function validatePost()
 	{
-		foreach($this->aObligatories as $key=>$value)
-		{
-			if(!$this->post->{$key})
-			{
-				return false;			
-			}
-		}
+        if ($this->aObligatories)
+        {
+            foreach($this->aObligatories as $key=>$value)
+            {
+                if(!$this->post->{$key})
+                {
+                    return false;			
+                }
+            }
+        }
 		return true;
 	}
 
