@@ -14,7 +14,7 @@ class MForm
 	private $MCore = null;
 	private $aObligatories;
 	private $sessionFormName;
-
+																					    #FIXME trocar para content
     public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null, $divTarget = 'conteudo')
     {
 		// get mcore instance
@@ -27,12 +27,16 @@ class MForm
 		{
 			$debug = debug_backtrace();
 		    // Get MForm caller class
-		    $callerClass = $debug[1]['class'];
+			$callerClass =  str_replace('View', 'Control', $debug[1]['class']);
 			$this->sessionFormName = $callerClass.'::save'; // sempre retirar parentesis
-		    $urlTarget = str_replace('View', 'Control', $callerClass) . '::save()';
+		    $urlTarget = $callerClass . '::save()';
 		}
-		
-        #FIXME trocar para content
+		else
+		{
+			// Remove all from (
+			$this->sessionFormName = preg_replace('~\(.*~', '',$urlTarget);
+		}
+  
         $this->setSubmit($urlTarget, $divTarget);
         $this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
@@ -116,9 +120,9 @@ class MForm
 
     public function show()
     {
-		
 		// create objForm to use in session for validade the form in control
-		$this->MCore->setSession($this->sessionFormName,$this->aObligatories);
+		if(!$this->MCore->getSession($this->sessionFormName))
+			$this->MCore->setSession($this->sessionFormName,$this->aObligatories);
 
         #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
         $htmlForm = "<form name = '{$this->name}' id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
