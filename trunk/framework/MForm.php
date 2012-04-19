@@ -23,6 +23,7 @@ class MForm
         $this->setId($id);
         $this->setFormLegend($legend);
 		
+        // default value for urlTarget
 		if(!$urlTarget)
 		{
 			$debug = debug_backtrace();
