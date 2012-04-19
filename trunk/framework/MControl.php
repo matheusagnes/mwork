@@ -20,16 +20,17 @@ class MControl
 		
 		if($this->validatePost())
 		{
+			#FIXME como a control vai saber para qual tabela deve gravar ??
 			// Grava no banco
+			echo 'Dados gravados com sucesso!';
+			return true;
 		}
 		else
 		{
-			$this->setError('Preecha todos os campos obrigatórios!');
+			//$this->setError('Preecha todos os campos obrigatórios!');
 			echo 'Preencha todos os campos obrigatórios!'; 
 			return false;
 		}
-
-		return true;				
     }
 	
 	public function getError()

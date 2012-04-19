@@ -5,6 +5,9 @@ class UsuariosFormView
     
     public static function show()
     {
+		
+		DB::exec('asd');
+
 		//    public function __construct($name,$legend,$is_horizontal = true, $botoes = true)
         $form = new MForm('usuarios','Cadastro de Usuários',false);
         
