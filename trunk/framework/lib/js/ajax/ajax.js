@@ -14,9 +14,9 @@ var showDefaultError = true;
 // mensagem de erro padrao
 var stringDefaultError = 'Erro ao carregar página';
 
-//Carregar imagens para nao precisar carregar no momento em que chama o ajax
+//Carregar imagens para nao precisar carregar no momento em que chama o ajax // testei isso com o debug - e funciona
 imgLoad = new Image(); 
-imgLoad.src = 'framework/lib/ajax/images/ajax-loader.png';
+imgLoad.src = 'framework/lib/js/ajax/images/ajax-loader.png';
 
 
 var cache = {
@@ -31,15 +31,17 @@ $(document).ready(function() {
         
         var param_fragment = $.param.fragment();
         var url = (param_fragment) ? param_fragment : 'ajax.php?class=UsuariosFormView::show()';
+
+        // if the url cache exists
         if (cache[url]) {
-					
+		    
+            // load html from cache
             $( '#conteudo' ).empty().append( cache[url] ).trigger('create');
 					
         } else {
 	
 			if( url.substring(0, 1) == '!')
 			{
-
 				requestPage(url.substring(1,url.strlen), 'conteudo', null, null,'post', true,false);
 			}
 			else

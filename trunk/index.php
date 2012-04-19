@@ -27,7 +27,7 @@ $mcore = new MCore();
             
             <link href="framework/lib/js/ajax/ajax.css" rel="stylesheet" type="text/css" />
             
-            <link href="lib/FormMaker/lib/css/MForm.css" rel="stylesheet" type="text/css" />
+            <!--<link href="lib/FormMaker/lib/css/MForm.css" rel="stylesheet" type="text/css" />-->
             
             
             <script type="text/javascript" src="framework/lib/js/jquery.js"></script>
@@ -69,7 +69,7 @@ $mcore = new MCore();
 
                 <div id="sub-conteiner">
 
-                    <div id="conteudo" class="conteudo" style='width: 980px;'>
+                    <div id="conteudo" class="conteudo" >
                           conteudo
                     </div>
                 </div>

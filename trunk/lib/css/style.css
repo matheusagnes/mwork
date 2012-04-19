@@ -76,9 +76,9 @@ a {
 
 
 .conteudo{
+    padding:10px;
     background-color: #fafafa;
 /*    opacity: 0.93;*/
-    width: 580px;
     height: auto;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -174,7 +174,6 @@ a {
     font-size: 12px;
     margin: 0 auto;
     padding-top: 8px;
-    width: 980px;
 }
 
 
@@ -390,7 +389,7 @@ select{
     border:1px solid #aaa;
     color:#333333;
     padding:3px;
-    background:url(./themes/pmahomme/img/input_bg.gif)
+    background:url(images/input_bg.gif)
 }
 
 select[multiple] {
