@@ -67,7 +67,7 @@ $mcore = new MCore();
             <div id="sub-conteiner">
 
                 <div id="conteudo" class="conteudo" >
-                      conteudo
+                     
                 </div>
             </div>
 
