@@ -1,9 +1,21 @@
 <?php
 
-class UsuariosFormControl extends MControl
+class UsuariosFormControl
 {
 
-    
+    public function save()
+	{
+		$a = new MControl();
+
+		if(!$a->save())
+		{
+			echo $a->getError();		
+		}		
+		else
+		{
+			echo 'ok';		
+		}
+	}
 
 }
 

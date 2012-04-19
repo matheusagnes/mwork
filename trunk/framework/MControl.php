@@ -2,7 +2,6 @@
 
 class MControl
 {
-
 	private $sessionFormName;
 	private $MCore = null;
 	private $aObligatories;
@@ -13,20 +12,12 @@ class MControl
     public function __construct()
     {
 		$this->MCore = MCore::getInstance();
-
-		$debug = debug_backtrace();
-        $callerClass = get_called_class();//$debug[1]['class'];
-        $callerFunction = $debug[1]['function'];
-
-		$this->sessionFormName = str_replace('Control', 'View', $callerClass).'::'.$callerFunction;
-
-		$this->aObligatories = $this->MCore->getSession($this->sessionFormName);	
 		$this->post = $this->getPost();
     }
 
     public function save()
     {
-	dbug($debug);	
+		
 		if($this->validatePost())
 		{
 			// Grava no banco
@@ -34,6 +25,7 @@ class MControl
 		else
 		{
 			$this->setError('Preecha todos os campos obrigatórios!');
+			echo 'Preencha todos os campos obrigatórios!'; 
 			return false;
 		}
 
@@ -52,9 +44,16 @@ class MControl
 
 	public function validatePost()
 	{
-        if ($this->aObligatories)
+		$debug = debug_backtrace();
+
+        $callerClass = get_called_class() == 'MControl' ?  $debug[2]['class'] : get_called_class();
+        $callerFunction = $debug[1]['function'] ? 'save' : $debug[1]['function'];
+
+		$sessionFormName = $callerClass.'::'.$callerFunction;
+		$aObligatories = $this->MCore->getSession($sessionFormName);
+        if ($aObligatories)
         {
-            foreach($this->aObligatories as $key=>$value)
+            foreach($aObligatories as $key=>$value)
             {
                 if(!$this->post->{$key})
                 {
