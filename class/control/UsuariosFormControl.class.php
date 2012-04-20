@@ -1,22 +1,22 @@
 <?php
 
-class UsuariosFormControl
+class UsuariosFormControl extends MControl
 {
-
-    public function save()
+	public function save()
 	{
-		$a = new MControl();
-
-		if(!$a->save())
+		if(parent::validatePost())
 		{
-			echo $a->getError();		
-		}		
+			$objs = parent::getPost();	
+			if(DB::rec($objs,'usuarios'))
+			{
+				echo 'salvo com sucesso!';			
+			}
+		}
 		else
 		{
-			echo 'ok';		
+	
 		}
 	}
-
 }
 
 ?>

@@ -12,7 +12,7 @@ class MControl
     public function __construct()
     {
 		$this->MCore = MCore::getInstance();
-		$this->post = $this->getPost();
+		$this->post = $this->getPostObject();
     }
 
     public function save()
@@ -45,12 +45,12 @@ class MControl
 	public function validatePost()
 	{
 		$debug = debug_backtrace();
-
         $callerClass = get_called_class() == 'MControl' ?  $debug[2]['class'] : get_called_class();
         $callerFunction = $debug[1]['function'] ? 'save' : $debug[1]['function'];
 
 		$sessionFormName = $callerClass.'::'.$callerFunction;
 		$aObligatories = $this->MCore->getSession($sessionFormName);
+		
         if ($aObligatories)
         {
             foreach($aObligatories as $key=>$value)
@@ -64,9 +64,14 @@ class MControl
 		return true;
 	}
 
-	public function getPost()
+	public function getPostObject()
 	{
 		return arrayToObject($_POST);
+	}
+
+	public function getPost()
+	{
+		return $this->post;
 	}
 
 	
