@@ -19,7 +19,16 @@ class Model
 	{
 		
 	}
-	
+    
+    public function delete()
+    {
+
+    }    
+
+    public function get()
+    {
+
+    }
 
 }
 
