@@ -126,8 +126,7 @@ class MForm
     public function show()
     {
 		// create objForm to use in session for validade the form in control
-		if(!$this->MCore->getSession($this->sessionFormName))
-			$this->MCore->setSession($this->sessionFormName,$this->aObligatories);
+		$this->MCore->setSession($this->sessionFormName,$this->aObligatories);
 
         #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
         $htmlForm = "<form name = '{$this->name}' id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";

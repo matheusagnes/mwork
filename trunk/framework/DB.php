@@ -24,8 +24,11 @@ class DB
             
         if(!self::$objInstance)
 		{ 
+			$mgDB_DSN = 'mysql:host=localhost;dbname=default_project;';
+			$mgDB_USER = 'user';
+			$mgDB_PASS = 'user';
 			
-            self::$objInstance = new PDO(DB_DSN, DB_USER, DB_PASS); 
+            self::$objInstance = new PDO($mgDB_DSN, $mgDB_USER, $mgDB_PASS); 
             self::$objInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         } 
         
@@ -48,12 +51,35 @@ class DB
     } # end method 
 
 
-	public static function rec($obj, $table, $primaryKey = 'id')
+	public static function rec($objs, $table, $primaryKey = 'id')
 	{
 		if(!$obj->{$primaryKey})
 		{			
-			// utilizar get_object_vars no obj para pegar o nome das colunas no foreach e ir concatenando com '', e tal..
-			DB::exec();
+			$sql = 'INSERT INTO '.$table;
+			$sql_fields = ' (';
+			$sql_values = ' VALUES (';
+			
+			foreach(get_object_vars($objs) as $key =>$value)
+			{
+				$sql_fields.= "{$key},";
+				$sql_values.= "'{$value}',";
+			}		
+		
+			$sql_fields = substr($sql_fields,0,-1);
+			$sql_values = substr($sql_values,0,-1);
+
+			$sql_fields.=')';
+			$sql_values.=')';
+
+			if(DB::exec($sql.$sql_fields.$sql_values))
+			{
+				return true;			
+			}
+			else
+			{
+				#FIXME retornar obj de erros com nome de erros do banco ?!?!
+				return false;			
+			}
 		}
 		else
 		{
