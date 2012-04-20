@@ -26,7 +26,7 @@ class MCore
         require_once 'include.php';
         require_once 'configs.php';
         require_once 'lib/php/tools.php';
-        require_once 'lib/DB.php';
+        require_once 'DB.php';
 
 		$this->projectName = $mgProjectName;
 		$this->siteName = $mgSiteName;
