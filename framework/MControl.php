@@ -16,8 +16,7 @@ class MControl
     }
 
     public function save()
-    {
-		
+    {		
 		if($this->validatePost())
 		{
 			#FIXME como a control vai saber para qual tabela deve gravar ??

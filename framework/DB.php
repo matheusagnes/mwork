@@ -1,5 +1,4 @@
 <?php
-
 class DB
 {
 	private static $objInstance; 
@@ -25,7 +24,7 @@ class DB
             
         if(!self::$objInstance)
 		{ 
-			dbug($mgDB_PASS);die;
+			
             self::$objInstance = new PDO(DB_DSN, DB_USER, DB_PASS); 
             self::$objInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         } 
@@ -47,6 +46,39 @@ class DB
         return call_user_func_array(array($objInstance, $chrMethod), $arrArguments); 
         
     } # end method 
+
+
+	public static function rec($obj, $table, $primaryKey = 'id')
+	{
+		if(!$obj->{$primaryKey})
+		{			
+			// utilizar get_object_vars no obj para pegar o nome das colunas no foreach e ir concatenando com '', e tal..
+			DB::exec();
+		}
+		else
+		{
+			$this->update($obj);
+		}
+	}
+
+	public static function update()
+	{
+		
+	}
+    
+    public static function delete()
+    {
+
+    }    
+
+    public static function get()
+    {
+
+    }
+
+
+
+
 
 }
 

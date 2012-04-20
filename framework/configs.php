@@ -8,7 +8,7 @@ $mgSiteName = 'Default Project';
 
 #FIXME como passar essas variaives para a classe DB
 $mgDB_DSN = 'mysql:host=localhost;dbname=default_project;';
-$mgDB_USER = 'root';
-$mgDB_PASS = 'root';
+$mgDB_USER = 'user';
+$mgDB_PASS = 'user';
 
 ?>

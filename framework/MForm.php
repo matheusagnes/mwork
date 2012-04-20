@@ -14,23 +14,22 @@ class MForm
 	private $MCore = null;
 	private $aObligatories;
 	private $sessionFormName;
+	private $controlName;
 																					    #FIXME trocar para content
-    public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null, $divTarget = 'conteudo')
+    public function __construct($id, $legend, $controlName, $is_horizontal = true, $urlTarget = null, $divTarget = 'conteudo')
     {
 		// get mcore instance
 		$this->MCore = MCore::getInstance();
 
         $this->setId($id);
         $this->setFormLegend($legend);
+		$this->setControlName($controlName);
 		
         // default value for urlTarget
 		if(!$urlTarget)
 		{
-			$debug = debug_backtrace();
-		    // Get MForm caller class
-			$callerClass =  str_replace('View', 'Control', $debug[1]['class']);
-			$this->sessionFormName = $callerClass.'::save'; // sempre retirar parentesis
-		    $urlTarget = $callerClass . '::save()';
+			$this->sessionFormName = $controlName.'::save';
+		    $urlTarget = $controlName . '::save()';
 		}
 		else
 		{
@@ -43,6 +42,11 @@ class MForm
         $this->botoes = $botoes;
         $this->cont = 0;
     }
+
+	public function setControlName($controlName)
+	{
+		$this->controlName = $controlName;
+	}
 
     public function setFormLegend($legend)
     {
