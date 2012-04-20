@@ -24,6 +24,7 @@ class DB
             
         if(!self::$objInstance)
 		{ 
+			#FIXME pegar do arquivo de configs, utilizando globals ?
 			$mgDB_DSN = 'mysql:host=localhost;dbname=default_project;';
 			$mgDB_USER = 'user';
 			$mgDB_PASS = 'user';
