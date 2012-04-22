@@ -4,6 +4,8 @@ class UsuariosFormView
 {
     public static function show()
     {
+        
+        DB::getInstance();
         //public function __construct($id, $legend, $controlName, $is_horizontal = true, $urlTarget = null, $divTarget = 'conteudo')
         $form = new MForm('usuarios', 'Cadastro de Usuários', 'UsuariosFormControl', false);
 
