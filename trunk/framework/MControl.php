@@ -2,78 +2,80 @@
 
 class MControl
 {
-	private $sessionFormName;
-	private $MCore = null;
-	private $aObligatories;
-	private $post;
-	private $error;
 
-	#FIXME como pegar a view ? de uma forma facil para checar automaticamente os campos
+    private $sessionFormName;
+    private $MCore = null;
+    private $aObligatories;
+    private $post;
+    private $error;
+
+    #FIXME como pegar a view ? de uma forma facil para checar automaticamente os campos
+
     public function __construct()
     {
-		$this->MCore = MCore::getInstance();
-		$this->post = $this->getPostObject();
+        $this->MCore = MCore::getInstance();
+        $this->post = $this->getPostObject();
     }
 
     public function save()
-    {		
-		if($this->validatePost())
-		{
-			#FIXME como a control vai saber para qual tabela deve gravar ??
-			// Grava no banco
-			echo 'Dados gravados com sucesso!';
-			return true;
-		}
-		else
-		{
-			//$this->setError('Preecha todos os campos obrigatórios!');
-			echo 'Preencha todos os campos obrigatórios!'; 
-			return false;
-		}
+    {
+        if ($this->validatePost())
+        {
+            #FIXME como a control vai saber para qual tabela deve gravar ??
+            // Grava no banco
+            echo 'Dados gravados com sucesso!';
+            return true;
+        }
+        else
+        {
+            //$this->setError('Preecha todos os campos obrigatórios!');
+            echo 'Preencha todos os campos obrigatórios!';
+            return false;
+        }
     }
-	
-	public function getError()
-	{
-		return $this->error;
-	}
-	
-	public function setError($error)
-	{
-		$this->error = $error;
-	}
 
-	public function validatePost()
-	{
-		$debug = debug_backtrace();
-        $callerClass = get_called_class() == 'MControl' ?  $debug[2]['class'] : get_called_class();
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    public function setError($error)
+    {
+        $this->error = $error;
+    }
+
+    public function validatePost()
+    {
+        $debug = debug_backtrace();
+        $callerClass = get_called_class() == 'MControl' ? $debug[2]['class'] : get_called_class();
         $callerFunction = $debug[1]['function'] ? 'save' : $debug[1]['function'];
 
-		$sessionFormName = $callerClass.'::'.$callerFunction;
-		$aObligatories = $this->MCore->getSession($sessionFormName);
-		
+        $sessionFormName = $callerClass . '::' . $callerFunction;
+        $aObligatories = $this->MCore->getSession($sessionFormName);
+
         if ($aObligatories)
         {
-            foreach($aObligatories as $key=>$value)
+            foreach ($aObligatories as $key => $value)
             {
-                if(!$this->post->{$key})
+                if (!$this->post->{$key})
                 {
-                    return false;			
+                    return false;
                 }
             }
         }
-		return true;
-	}
+        return true;
+    }
 
-	public function getPostObject()
-	{
-		return arrayToObject($_POST);
-	}
+    public function getPostObject()
+    {
+        return arrayToObject($_POST);
+    }
 
-	public function getPost()
-	{
-		return $this->post;
-	}
-
-	
+    public function getPost()
+    {
+        return $this->post;
+    }
 
 }
+
+?>
