@@ -36,10 +36,12 @@ class DB
         if (!self::$objInstance)
         {
             #FIXME pegar do arquivo de configs, utilizando globals ?
-            $mgDB_DSN = 'mysql:host=localhost;dbname=default_project;';
-            $mgDB_USER = 'user';
-            $mgDB_PASS = 'user';
-
+            $configs = MCore::getConfigs();
+                
+            $mgDB_DSN = $configs['DB_DSN'];
+            $mgDB_USER = $configs['DB_USER'];
+            $mgDB_PASS = $configs['DB_PASS'];
+                
             self::$objInstance = new PDO($mgDB_DSN, $mgDB_USER, $mgDB_PASS);
             self::$objInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
@@ -70,8 +72,10 @@ class DB
         
         $primaryKey = DB::getPrimaryKey($table);
         
+        
         if (!$obj->{$primaryKey})
         {
+            
             $sql = 'INSERT INTO ' . $table;
             $sql_fields = ' (';
             $sql_values = ' VALUES (';
@@ -100,7 +104,7 @@ class DB
         }
         else
         {
-            $this->update($obj, $table, $primaryKey);
+            DB::update($obj, $table, $primaryKey);
         }
     }
     
@@ -108,7 +112,7 @@ class DB
     {
         $sql = 'SHOW COLUMNS FROM '.$table;
         $objs = DB::getObjects($sql);
-        
+        #FIXME testar no postgres, mysql funciona
         foreach ($objs as $obj)
         {
             if($obj->Key == 'PRI')
@@ -127,7 +131,8 @@ class DB
 
         foreach (get_object_vars($obj) as $key => $value)
         {
-            $sql.= "{$key} = '{$value}' AND";
+            if($key != $primaryKey)
+            $sql.= " {$key} = '{$value}' AND";
         }
 
         $sql = substr($sql, 0, -3);
@@ -155,7 +160,7 @@ class DB
             return true;
         }
         else
-        {
+        {           
             return false;
         }
     }
