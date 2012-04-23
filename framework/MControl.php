@@ -8,6 +8,7 @@ class MControl
     private $aObligatories;
     private $post;
     private $error;
+	private $view;
 
     #FIXME como pegar a view ? de uma forma facil para checar automaticamente os campos
 
@@ -15,6 +16,10 @@ class MControl
     {
         $this->MCore = MCore::getInstance();
         $this->post = $this->getPostObject();
+		
+		$controlName = get_called_class();
+		$viewName = str_replace('Control','View',$controlName);
+		$this->setView($viewName);
     }
 
     public function save()
@@ -75,6 +80,18 @@ class MControl
     {
         return $this->post;
     }
+
+	// Sets the view
+	public function setView($view)
+	{
+		$this->view = new $view();
+	}
+
+	// Render the form
+	public function show()
+	{
+		$this->view->show();		
+	}
 
 }
 
