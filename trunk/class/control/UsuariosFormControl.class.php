@@ -3,7 +3,7 @@
 class UsuariosFormControl extends MControl
 {
 	
-    public function save()
+    /*public function save()
     {
         if (parent::validatePost())
         {
@@ -17,7 +17,7 @@ class UsuariosFormControl extends MControl
         {
             echo 'Preencha todos os campos';
         }
-    }
+    }*/
 
 }
 

@@ -1,21 +1,14 @@
 <?php
 
-class UsuariosFormView
+class UsuariosFormView extends MForm
 {
-    public static function show()
+	public function __construct()
     {
-        
-        DB::getInstance();
-        //public function __construct($id, $legend, $controlName, $is_horizontal = true, $urlTarget = null, $divTarget = 'conteudo')
-        $form = new MForm('usuarios', 'Cadastro de Usuários', 'UsuariosFormControl', false);
-
-        $form->addField('nome', 'Nome', new MText(), true);
-        $form->addField('email', 'E-mail', new MText(), true);
-        $form->addField('senha', 'Senha  ', new MText(), true);
-
-
-        $form->show();
-    }
-
+		parent::__construct('usuarios', 'Cadastro de Usuários', 'UsuariosFormControl', false);
+		
+		parent::addField('nome', 'Nome', new MText(), true);
+        parent::addField('email', 'E-mail', new MText(), true);
+        parent::addField('senha', 'Senha  ', new MText(), true);
+	}
 }
 ?>
