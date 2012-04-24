@@ -6,9 +6,11 @@
 
 return array(
   
-    'DB_DSN' => 'mysql:host=localhost;dbname=default_project;',
-    'DB_USER' => 'user',
-    'DB_PASS' => 'user',
+    'DB_TYPE' => 'pgsql',
+    'DB_HOST' => 'localhost',
+    'DB_NAME' => 'default_project',
+    'DB_USER' => 'teste',
+    'DB_PASS' => 'teste',
     'project_name' => 'default_project',
     'site_name' => 'default_project'
     
