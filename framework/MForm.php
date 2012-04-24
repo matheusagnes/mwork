@@ -3,7 +3,7 @@
 class MForm
 {
     private $fields;
-    private $id;
+    private $id; //Form id will be used in control to rec in DB
     private $cont;
     private $botoes;
     private $newButton;
@@ -58,10 +58,7 @@ class MForm
         return $this->formLegend;
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
+
 
     public function setSubmit($urlTarget, $divTarget)
     {
@@ -69,10 +66,7 @@ class MForm
         $this->divTarget = $divTarget;
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
+ 
 
     public function setId($id)
     {
@@ -129,7 +123,7 @@ class MForm
 		$this->MCore->setSession($this->sessionFormName,$this->aObligatories);
 
         #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
-        $htmlForm = "<form name = '{$this->name}' id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
+        $htmlForm = "<form id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
         $htmlForm.= '<fieldset><legend>'.$this->getFormLegend().'</legend>';
 
         $fields = $this->getFields();

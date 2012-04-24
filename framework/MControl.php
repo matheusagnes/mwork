@@ -22,14 +22,25 @@ class MControl
 		$this->setView($viewName);
     }
 
+	public function getFormId()
+	{
+		return $this->view->getId();
+	}
+
     public function save()
     {
         if ($this->validatePost())
         {
-            #FIXME como a control vai saber para qual tabela deve gravar ??
-            // Grava no banco
-            echo 'Dados gravados com sucesso!';
-            return true;
+			if(DB::rec($this->post, $this->getFormId()))
+            {
+				echo 'Dados gravados com sucesso!';
+	            return true;
+			}
+			else
+			{
+				echo 'erro ao inserir os dados';
+				return false;
+			}
         }
         else
         {
