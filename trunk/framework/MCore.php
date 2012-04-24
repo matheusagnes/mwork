@@ -21,12 +21,12 @@ class MCore
     {
         if (!self::$instance)
         {
-           self::$instance = new MCore(false);
+           self::$instance = new MCore();
         }
         return self::$instance;
     }
     
-    public static function getConfigs()
+    private function getConfigs()
     {
         return self::$configs;
     }
