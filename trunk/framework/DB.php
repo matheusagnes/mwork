@@ -38,11 +38,15 @@ class DB
             #FIXME pegar do arquivo de configs, utilizando globals ?
             $configs = MCore::getConfigs();
                 
-            $mgDB_DSN = $configs['DB_DSN'];
+            $mgDB_TYPE = $configs['DB_TYPE'];
+            $mgDB_HOST = $configs['DB_HOST'];
+            $mgDB_NAME = $configs['DB_NAME'];
             $mgDB_USER = $configs['DB_USER'];
             $mgDB_PASS = $configs['DB_PASS'];
-                
-            self::$objInstance = new PDO($mgDB_DSN, $mgDB_USER, $mgDB_PASS);
+
+            $DSN = "$mgDB_TYPE:host=$mgDB_HOST;dbname=$mgDB_NAME;";
+
+            self::$objInstance = new PDO($DSN, $mgDB_USER, $mgDB_PASS);
             self::$objInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
 
@@ -50,6 +54,13 @@ class DB
     }
 
 # end method 
+
+    public static function getDatabaseSystem()
+    {
+        $configs = MCore::getConfigs();
+        return $configs['DB_TYPE'];
+    }
+    
 
     /*
      * Passes on any static calls to this class onto the singleton PDO instance 
@@ -110,7 +121,31 @@ class DB
     
     public static function getPrimaryKey($table)
     {
-        $sql = 'SHOW COLUMNS FROM '.$table;
+
+
+        if (self::getDatabaseSystem() == 'pgsql')
+        {
+            $sql = 
+            'SELECT '.
+            '    ci.relname AS "Index", '.
+            '    a.attname AS "Key" '.
+            'FROM '.
+            '    pg_index i '.
+            '        JOIN pg_class cr ON (cr.oid = i.indrelid) '.
+            '        JOIN pg_attribute a ON (a.attrelid = cr.oid) '.
+            '        JOIN pg_class ci ON (ci.oid = i.indexrelid) '.
+            'WHERE '.
+            '    i.indisprimary AND '.
+            '    cr.relname = "'.$table.'" AND '.
+            '    EXISTS (SELECT 1 FROM unnest(i.indkey) p(c) WHERE p.c = a.attnum) '.
+            'ORDER BY '.
+            '    a.attname ;';
+        }
+        elseif (self::getDatabaseSystem() == 'mysql')
+        {
+            $sql = 'SHOW COLUMNS FROM '.$table;
+        }
+
         $objs = DB::getObjects($sql);
         #FIXME testar no postgres, mysql funciona
         foreach ($objs as $obj)
