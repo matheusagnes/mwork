@@ -29,23 +29,25 @@ class MControl
 
     public function save()
     {
+sleep(1);
+			    new Message('Preencha os campos: <br>asdasdfg<br>sadf asdf<br> asdfasdf ', null, Message::DIALOG);
+                return;
         if ($this->validatePost())
         {
 			if(DB::rec($this->post, $this->getFormId()))
             {
-				echo 'Dados gravados com sucesso!';
-	            return true;
+			    new Message('Dados gravados com sucesso!');
+                return;
 			}
 			else
 			{
-				echo 'erro ao inserir os dados';
-				return false;
+				new Message('erro ao inserir os dados', Message::ERROR);
+                return;
 			}
         }
         else
         {
-            //$this->setError('Preecha todos os campos obrigatórios!');
-            echo 'Preencha todos os campos obrigatórios!';
+            new Message('Preencha todos os campos obrigatórios', Message::WARNING);
             return false;
         }
     }

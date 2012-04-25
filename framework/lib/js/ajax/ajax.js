@@ -14,6 +14,13 @@ var showDefaultError = true;
 // mensagem de erro padrao
 var stringDefaultError = 'Erro ao carregar página';
 
+var SUCCESS = '::SUCCESS::';
+var ERROR = '::ERROR::';
+var WARNING = '::WARNING::';
+var HIGHLIGHT = '::HIGHLIGHT::';
+var DIALOG = '::DIALOG::';
+
+
 //Carregar imagens para nao precisar carregar no momento em que chama o ajax // testei isso com o debug - e funciona
 imgLoad = new Image(); 
 imgLoad.src = 'framework/lib/js/ajax/images/ajax-loader.png';
@@ -136,10 +143,32 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
         //function(data) vide item 4 em $.get $.post
         success: function(data)
         {
-            // Se retornou erro
-            if (data.indexOf("showMessage") != -1 || data.indexOf("showError") != -1) // FIXME mudar identificador de erro
+            // Se for um retorno do tipo STATE_HIGHLIGHT (pequena mensagem colorida)
+            if (data.indexOf(HIGHLIGHT) != -1)
             {
-                $( 'html' ).append( data );
+                // tirar os '::error::'
+                var message = data.replace(new RegExp("::.*::"), '');
+                $('.message').hide();
+                if (data.indexOf(ERROR) != -1)
+                {
+                    $( '.error_message > label' ).html( message );
+                    $('.error_message').slideDown();
+                }else if(data.indexOf(SUCCESS) != -1)
+                {
+                    $( '.success_message > label' ).html( message );
+                    $('.success_message').slideDown();
+                }else if(data.indexOf(WARNING) != -1)
+                {
+                    $( '.warning_message > label' ).html( message );
+                    $('.warning_message').slideDown();
+                }
+
+            }
+            else if(data.indexOf(DIALOG) != -1)
+            {   
+                // tirar os '::error::'
+                var message = data.replace(new RegExp("::.*::"), '');
+                openDialog(message);
             }
             // Se nao retornou erro
             else
