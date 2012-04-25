@@ -16,7 +16,7 @@ class MForm
 	private $sessionFormName;
 	private $controlName;
 																					    #FIXME trocar para content
-    public function __construct($id, $legend, $controlName, $is_horizontal = true, $urlTarget = null, $divTarget = 'conteudo')
+    public function __construct($id, $legend, $controlName, $is_horizontal = true, $urlTarget = null, $divTarget = '')
     {
 		// get mcore instance
 		$this->MCore = MCore::getInstance();
@@ -147,9 +147,15 @@ class MForm
             $htmlForm.='</fieldset>';
 
             $htmlForm.= '<fieldset class="tblFooters">'.
+                            '<div class="success_message message"><img src="imgs/info.png"/><label></label></div>'.
+                            '<div class="error_message message"><img src="imgs/error.png"/><label></label></div>'.
+                            '<div class="warning_message message"><img src="imgs/warning.png"/><label></label></div>'.
                             '<input type="submit" value="Salvar">'.
                         '</fieldset>'.
-                    '</form>';
+                        '</form>';
+            // hide highlight message when click
+            $htmlForm.= '<script>$(".message").click(function(){$(this).slideUp();});</script>' ;
+
         }
         echo $htmlForm;
     }
