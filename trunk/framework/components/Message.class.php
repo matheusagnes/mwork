@@ -3,22 +3,24 @@
 class Message
 {
 
-    // FIXME estas constantes tambem estao definidas no ajax.js
-    const SUCCESS = '::SUCCESS::';
-    const ERROR = '::ERROR::';
-    const WARNING = '::WARNING::';
+    const INFO = 'INFO';
+    const SUCCESS = 'SUCCESS';
+    const ERROR = 'ERROR';
+    const WARNING = 'WARNING';
 
     // mensagem que aparece no form
-    const HIGHLIGHT = '::HIGHLIGHT::';
+    const HIGHLIGHT = 'HIGHLIGHT';
     // jqueryui dialog
-    const DIALOG = '::DIALOG::';
+    const DIALOG = 'DIALOG';
 
     private $type;
     private $state;
     private $message; 
 
-    public function __construct($message, $state = self::SUCCESS, $type = self::HIGHLIGHT, $width = null, $heigth)
+    public function __construct($message, $state = null, $type = self::HIGHLIGHT, $width = null, $height = null)
     {
+        $type = (!$type) ? self::HIGHLIGHT : $type ;
+
         $this->type = $type;
         $this->state = $state;
         $this->message = $message;
@@ -27,7 +29,17 @@ class Message
 
     private function show()
     {
-        echo $this->type . $this->state . $this->message;
+        echo '<script>';
+        if ($this->type == self::HIGHLIGHT)
+        {
+            echo 'showHighiLight("'.addslashes($this->message).'", "'.$this->state.'");';
+        }
+        elseif($this->type == self::DIALOG)
+        {
+            echo 'openDialog("'.addslashes($this->message).'","'. $this->state.'");';
+
+        }
+        echo '</script>';
     }
 
 }

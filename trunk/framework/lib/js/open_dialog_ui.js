@@ -5,7 +5,7 @@ imgLoad.src = path_carregando;
 
 
 // mostra um dialog com o conteudo que retornar a url
-function openDialog(message, url, title, width, height)
+function openDialog(message, state, url, title, width, height)
 {
 
     // valores padrao caso nao seja passado por parametro
@@ -13,6 +13,18 @@ function openDialog(message, url, title, width, height)
     width = (width == 'undefined' || width == null) ? '300' : width;
     height = (height == 'undefined' || height == null) ? '200' : height;
     title = (title == 'undefined' || title == null) ? '' : title;
+
+    var image_src = '';
+    if (state == 'INFO'){
+        image_src = 'info.png' ;
+    }else if(state == 'SUCCESS'){
+        image_src = 'success.png';
+    }else if(state == 'ERROR'){
+        image_src = 'error.png';
+    }else if(state == 'WARNING'){
+        image_src = 'warning.png';
+    }
+    message = (image_src) ? '<img class="img_message" src="imgs/'+image_src+'"/>'+message : message;
 
     // insere a div do dialog apenas a primeira vez que chama o openDialog
     if (!document.getElementById('ui-dialog'))

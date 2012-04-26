@@ -14,13 +14,6 @@ var showDefaultError = true;
 // mensagem de erro padrao
 var stringDefaultError = 'Erro ao carregar página';
 
-var SUCCESS = '::SUCCESS::';
-var ERROR = '::ERROR::';
-var WARNING = '::WARNING::';
-var HIGHLIGHT = '::HIGHLIGHT::';
-var DIALOG = '::DIALOG::';
-
-
 //Carregar imagens para nao precisar carregar no momento em que chama o ajax // testei isso com o debug - e funciona
 imgLoad = new Image(); 
 imgLoad.src = 'framework/lib/js/ajax/images/ajax-loader.png';
@@ -86,6 +79,40 @@ function loadCombo(url)
     requestPage(url, null,  null, null, 'post', true, null);
 }
 
+function showHighiLight(message, state)
+{
+
+    var image_src = '';
+    var classMessage = '';
+    if (state == 'INFO'){
+        image_src = 'info.png' ;
+        classMessage = 'info_message';
+    }else if(state == 'SUCCESS'){
+        image_src = 'success.png';
+        classMessage = 'success_message';
+    }else if(state == 'ERROR'){
+        image_src = 'error.png';
+        classMessage = 'error_message';
+    }else if(state == 'WARNING'){
+        image_src = 'warning.png';
+        classMessage = 'warning_message';
+    }
+    message = (image_src) ? '<img class="img_message" src="imgs/'+image_src+'"/><label>'+message+'</label>' : '<label>'+message+'</label>';
+
+    // add message to highlight_messages class
+    //var message_obj = $('<div class="message '+classMessage+'">'+message+'</div>');
+    var message_obj = $('<div>').addClass('message '+classMessage).html(message);
+        
+    $('.highlight_messages').html(message_obj);
+    message_obj.slideDown();
+
+    // hide and remove message when click
+    message_obj.click(function(){
+        $(this).slideUp(300,function(){$(this).remove()});
+    });
+
+}
+
 function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
 {        
     // remove dialogs na tela
@@ -143,50 +170,19 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
         //function(data) vide item 4 em $.get $.post
         success: function(data)
         {
-            // Se for um retorno do tipo STATE_HIGHLIGHT (pequena mensagem colorida)
-            if (data.indexOf(HIGHLIGHT) != -1)
+            // Se nao foi definida a div
+            if (!div)
             {
-                // tirar os '::error::'
-                var message = data.replace(new RegExp("::.*::"), '');
-                $('.message').hide();
-                if (data.indexOf(ERROR) != -1)
-                {
-                    $( '.error_message > label' ).html( message );
-                    $('.error_message').slideDown();
-                }else if(data.indexOf(SUCCESS) != -1)
-                {
-                    $( '.success_message > label' ).html( message );
-                    $('.success_message').slideDown();
-                }else if(data.indexOf(WARNING) != -1)
-                {
-                    $( '.warning_message > label' ).html( message );
-                    $('.warning_message').slideDown();
-                }
-
+                $('body').append(data);//.trigger('create'); 
             }
-            else if(data.indexOf(DIALOG) != -1)
-            {   
-                // tirar os '::error::'
-                var message = data.replace(new RegExp("::.*::"), '');
-                openDialog(message);
-            }
-            // Se nao retornou erro
             else
             {
                 // Se foi definida uma div onde serah adicionado o retorno
-                if(div)      
-                {
-                    $( '#'+div+'' ).empty().append( data ).trigger('create');
-		         	 
-                    // Salvar a pagina no cache
-                    if(saveCache)
-                        cache[url] = data;
-                }
-                // se a div alvo nao foi definida, adiociona o retorno no final do html
-                else
-                {
-                    $( 'html' ).append( data ).trigger('create');
-                }
+                $( '#'+div+'' ).html( data ).trigger('create');
+                 
+                // Salvar a pagina no cache
+                if(saveCache)
+                    cache[url] = data;
             }
     		
             // remove loading message e div que bloqueia tela

@@ -147,14 +147,10 @@ class MForm
             $htmlForm.='</fieldset>';
 
             $htmlForm.= '<fieldset class="tblFooters">'.
-                            '<div class="success_message message"><img src="imgs/info.png"/><label></label></div>'.
-                            '<div class="error_message message"><img src="imgs/error.png"/><label></label></div>'.
-                            '<div class="warning_message message"><img src="imgs/warning.png"/><label></label></div>'.
+                            '<div class="highlight_messages"></div>'.
                             '<input type="submit" value="Salvar">'.
                         '</fieldset>'.
                         '</form>';
-            // hide highlight message when click
-            $htmlForm.= '<script>$(".message").click(function(){$(this).slideUp();});</script>' ;
 
         }
         echo $htmlForm;

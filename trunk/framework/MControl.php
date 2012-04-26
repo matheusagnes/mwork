@@ -29,9 +29,10 @@ class MControl
 
     public function save()
     {
-sleep(1);
-			    new Message('Preencha os campos: <br>asdasdfg<br>sadf asdf<br> asdfasdf ', null, Message::DIALOG);
-                return;
+        sleep(1);
+        new Message('Salvo com sucesso', Message::ERROR);
+        return;
+
         if ($this->validatePost())
         {
 			if(DB::rec($this->post, $this->getFormId()))
