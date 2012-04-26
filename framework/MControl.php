@@ -29,10 +29,6 @@ class MControl
 
     public function save()
     {
-        sleep(1);
-        new Message('Salvo com sucesso', Message::ERROR);
-        return;
-
         if ($this->validatePost())
         {
 			if(DB::rec($this->post, $this->getFormId()))
@@ -45,11 +41,6 @@ class MControl
 				new Message('erro ao inserir os dados', Message::ERROR);
                 return;
 			}
-        }
-        else
-        {
-            new Message('Preencha todos os campos obrigatórios', Message::WARNING);
-            return false;
         }
     }
 
@@ -72,16 +63,24 @@ class MControl
         $sessionFormName = $callerClass . '::' . $callerFunction;
         $aObligatories = $this->MCore->getSession($sessionFormName);
 
+        $missed_fields = '';
         if ($aObligatories)
         {
             foreach ($aObligatories as $key => $value)
             {
                 if (!$this->post->{$key})
                 {
-                    return false;
+                    $missed_fields .= '<br>- '.$key;
                 }
             }
         }
+
+        if ($missed_fields) 
+        {
+            new Message('Preencha todos os campos obrigatóros (javascript, voce devia ter validado isto.):'.$missed_fields, Message::WARNING);
+            return false;
+        }
+
         return true;
     }
 
