@@ -32,6 +32,7 @@ $mcore = new MCore();
         
         <script type="text/javascript" src="framework/lib/js/ajax/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="framework/lib/js/open_dialog_ui.js"></script>
+        <script type="text/javascript" src="framework/lib/js/js_tools.js"></script>
         <script type="text/javascript" src="framework/lib/js/ajax/ajax.js"></script>
          
 
