@@ -84,7 +84,7 @@ class DB
         $primaryKey = DB::getPrimaryKey($table);
         
         
-        if (!$obj->{$primaryKey})
+        if (!isset($obj->{$primaryKey}))
         {
             
             $sql = 'INSERT INTO ' . $table;
