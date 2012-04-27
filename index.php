@@ -46,12 +46,15 @@ $mcore = new MCore();
                 <div class="fundo" >
                     <div class='topnav' id='topnav'>
                         <div>
+                            
                             <div style='width:50px; float:right; cursor:pointer;'>
                                 <a   style='color:black;'onclick="requestPage('ajax.php?class=login::logout()','conteudo','GET','');">
                                     <img title="Sair" src="lib/css/images/logout.png"/> 
                                 </a> 
                             </div>
-                            
+                            <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
+                                <a href="#ajax.php?class=UsuariosListView">Usuarios</a>                                
+                            </div>
                             <?php
                                 
                                 // Menu no topo
