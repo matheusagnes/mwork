@@ -4,7 +4,7 @@ class UsuariosFormView extends MForm
 {
 	public function __construct()
     {
-		parent::__construct('usuarios', 'Cadastro de Usuários', 'UsuariosFormControl', false);
+		parent::__construct('usuarios', 'Cadastro de Usuários', false);
 		
 		parent::addField('nome', 'Nome', new MText(), true);
         parent::addField('email', 'E-mail', new MText(), true);

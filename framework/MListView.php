@@ -2,6 +2,8 @@
 
 class MListView extends MGrid
 {
+	
+	private $form;	
 
 	public function __construct()
     {
@@ -13,7 +15,14 @@ class MListView extends MGrid
 
 	public function show()
 	{
+		if($this->form)
+			$this->form->show();
+		parent::getGrid();
+	}
 
+	public function setForm($form)
+	{
+		$this->form = $form;	
 	}
     
 }
