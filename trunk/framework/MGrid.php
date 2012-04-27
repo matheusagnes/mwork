@@ -8,6 +8,10 @@ class MGrid
 	private $sqlColumns;
 	private $controlName;
 
+	const EDIT = 'framework/lib/images/edit.png';
+	const DELETE = 'framework/lib/images/delete.png';
+	const VIEW = 'framework/lib/images/view.png';
+
 	public function __construct()
     {
         
@@ -50,12 +54,17 @@ class MGrid
 		$this->controlName = $controlName;
 	}
 
+	public function setSql($sql)
+	{
+		$this->sql = $sql;
+	}
+
 	public function getGrid()
 	{
 		//pegar a tabela de forma automatica
 		//fazer paginação, tenho a classe no mwork/lib
-		$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
-
+		//$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
+		$objects = DB::getObjects($this->sql);
 		$grid = '<table> <thead>';
 
 		foreach($this->columns as $column)
@@ -66,15 +75,22 @@ class MGrid
 		foreach ($objects as $object)
 		{
 			$grid.= '<tr>';
+
 			foreach($this->columns as $key => $value)
 			{
 				$grid.='<td>'.$object->{$key}.'</td>';		
 			}	
+
+			foreach($this->actions as $objAction)
+			{			
+				$grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$objAction->action}'/> </td>";		
+			}
+
 			$grid.= '</tr>';
 		}
 		$grid.='</tbody> </table>';
 		echo $grid;
-	}
+	}		
 
 }
 

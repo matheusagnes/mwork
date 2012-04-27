@@ -16,7 +16,7 @@ class MForm
 	private $sessionFormName;
 	private $controlName;
 																					    #FIXME trocar para content
-    public function __construct($id, $legend, $controlName, $is_horizontal = true, $urlTarget = null, $divTarget = '')
+    public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null, $divTarget = '', $controlName = '')
     {
 		// get mcore instance
 		$this->MCore = MCore::getInstance();
@@ -28,6 +28,11 @@ class MForm
         // default value for urlTarget
 		if(!$urlTarget)
 		{
+			if(!$controlName)
+			{
+				$viewName = get_called_class();
+				$controlName = str_replace('View','Control',$controlName);
+			}
 			$this->sessionFormName = $controlName.'::save';
 		    $urlTarget = $controlName . '::save()';
 		}

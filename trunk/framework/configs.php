@@ -6,11 +6,11 @@
 
 return array(
   
-    'DB_TYPE' => 'pgsql',
+    'DB_TYPE' => 'mysql',
     'DB_HOST' => 'localhost',
     'DB_NAME' => 'default_project',
-    'DB_USER' => 'teste',
-    'DB_PASS' => 'teste',
+    'DB_USER' => 'user',
+    'DB_PASS' => 'user',
     'project_name' => 'default_project',
     'site_name' => 'default_project'
     
