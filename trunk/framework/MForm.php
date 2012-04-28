@@ -81,6 +81,11 @@ class MForm
     {
         return $this->id;
     }
+    
+    public function getDivTarget()            
+    {
+        return $this->divTarget;
+    }
 
     /**
      * @method addField

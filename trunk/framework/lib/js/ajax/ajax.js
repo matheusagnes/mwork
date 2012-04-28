@@ -40,14 +40,14 @@ $(document).ready(function() {
 					
         } else {
 	
-			if( url.substring(0, 1) == '!')
-			{
-				requestPage(url.substring(1,url.strlen), 'conteudo', null, null,'post', true,false);
-			}
-			else
-			{
-				requestPage(url, 'conteudo', null, null,'post', true,true);				
-			}
+            if( url.substring(0, 1) == '!')
+            {
+                requestPage(url.substring(1,url.strlen), 'conteudo', null, null,'post', true,false);
+            }
+            else
+            {
+                requestPage(url, 'conteudo', null, null,'post', true,true);				
+            }
             			
         }
     })
@@ -96,18 +96,18 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
         var loadMsgDelay = setTimeout(function(){
 			    
             // adiciona div para impedir que o usuario clique na tela
-			 //$.alerts._overlay('hide');
-			$("BODY").append('<div id="block-ui"></div>');
-			$("#block-ui").css({
-				position: 'absolute',
-				zIndex: 9,
-				top: '0px',
-				left: '0px',
-				width: '100%',
-				height: $(document).height(),
-				background: '#555555',
-				opacity: 0.2
-			});
+            //$.alerts._overlay('hide');
+            $("BODY").append('<div id="block-ui"></div>');
+            $("#block-ui").css({
+                position: 'absolute',
+                zIndex: 9,
+                top: '0px',
+                left: '0px',
+                width: '100%',
+                height: $(document).height(),
+                background: '#555555',
+                opacity: 0.2
+            });
                 
             $('#block-ui').show();
 	        
@@ -138,6 +138,7 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
         success: function(data)
         {
             // Se nao foi definida a div
+            console.log(data,div);
             if (!div)
             {
                 $('html').append(data);//.trigger('create'); 
@@ -191,7 +192,7 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
 
 function ajaxSubmit(url,id,formId)
 {
-	requestPage('ajax.php?class='+url,id,formId,'', 'POST', true, false);
+    requestPage('ajax.php?class='+url,id,formId,'', 'POST', true, false);
 } 
 
 function showPageLoadingMsg() {
@@ -208,7 +209,7 @@ function showPageLoadingMsg() {
     // position at y center (if scrollTop supported), above the activeBtn (if defined), or just 100px from top
     .css({
         top: $.support.scrollTop && $window.scrollTop() + $window.height() / 2 || 200,
-		position: 'fixed'
+        position: 'fixed'
     });
     
     $html.addClass( "ui-loading" );

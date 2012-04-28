@@ -8,7 +8,7 @@ class MControl
     private $aObligatories;
     private $post;
     private $error;
-	private $view;
+    private $view;
 
     #FIXME como pegar a view ? de uma forma facil para checar automaticamente os campos
 
@@ -16,31 +16,31 @@ class MControl
     {
         $this->MCore = MCore::getInstance();
         $this->post = $this->getPostObject();
-		
-		$controlName = get_called_class();
-		$viewName = str_replace('Control','View',$controlName);
-		$this->setView($viewName);
+
+        $controlName = get_called_class();
+        $viewName = str_replace('Control', 'View', $controlName);
+        $this->setView($viewName);
     }
 
-	public function getFormId()
-	{
-		return $this->view->getId();
-	}
+    public function getFormId()
+    {
+        return $this->view->getId();
+    }
 
     public function save()
     {
         if ($this->validatePost())
         {
-			if(DB::rec($this->post, $this->getFormId()))
+            if (DB::rec($this->post, $this->getFormId()))
             {
-			    new Message('Dados gravados com sucesso!');
+                new Message('Dados gravados com sucesso!');
                 return;
-			}
-			else
-			{
-				new Message('erro ao inserir os dados', Message::ERROR);
+            }
+            else
+            {
+                new Message('erro ao inserir os dados', Message::ERROR);
                 return;
-			}
+            }
         }
     }
 
@@ -70,14 +70,14 @@ class MControl
             {
                 if (!$this->post->{$key})
                 {
-                    $missed_fields .= '<br>- '.$key;
+                    $missed_fields .= '<br>- ' . $key;
                 }
             }
         }
 
-        if ($missed_fields) 
+        if ($missed_fields)
         {
-            new Message('Preencha todos os campos obrigatóros (javascript, voce devia ter validado isto.):'.$missed_fields, Message::WARNING);
+            new Message('Preencha todos os campos obrigatóros (javascript, voce devia ter validado isto.):' . $missed_fields, Message::WARNING);
             return false;
         }
 
@@ -94,17 +94,17 @@ class MControl
         return $this->post;
     }
 
-	// Sets the view
-	public function setView($view)
-	{
-		$this->view = new $view();
-	}
+    // Sets the view
+    public function setView($view)
+    {
+        $this->view = new $view();
+    }
 
-	// Render the form
-	public function show()
-	{
-		$this->view->show();		
-	}
+    // Render the form
+    public function show()
+    {
+        $this->view->show();
+    }
 
 }
 
