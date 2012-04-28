@@ -2,6 +2,7 @@
 
 class MForm
 {
+
     private $fields;
     private $id; //Form id will be used in control to rec in DB
     private $cont;
@@ -11,47 +12,49 @@ class MForm
     private $is_horizontal;
     private $urlTarget;
     private $divTarget;
-	private $MCore = null;
-	private $aObligatories;
-	private $sessionFormName;
-	private $controlName;
-																					    #FIXME trocar para content
+    private $MCore = null;
+    private $aObligatories;
+    private $sessionFormName;
+    private $controlName;
+
+    #FIXME trocar para content
+
     public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null, $divTarget = '', $controlName = '')
     {
-		// get mcore instance
-		$this->MCore = MCore::getInstance();
+        // get mcore instance
+        $this->MCore = MCore::getInstance();
 
         $this->setId($id);
         $this->setFormLegend($legend);
-		$this->setControlName($controlName);
-		
+        $this->setControlName($controlName);
+
         // default value for urlTarget
-		if(!$urlTarget)
-		{
-			if(!$controlName)
-			{
-				$viewName = get_called_class();
-				$controlName = str_replace('View','Control',$controlName);
-			}
-			$this->sessionFormName = $controlName.'::save';
-		    $urlTarget = $controlName . '::save()';
-		}
-		else
-		{
-			// Remove all from (
-			$this->sessionFormName = preg_replace('~\(.*~', '',$urlTarget);
-		}
-  
+        if (!$urlTarget)
+        {
+            if (!$controlName)
+            {
+                $viewName = get_called_class();
+                $controlName = str_replace('View', 'Control', $viewName);
+            }
+            $this->sessionFormName = $controlName . '::save';
+            $urlTarget = $controlName . '::save()';
+        }
+        else
+        {
+            // Remove all from (
+            $this->sessionFormName = preg_replace('~\(.*~', '', $urlTarget);
+        }
+
         $this->setSubmit($urlTarget, $divTarget);
         $this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
         $this->cont = 0;
     }
 
-	public function setControlName($controlName)
-	{
-		$this->controlName = $controlName;
-	}
+    public function setControlName($controlName)
+    {
+        $this->controlName = $controlName;
+    }
 
     public function setFormLegend($legend)
     {
@@ -63,15 +66,11 @@ class MForm
         return $this->formLegend;
     }
 
-
-
     public function setSubmit($urlTarget, $divTarget)
     {
         $this->urlTarget = $urlTarget;
         $this->divTarget = $divTarget;
     }
-
- 
 
     public function setId($id)
     {
@@ -94,9 +93,9 @@ class MForm
         $objInput->setLabel($label);
         $objInput->setName($name);
         $objInput->setObligatory($obligatory);
-		
-		if($obligatory)
-			$this->aObligatories[$name] = $obligatory;		
+
+        if ($obligatory)
+            $this->aObligatories[$name] = $obligatory;
 
         if (!$objInput->getId())
         {
@@ -124,12 +123,12 @@ class MForm
 
     public function show()
     {
-		// create objForm to use in session for validade the form in control
-		$this->MCore->setSession($this->sessionFormName,$this->aObligatories);
+        // create objForm to use in session for validade the form in control
+        $this->MCore->setSession($this->sessionFormName, $this->aObligatories);
 
         #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
         $htmlForm = "<form id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
-        $htmlForm.= '<fieldset><legend>'.$this->getFormLegend().'</legend>';
+        $htmlForm.= '<fieldset><legend>' . $this->getFormLegend() . '</legend>';
 
         $fields = $this->getFields();
 
@@ -144,19 +143,18 @@ class MForm
                 }
 
                 $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
-                $htmlForm .= "<div class='{$classItem}'> ".
-                                   "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>".
-                                        $field->show().
-                                "</div>";
+                $htmlForm .= "<div class='{$classItem}'> " .
+                        "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
+                        $field->show() .
+                        "</div>";
             }
             $htmlForm.='</fieldset>';
 
-            $htmlForm.= '<fieldset class="tblFooters">'.
-                            '<div class="highlight_messages"></div>'.
-                            '<input type="submit" value="Salvar">'.
-                        '</fieldset>'.
-                        '</form>';
-
+            $htmlForm.= '<fieldset class="tblFooters">' .
+                    '<div class="highlight_messages"></div>' .
+                    '<input type="submit" value="Salvar">' .
+                    '</fieldset>' .
+                    '</form>';
         }
         echo $htmlForm;
     }
