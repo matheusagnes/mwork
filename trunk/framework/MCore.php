@@ -7,6 +7,7 @@ class MCore
     private $siteName;
     private static $instance;
     private static $configs;
+    //private $mLists;
 
     public function __construct($new = true)
     {
@@ -16,11 +17,23 @@ class MCore
             $this->init();
         }
     }
+    
+    public function setList($list)
+    {   
+        $this->setSession($list->getListId(), $list);
+        //$this->mLists[$list->getListId()] = $list;
+    }
+    
+    public function getList($listId)
+    {   
+        return $this->getSession($listId);
+        //return $this->mLists[$listId];
+    }
 
     public static function getInstance()
     {
         if (!self::$instance)
-        {
+        {           
            self::$instance = new MCore();
         }
         return self::$instance;
@@ -54,7 +67,7 @@ class MCore
     }
 
     public function setSession($position, $value)
-    {
+    {        
         $_SESSION[$this->projectName][$position] = $value;
     }
 
