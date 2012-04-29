@@ -7,6 +7,8 @@ class MGrid
     private $actions;
     private $sqlColumns;
     private $controlName;
+    private $gridId;
+    private $filter;
 
     const EDIT = 'framework/lib/images/edit.png';
     const DELETE = 'framework/lib/images/delete.png';
@@ -18,21 +20,22 @@ class MGrid
     }
 
     // Action seria passar a url para o request
-    public function addColumn($column_db_name, $label, $mask = null)
+    public function addColumn($column_table_name, $column_type, $label, $mask = null)
     {
         if (!$this->sqlColumns)
         {
-            $this->sqlColumns = "{$column_db_name} ";
+            $this->sqlColumns = "{$column_table_name} ";
         }
         else
         {
-            $this->sqlColumns.= " ,{$column_db_name} ";
+            $this->sqlColumns.= " ,{$column_table_name} ";
         }
 
         $objColumn->label = $label;
         $objColumn->mask = $mask;
+        $objColumn->column_type = $column_type;
 
-        $this->columns[$column_db_name] = $objColumn;
+        $this->columns[$column_table_name] = $objColumn;
     }
 
     public function addAction($action, $title, $iconPath)
@@ -44,14 +47,14 @@ class MGrid
         $this->actions[] = $objAction;
     }
 
-    public function SetDBTable()
-    {
-        
-    }
-
     public function setControlName($controlName)
     {
         $this->controlName = $controlName;
+    }
+
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
     }
 
     public function setSql($sql)
@@ -59,13 +62,56 @@ class MGrid
         $this->sql = $sql;
     }
 
-    public function getGrid($divId = null)
+    public function getSql()
+    {
+
+        $types['primary'] = '=';
+        $types['varchar'] = "%";
+
+        $select = 'SELECT ';
+        foreach ($this->columns as $key => $value)
+        {
+            $select.= " {$key},";
+            $table = explode('.', $key);
+            $from[$table[0]] = $table[0];
+        }
+
+        if ($this->filter)
+        {
+            foreach ($this->filter as $key_filter => $filter)
+            {
+                $key_filter = str_replace('_', '.', $key_filter);
+                //echo $key.' -'; echo $key_filter.'<br>';
+                //if($key == $key_filter)
+
+                $where.= " {$key} {$types[$this->columns[$key_filter]->type]}  '{$filter}' ";
+                if ($this->columns[$key_filter]->type == 'varchar')
+                {
+                    $where.= $types[$this->columns[$key_filter]->type];
+                }
+            }
+        }
+
+        echo '<br><br><br><br>';
+        echo $where; //die;
+        $select = substr($select, 0, -1);
+        $from = implode(',', $from);
+
+        return $select . ' from ' . $from;
+    }
+
+    public function setGridId($gridId)
+    {
+        $this->gridId = $gridId;
+    }
+
+    public function showGrid()
     {
         //pegar a tabela de forma automatica
         //fazer paginação, tenho a classe no mwork/lib
         //$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
-        $objects = DB::getObjects($this->sql);
-        $grid = '<div id ="'.$divId.'"> <table> <thead>';
+        $objects = DB::getObjects($this->getSql());
+        $grid = '<div id ="' . $this->gridId . '"> <table> <thead>';
 
         foreach ($this->columns as $column)
         {
@@ -78,7 +124,8 @@ class MGrid
 
             foreach ($this->columns as $key => $value)
             {
-                $grid.='<td>' . $object->{$key} . '</td>';
+                $key = explode('.', $key);
+                $grid.='<td>' . $object->{$key[1]} . '</td>';
             }
 
             foreach ($this->actions as $objAction)

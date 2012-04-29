@@ -1,6 +1,6 @@
 <?php
 
-class MListView extends MGrid
+class MListView extends MList
 {
 
     private $form;
@@ -8,6 +8,10 @@ class MListView extends MGrid
     public function __construct()
     {
         $listViewName = get_called_class();
+        
+        parent::__construct($listViewName);
+        
+        
         $listControlName = str_replace('View', 'Control', $listViewName);
         $formViewName = str_replace('List', 'Form', $formControlName);
         $formControlName = str_replace('View', 'Control', $formViewName);
@@ -18,7 +22,8 @@ class MListView extends MGrid
         if ($this->form)
         {
             $this->form->show();
-            parent::getGrid($this->form->getDivTarget());
+            parent::setGridId($this->form->getDivTarget());
+            parent::showGrid();
         }
     }
 

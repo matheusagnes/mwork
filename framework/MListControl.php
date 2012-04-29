@@ -1,26 +1,31 @@
 <?php
 
-class MListControl
+class MListControl extends MList
 {
 
     private $postFilters;
-
+    private $listView;
+    
     public function __construct()
     {
-        $listControlName = get_called_class();
-        $listViewName = str_replace('Control', 'View', $listControlName);
-
-        $this->postFilters = $this->getFiltersFromPost();
+        parent::__construct(get_called_class());
+        $this->listView = parent::getListView();
+        $this->postFilters = $this->getFiltersFromPost();       
+        //dbug($this->listView);
     }
-
+    
+    
     public function getFiltersFromPost()
-    {
-        return arrayToObject($_POST);
+    {        
+        $objFilter = arrayToObject($_POST);
+        $this->listView->setFilter($objFilter);
+        return $objFilter;
     }
 
+  
     public function search()
-    {
-        var_dump($this->postFilters);
+    {        
+        $this->listView->showGrid();
     }
 
 }
