@@ -1,0 +1,8 @@
+#summary One-sentence summary of this page.
+
+= Tarefas =
+
+*Validar form com JS
+*Adicionar botões dinâmicos no mform(Mudar de salvar para buscar) assim podendo adicionar vários botoẽs
+*Fazer 1 model ?
+*MGrid::getSql() -> colocar no arquivo DB ??
