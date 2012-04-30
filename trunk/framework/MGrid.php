@@ -63,6 +63,7 @@ class MGrid
         $this->sql = $sql;
     }
 
+	// #FIXME Colocar o getSql no class DB, passando por parametro $this->filter, $this->columns
     public function getSql()
     {
         $select = 'SELECT ';

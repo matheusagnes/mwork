@@ -28,6 +28,16 @@ class MListControl extends MList
         $this->listView->showGrid();
     }
 
+    public function edit()
+    {
+        // passar por parametro para o mformview os values        
+    }
+
+    public function delete($id)
+    {
+        
+    }
+
 }
 
 ?>
