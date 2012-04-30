@@ -55,6 +55,13 @@ $mcore = new MCore();
                             <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
                                 <a href="#!ajax.php?class=UsuariosListView::show()">Usuarios</a>                                
                             </div>
+                             <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
+                                <a href="#!ajax.php?class=TiposUsuariosListView::show()">TiposUsuariosList</a>                                
+                            </div>
+                            
+                            <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
+                                <a href="#!ajax.php?class=TiposUsuariosFormControl::show()">TiposUsuariosForm</a>                                
+                            </div>
                             <?php
                                 
                                 // Menu no topo
