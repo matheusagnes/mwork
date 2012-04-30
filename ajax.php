@@ -3,7 +3,6 @@
 include_once 'framework/MCore.php';
 $mcore = new MCore();
 
-
 if ($_GET['class'])
 {   
     $url = explode('::', $_GET['class']);

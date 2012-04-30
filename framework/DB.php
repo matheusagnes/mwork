@@ -29,7 +29,7 @@ class DB
      * @param 
      * @return $objInstance; 
      */
-
+	#FIXME PQ ENTRA VARIAS VEZES ?
     public static function getInstance()
     {
 
