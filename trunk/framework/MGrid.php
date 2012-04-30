@@ -20,7 +20,7 @@ class MGrid
     }
 
     // Action seria passar a url para o request
-    public function addColumn($column_table_name, $column_type, $label, $mask = null)
+    public function addColumn($column_table_name, $column_type, $label, $relation = null, $mask = null)
     {
         if (!$this->sqlColumns)
         {
@@ -34,6 +34,7 @@ class MGrid
         $objColumn->label = $label;
         $objColumn->mask = $mask;
         $objColumn->column_type = $column_type;
+        $objColumn->relation = $relation;
 
         $this->columns[$column_table_name] = $objColumn;
     }
@@ -71,6 +72,11 @@ class MGrid
             $select.= " {$key},";
             $table = explode('.', $key);
             $from[$table[0]] = $table[0];
+            
+            if($value->relation)
+            {
+                $where.= $value->relation.' AND';
+            }
         }
 
         if ($this->filter)
@@ -107,7 +113,7 @@ class MGrid
         $where = substr($where, 0, -3);
         $select = substr($select, 0, -1);
         $from = implode(',', $from);
-
+        
         return $select . ' from ' . $from . $where;
     }
 

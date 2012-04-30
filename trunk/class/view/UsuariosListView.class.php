@@ -19,6 +19,7 @@ class UsuariosListView extends MListView
         parent::addColumn('usuarios::id', 'primary', 'Cód.');
         parent::addColumn('usuarios::nome', 'varchar', 'Nome');
         parent::addColumn('usuarios::email','varchar', 'Email');
+        parent::addColumn('tipos_usuarios::descricao','varchar', 'Email','tipos_usuarios.id=usuarios.ref_tipo_usuario');
 
         // acoes da grid
         parent::addAction('view', 'Ver', MGrid::VIEW);
