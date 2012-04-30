@@ -9,3 +9,15 @@
 * Fazer 1 model ?
 
 * MGrid::getSql() -> colocar no arquivo DB ??
+
+* CSS da MGrid
+
+* Interface da list Pequeno menu para a list
+
+* Validação de Permissões
+
+* Login, Logout
+
+* listControl::Delete - Matheus
+
+* listControl::Edit - Matheus
