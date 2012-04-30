@@ -64,10 +64,6 @@ class MGrid
 
     public function getSql()
     {
-
-        $types['primary'] = '=';
-        $types['varchar'] = "%";
-
         $select = 'SELECT ';
         foreach ($this->columns as $key => $value)
         {
@@ -80,24 +76,36 @@ class MGrid
         {
             foreach ($this->filter as $key_filter => $filter)
             {
-                $key_filter = str_replace('_', '.', $key_filter);
-                //echo $key.' -'; echo $key_filter.'<br>';
-                //if($key == $key_filter)
-
-                $where.= " {$key} {$types[$this->columns[$key_filter]->type]}  '{$filter}' ";
-                if ($this->columns[$key_filter]->type == 'varchar')
+                if ($filter)
                 {
-                    $where.= $types[$this->columns[$key_filter]->type];
+                    $key_filter = str_replace('_', '.', $key_filter);
+                    if ($this->columns[$key_filter]->column_type == 'varchar')
+                    {
+                        $where.= " {$key_filter} like '%{$filter}%' ";
+                    }
+                    elseif ($this->columns[$key_filter]->column_type == 'primary')
+                    {
+                        $where.= " {$key_filter} = '{$filter}' ";
+                    }
+                    elseif(is_string($filter))
+                    {
+                        $where.= " {$key_filter} like '%{$filter}%' ";
+                    }
+                    elseif(is_int($key_filter))
+                    {
+                        $where.= " {$key_filter} = '{$filter}' ";
+                    }
+                        
                 }
             }
         }
-
-        echo '<br><br><br><br>';
-        echo $where; //die;
+        if ($where)
+        {
+            $where = ' WHERE ' . $where;
+        }
         $select = substr($select, 0, -1);
         $from = implode(',', $from);
-
-        return $select . ' from ' . $from;
+        return $select . ' from ' . $from . $where;
     }
 
     public function setGridId($gridId)
@@ -113,34 +121,40 @@ class MGrid
         $objects = DB::getObjects($this->getSql());
         $grid = '<div id ="' . $this->gridId . '"> <table> <thead>';
 
-        foreach ($this->columns as $column)
+        if ($objects)
         {
-            $grid.="<td> {$column->label} </td>";
+            foreach ($this->columns as $column)
+            {
+                $grid.="<td> {$column->label} </td>";
+            }
+            $grid.='</thead> <tbody>';
+
+            foreach ($objects as $object)
+            {
+                $grid.= '<tr>';
+
+                foreach ($this->columns as $key => $value)
+                {
+                    $key = explode('.', $key);
+                    $grid.='<td>' . $object->{$key[1]} . '</td>';
+                }
+
+                foreach ($this->actions as $objAction)
+                {
+                    $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$objAction->action}'/> </td>";
+                }
+
+                $grid.= '</tr>';
+            }
         }
-        $grid.='</thead> <tbody>';
-        foreach ($objects as $object)
+        else
         {
-            $grid.= '<tr>';
-
-            foreach ($this->columns as $key => $value)
-            {
-                $key = explode('.', $key);
-                $grid.='<td>' . $object->{$key[1]} . '</td>';
-            }
-
-            foreach ($this->actions as $objAction)
-            {
-                $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$objAction->action}'/> </td>";
-            }
-
-            $grid.= '</tr>';
+            $grid.='<tr> <td> Nothing found </td> </tr>';
         }
         $grid.='</tbody> </table></div>';
         echo $grid;
     }
 
 }
+
 ?>
-
-
-
