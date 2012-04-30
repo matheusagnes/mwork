@@ -67,6 +67,7 @@ class MGrid
         $select = 'SELECT ';
         foreach ($this->columns as $key => $value)
         {
+            $key = str_replace('::', '.', $key);
             $select.= " {$key},";
             $table = explode('.', $key);
             $from[$table[0]] = $table[0];
@@ -78,22 +79,22 @@ class MGrid
             {
                 if ($filter)
                 {
-                    $key_filter = str_replace('_', '.', $key_filter);
+                    $key_filter = str_replace('::', '.', $key_filter);
                     if ($this->columns[$key_filter]->column_type == 'varchar')
                     {
-                        $where.= " {$key_filter} like '%{$filter}%' ";
+                        $where.= " {$key_filter} like '%{$filter}%' AND";
                     }
                     elseif ($this->columns[$key_filter]->column_type == 'primary')
                     {
-                        $where.= " {$key_filter} = '{$filter}' ";
+                        $where.= " {$key_filter} = '{$filter}' AND";
                     }
                     elseif(is_string($filter))
                     {
-                        $where.= " {$key_filter} like '%{$filter}%' ";
+                        $where.= " {$key_filter} like '%{$filter}%' AND";
                     }
                     elseif(is_int($key_filter))
                     {
-                        $where.= " {$key_filter} = '{$filter}' ";
+                        $where.= " {$key_filter} = '{$filter}' AND";
                     }
                         
                 }
@@ -103,8 +104,10 @@ class MGrid
         {
             $where = ' WHERE ' . $where;
         }
+        $where = substr($where, 0, -3);
         $select = substr($select, 0, -1);
         $from = implode(',', $from);
+
         return $select . ' from ' . $from . $where;
     }
 
@@ -135,7 +138,7 @@ class MGrid
 
                 foreach ($this->columns as $key => $value)
                 {
-                    $key = explode('.', $key);
+                    $key = explode('::', $key);
                     $grid.='<td>' . $object->{$key[1]} . '</td>';
                 }
 
