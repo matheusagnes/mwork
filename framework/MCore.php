@@ -29,6 +29,11 @@ class MCore
         return $this->getSession($listId);
         //return $this->mLists[$listId];
     }
+    
+    public function getForm($formName)
+    {
+        return new $formName();
+    }
 
     public static function getInstance()
     {

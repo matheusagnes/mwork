@@ -44,16 +44,6 @@ class MControl
         }
     }
 
-    public function getError()
-    {
-        return $this->error;
-    }
-
-    public function setError($error)
-    {
-        $this->error = $error;
-    }
-
     public function validatePost()
     {
         $debug = debug_backtrace();
@@ -83,7 +73,7 @@ class MControl
 
         return true;
     }
-
+  
     public function getPostObject()
     {
         return arrayToObject($_POST);

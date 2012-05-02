@@ -5,7 +5,6 @@ class MForm
 
     private $fields;
     private $id; //Form id will be used in control to rec in DB
-    private $cont;
     private $botoes;
     private $newButton;
     private $formLegend;
@@ -48,7 +47,6 @@ class MForm
         $this->setSubmit($urlTarget, $divTarget);
         $this->is_horizontal = $is_horizontal;
         $this->botoes = $botoes;
-        $this->cont = 0;
     }
 
     public function setControlName($controlName)
@@ -87,12 +85,15 @@ class MForm
         return $this->divTarget;
     }
 
-    /**
-     * @method addField
-     * Este metodo recebera um objInput
-     * O qual contera um tipo de campo
-     * Com suas propriedades     
-     */
+    public function setPost($objPost)
+    {
+        foreach($objPost as $key=>$value)
+        {
+            var_dump($key);
+        }                
+        die;
+    }
+
     public function addField($name, $label, MInput $objInput, $obligatory = false)
     {
         $objInput->setLabel($label);
@@ -107,8 +108,7 @@ class MForm
             $objInput->setId($name);
         }
 
-        $this->cont++;
-        $this->fields["field{$this->cont}"] = $objInput;
+        $this->fields[$name] = $objInput;
     }
 
     public function getFields()
