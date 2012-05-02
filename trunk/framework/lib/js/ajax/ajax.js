@@ -56,6 +56,15 @@ $(document).ready(function() {
 
 });
 
+function showContent(url, div)
+{
+    requestPage('ajax.php?class='+url, div,  null, null, 'post', true, false);
+}
+
+function listAction(url)
+{
+    requestPage('ajax.php?class='+url, null,  null, null, 'post', true, false);
+}
 
 function openPage(url)
 {
@@ -71,7 +80,7 @@ function openPage(url)
 
 function openLink(url)
 {
-    requestPage(url, '',  null, null, 'post', true, true);
+    requestPage('ajax.php?class='+url, '',  null, null, 'post', true, true);
 }
 
 function loadCombo(url)
@@ -138,7 +147,6 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
         success: function(data)
         {
             // Se nao foi definida a div
-            console.log(data,div);
             if (!div)
             {
                 $('html').append(data);//.trigger('create'); 
@@ -177,11 +185,10 @@ function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
             {
                 //showError(stringDefaultError);
                 alert(stringDefaultError);
-                console.log(erro.responseText);
+
             }
             else
             {
-                console.log(erro.responseText);
                 //showError(erro.responseText );
                 alert(erro.responseText );
             }

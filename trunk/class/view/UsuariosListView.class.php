@@ -31,8 +31,8 @@ class UsuariosListView extends MListView
         parent::addColumn('tipos_usuarios::descricao','varchar', 'Email','tipos_usuarios.id=usuarios.ref_tipo_usuario');
 
         // acoes da grid
-        parent::addAction('view', 'Ver', MGrid::VIEW);
-        parent::addAction('edit', 'Editar', MGrid::EDIT);
+        parent::addAction('view', 'Ver', MGrid::VIEW);          // js func     // parameter 
+        parent::addAction('edit', 'Editar', MGrid::EDIT, array('showContent'=>'conteudo'));
         parent::addAction('delete', 'Deletar', MGrid::DELETE);
 
     }

@@ -7,14 +7,7 @@ class MListView extends MList
 
     public function __construct()
     {
-        $listViewName = get_called_class();
-        
-        parent::__construct($listViewName);
-        
-        
-        $listControlName = str_replace('View', 'Control', $listViewName);
-        $formViewName = str_replace('List', 'Form', $formControlName);
-        $formControlName = str_replace('View', 'Control', $formViewName);
+        parent::__construct(get_called_class());
     }
 
     public function show()

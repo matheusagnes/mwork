@@ -9,6 +9,23 @@ class MList extends MGrid
     public function __construct($listId)
     {
         parent::__construct();
+
+        if(strpos($listId, 'Control') === true)
+        {
+            $listControlName = $listId;
+        }
+        else
+        {
+            $listControlName =  str_replace('View', 'Control', $listId);         
+        }
+
+        $listViewName = str_replace('Control', 'View', $listControlName);        
+        $formViewName = str_replace('List', 'Form', $listViewName);
+        $formControlName = str_replace('View', 'Control', $formViewName);
+        parent::setListControlName($listControlName);
+        parent::setListViewName($listViewName);       
+        parent::setFormControlName($formControlName);
+        parent::setFormViewName($formViewName);
    
         $this->listId = $listId;
         
@@ -22,15 +39,20 @@ class MList extends MGrid
     }
     
     public function getListView()
-    {
-        return $this->MCore->getList(str_replace('Control', 'View', $this->listId));
+    {   
+        $listView = $this->MCore->getList(str_replace('Control', 'View', $this->listId));
+        if(!$listView)
+        {
+            $viewName = str_replace('Control', 'View', $this->listId);
+            return new $viewName();        
+        }
+        return $listView;
     }    
-//    public function __destruct()
-//    {
-//        //$this->MCore->unsetSession($this->listId);
-//        //dbug($_SESSION);echo 'asd';
-//    }
-   
+
+    public function getFormView()
+    {
+        return $this->MCore->getForm(parent::getFormViewName());    
+    } 
 }
 
 ?>

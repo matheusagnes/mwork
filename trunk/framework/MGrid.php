@@ -6,7 +6,10 @@ class MGrid
     private $columns;
     private $actions;
     private $sqlColumns;
-    private $controlName;
+    private $listControlName;
+    private $listViewName;
+    private $formControlName;
+    private $formViewName;
     private $gridId;
     private $filter;
 
@@ -16,7 +19,7 @@ class MGrid
 
     public function __construct()
     {
-        
+
     }
 
     // Action seria passar a url para o request
@@ -39,18 +42,54 @@ class MGrid
         $this->columns[$column_table_name] = $objColumn;
     }
 
-    public function addAction($action, $title, $iconPath)
+    public function addAction($action, $title, $iconPath, $jsFunction = array('listAction'=>''))
     {
         $objAction->icon = $iconPath;
         $objAction->title = $title;
-        $objAction->action = $action;
+        $objAction->action = $action;       
+        $objAction->jsFunction = $jsFunction;
 
         $this->actions[] = $objAction;
     }
 
-    public function setControlName($controlName)
+    public function setListControlName($listControlName)
     {
-        $this->controlName = $controlName;
+        $this->listControlName = $listControlName;
+    }
+
+    public function getListControlName()
+    {
+        return $this->listControlName;
+    }
+
+    public function setListViewName($listViewName)
+    {
+        $this->listViewName = $listViewName;
+    }
+
+    public function getListViewName()
+    {
+        return $this->listViewName;
+    }
+
+    public function setFormViewName($formViewName)
+    {
+        $this->formViewName = $formViewName;
+    }
+
+    public function getFormViewName()
+    {
+        return $this->formViewName;
+    }
+    
+    public function setFormControlName($formControlName)
+    {
+        $this->formControlName = $formControlName;
+    }
+
+    public function getFormControlName()
+    {
+        return $this->formControlName;
     }
 
     public function setFilter($filter)
@@ -150,8 +189,18 @@ class MGrid
                 }
 
                 foreach ($this->actions as $objAction)
-                {
-                    $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$objAction->action}'/> </td>";
+                {   
+                    #FIXME saber a chave primaria de forma automatica da tabela principal
+                    $functionJs = key($objAction->jsFunction);                    
+                    $param = $objAction->jsFunction[$functionJs];
+                    if($param)
+                    {                        
+                        $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$functionJs}(\"{$this->listControlName}::{$objAction->action}({$object->id})\",\"{$param}\")'/> </td>";
+                    }
+                    else
+                    {
+                        $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$functionJs}(\"{$this->listControlName}::{$objAction->action}({$object->id})\")'/> </td>";
+                    }                        
                 }
 
                 $grid.= '</tr>';
