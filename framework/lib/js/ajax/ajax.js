@@ -28,7 +28,7 @@ var cache = {
 $(document).ready(function() {
 
     $(window).bind(	'hashchange',function(e) {
-        
+        console.log('a');
         var param_fragment = $.param.fragment();
         var url = (param_fragment) ? param_fragment : 'ajax.php?class=UsuariosFormView::show()';
 
@@ -41,7 +41,8 @@ $(document).ready(function() {
         } else {
 	
             if( url.substring(0, 1) == '!')
-            {
+            {   
+                
                 requestPage(url.substring(1,url.strlen), 'conteudo', null, null,'post', true,false);
             }
             else
@@ -58,7 +59,14 @@ $(document).ready(function() {
 
 function showContent(url, div)
 {
-    requestPage('ajax.php?class='+url, div,  null, null, 'post', true, false);
+    if(div == 'conteudo')
+    {
+        location.href = '#!ajax.php?class='+url;    
+    }    
+    else
+    {
+        requestPage('ajax.php?class='+url, div,  null, null, 'post', true, false);
+    }
 }
 
 function listAction(url)
