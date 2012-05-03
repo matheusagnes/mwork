@@ -115,7 +115,7 @@ class DB
         }
         else
         {
-            DB::update($obj, $table, $primaryKey);
+            return DB::update($obj, $table, $primaryKey);
         }
     }
     
@@ -172,9 +172,9 @@ class DB
 
         $sql = substr($sql, 0, -3);
         $sql.= "WHERE {$primaryKey} = {$obj->{$primaryKey}}";
-
+      
         if (DB::exec($sql))
-        {
+        {            
             return true;
         }
         else
@@ -182,12 +182,12 @@ class DB
             #FIXME retornar obj de erros com nome de erros do banco ?!?!
             return false;
         }
+        return true;
         
     }
 
     public static function delete($id,$table)
     {
-        
         $primaryKey = DB::getPrimaryKey($table);
         
         if(DB::exec("DELETE FROM {$table} WHERE {$primaryKey} = {$id}"))
@@ -210,13 +210,18 @@ class DB
         
         return $objects;
     }
-    
-    public static function getObject($sql)
+
+    public static function getObject($id, $table)
     {
-        $st = DB::query($sql);
-       
-        return $st->fetchObject();
+        $primaryKey = DB::getPrimaryKey($table);
+        $st = DB::query("SELECT * FROM {$table} where {$primaryKey} = {$id}");
+        $obj = $st->fetchObject();
+
+
+        return $obj;    
     }
+    
+   
 
 }
 
