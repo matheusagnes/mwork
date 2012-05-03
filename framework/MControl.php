@@ -29,6 +29,7 @@ class MControl
 
     public function save()
     {
+        sleep(1);
         if ($this->validatePost())
         {
             if (DB::rec($this->post, $this->getFormId()))

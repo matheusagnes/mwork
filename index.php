@@ -12,20 +12,9 @@ $mcore = new MCore();
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
-        <link href="lib/css/style.css" rel="stylesheet" type="text/css" />
-        
-        <link href="lib/css/jquery-ui.css" rel="stylesheet" type="text/css" />
-        <link href="lib/css/jquery.alerts.css" rel="stylesheet" type="text/css" />
-
-        <link href="lib/css/skin.css" rel="stylesheet" type="text/css" />
-        <link href="lib/css/default.css" rel="stylesheet" type="text/css" />
-        
+        <link href="framework/lib/css/jquery-ui.css" rel="stylesheet" type="text/css" />
         <link href="framework/lib/css/framework.css" rel="stylesheet" type="text/css" />
-        
-        <link href="framework/lib/js/ajax/ajax.css" rel="stylesheet" type="text/css" />
-        
-        <!--<link href="lib/FormMaker/lib/css/MForm.css" rel="stylesheet" type="text/css" />-->
-        
+        <link href="framework/lib/css/ajax.css" rel="stylesheet" type="text/css" />
         
         <script type="text/javascript" src="framework/lib/js/jquery.js"></script>
         <script type="text/javascript" src="framework/lib/js/jquery-ui.js"></script>
@@ -49,7 +38,7 @@ $mcore = new MCore();
                             
                             <div style='width:50px; float:right; cursor:pointer;'>
                                 <a   style='color:black;'onclick="requestPage('ajax.php?class=login::logout()','conteudo','GET','');">
-                                    <img title="Sair" src="lib/css/images/logout.png"/> 
+                                    <img title="Sair" src="framework/lib/css/images/logout.png"/> 
                                 </a> 
                             </div>
                             <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>

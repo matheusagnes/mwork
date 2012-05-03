@@ -1,5 +1,5 @@
 //Carregar imagens para nao precisar carregar no momento em que chama o ajax // testei isso com o debug - e funciona
-var path_carregando = 'imgs/loading.gif';
+var path_carregando = 'framework/imgs/loading.gif';
 imgLoad = new Image();
 imgLoad.src = path_carregando;
 
@@ -24,7 +24,7 @@ function openDialog(message, state, url, title, width, height)
     }else if(state == 'WARNING'){
         image_src = 'warning.png';
     }
-    message = (image_src) ? '<img class="img_message" src="imgs/'+image_src+'"/>'+message : message;
+    message = (image_src) ? '<img class="img_message" src="framework/imgs/'+image_src+'"/>'+message : message;
 
     // insere a div do dialog apenas a primeira vez que chama o openDialog
     if (!document.getElementById('ui-dialog'))
