@@ -114,7 +114,7 @@ class DB
             }
         }
         else
-        {
+        {   var_dump(DB::update($obj, $table, $primaryKey));
             return DB::update($obj, $table, $primaryKey);
         }
     }
@@ -172,18 +172,23 @@ class DB
 
         $sql = substr($sql, 0, -3);
         $sql.= "WHERE {$primaryKey} = {$obj->{$primaryKey}}";
-      
-        if (DB::exec($sql))
-        {            
-            return true;
+        try
+        {        
+            if (DB::exec($sql) != 0)
+            {            
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch( Exception $e )
         {
-            #FIXME retornar obj de erros com nome de erros do banco ?!?!
+            new Message($e->getMessage(), Message::ERROR, Message::DIALOG );
             return false;
         }
-        return true;
-        
+       
     }
 
     public static function delete($id,$table)
