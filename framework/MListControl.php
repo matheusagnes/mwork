@@ -34,9 +34,9 @@ class MListControl extends MList
     public function edit($id)
     {
         // passar por parametro para o mformview os values
-        $objs = DB::getObjects("SELECT * FROM {$this->table} WHERE id = {$id}");
-       
+        $obj = DB::getObject($id,$this->table);       
         $formView = parent::getFormView();
+        $formView->setPost($obj);
         $formView->show();                    
     }
 

@@ -71,7 +71,7 @@ class MCombo extends MInput
                 foreach ($this->items as $key => $item)
                 {
                     $text = '';                    
-                    if ($this->selected && $this->selected == $key)
+                    if ($this->selected && $this->selected == $key || $this->value && $this->value == $key)
                     {                        
                         $text = "selected = 'selected' ";
                     }

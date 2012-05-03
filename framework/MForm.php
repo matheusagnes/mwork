@@ -86,12 +86,26 @@ class MForm
     }
 
     public function setPost($objPost)
-    {
-        foreach($objPost as $key=>$value)
+    {   
+        $primaryKey = DB::getPrimaryKey($this->id);
+        foreach (get_object_vars($objPost) as $key => $value)
         {
-            var_dump($key);
-        }                
-        die;
+            if($this->fields[$key])
+            {
+                $this->fields[$key]->setValue($value);
+            }
+            else
+            {
+                if($key == $primaryKey)
+                {   
+                    $objInput = new MText($value,$key, $key,true);
+                    $objInput->setDisabled(true);
+                    $objInput->setLabel('Id');
+                    $objInput->setObligatory(true);
+                    array_unshift($this->fields, $objInput);
+                }         
+            }
+        }                            
     }
 
     public function addField($name, $label, MInput $objInput, $obligatory = false)
