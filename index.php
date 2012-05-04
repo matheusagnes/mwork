@@ -38,7 +38,7 @@ $mcore = new MCore();
                             
                             <div style='width:50px; float:right; cursor:pointer;'>
                                 <a   style='color:black;'onclick="requestPage('ajax.php?class=login::logout()','conteudo','GET','');">
-                                    <img title="Sair" src="framework/lib/css/images/logout.png"/> 
+                                    <img title="Sair" src="framework/images/logout.png"/> 
                                 </a> 
                             </div>
                             <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>

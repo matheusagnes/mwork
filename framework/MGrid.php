@@ -13,9 +13,9 @@ class MGrid
     private $gridId;
     private $filter;
 
-    const EDIT = 'framework/lib/images/edit.png';
-    const DELETE = 'framework/lib/images/delete.png';
-    const VIEW = 'framework/lib/images/view.png';
+    const EDIT = 'framework/images/edit.png';
+    const DELETE = 'framework/images/delete.png';
+    const VIEW = 'framework/images/view.png';
 
     public function __construct()
     {
