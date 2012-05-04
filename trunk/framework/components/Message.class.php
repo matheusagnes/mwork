@@ -32,7 +32,7 @@ class Message
         echo '<script>';
         if ($this->type == self::HIGHLIGHT)
         {
-            echo 'showHighiLight("'.addslashes($this->message).'", "'.$this->state.'");';
+            echo 'showHighLight("'.addslashes($this->message).'", "'.$this->state.'");';
         }
         elseif($this->type == self::DIALOG)
         {

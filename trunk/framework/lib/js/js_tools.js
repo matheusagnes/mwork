@@ -1,5 +1,5 @@
 
-function showHighiLight(message, state)
+function showHighLight(message, state)
 {
 
     var image_src = '';
@@ -17,7 +17,7 @@ function showHighiLight(message, state)
         image_src = 'warning.png';
         classMessage = 'warning_message';
     }
-    message = (image_src) ? '<img class="img_message" src="imgs/'+image_src+'"/><label>'+message+'</label>' : '<label>'+message+'</label>';
+    message = (image_src) ? '<img class="img_message" src="framework/imgs/'+image_src+'"/><label>'+message+'</label>' : '<label>'+message+'</label>';
 
     // add message to highlight_messages class
     //var message_obj = $('<div class="message '+classMessage+'">'+message+'</div>');
