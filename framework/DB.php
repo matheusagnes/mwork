@@ -114,7 +114,7 @@ class DB
             }
         }
         else
-        {   var_dump(DB::update($obj, $table, $primaryKey));
+        {                   
             return DB::update($obj, $table, $primaryKey);
         }
     }
@@ -167,14 +167,15 @@ class DB
         foreach (get_object_vars($obj) as $key => $value)
         {
             if($key != $primaryKey)
-            $sql.= " {$key} = '{$value}' AND";
+            $sql.= " {$key} = '{$value}' ,";
         }
 
-        $sql = substr($sql, 0, -3);
+        $sql = substr($sql, 0, -1);
         $sql.= "WHERE {$primaryKey} = {$obj->{$primaryKey}}";
+        
         try
-        {        
-            if (DB::exec($sql) != 0)
+        {       
+            if (DB::exec($sql) >= 0)
             {            
                 return true;
             }
