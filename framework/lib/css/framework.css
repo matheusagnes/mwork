@@ -506,3 +506,13 @@ select[multiple] {
 	cursor:pointer;
 	border: 0px;
 }
+
+/* List */
+.list
+{
+	width:500px;
+	margin:auto;
+}
+
+
+

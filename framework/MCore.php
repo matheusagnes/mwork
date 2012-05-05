@@ -56,8 +56,8 @@ class MCore
         require_once dirname( __FILE__ ).'/lib/php/tools.php';
         require_once dirname( __FILE__ ).'/DB.php';
 
-        $this->projectName = $this->configs['project_name'];
-        $this->siteName = $this->configs['site_name'];
+        $this->projectName = self::$configs['project_name'];
+        $this->siteName = self::$configs['site_name'];
         session_start();
     }
 
