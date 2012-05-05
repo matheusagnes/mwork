@@ -168,7 +168,8 @@ class MGrid
         //fazer paginação, tenho a classe no mwork/lib
         //$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
         $objects = DB::getObjects($this->getSql());
-        $grid = '<div id ="' . $this->gridId . '"> <table> <thead>';
+        $grid = '<div class="list">';
+        $grid .= '<div id ="' . $this->gridId . '"> <table> <thead>';
 
         if ($objects)
         {
