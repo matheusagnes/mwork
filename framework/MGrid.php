@@ -191,7 +191,7 @@ class MGrid
 
                 foreach ($this->actions as $objAction)
                 {   
-                    #FIXME saber a chave primaria de forma automatica da tabela principal
+                    
                     $functionJs = key($objAction->jsFunction);                    
                     $param = $objAction->jsFunction[$functionJs];
                     if($param)
