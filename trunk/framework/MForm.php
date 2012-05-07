@@ -5,7 +5,7 @@ class MForm
 
     private $fields;
     private $id; //Form id will be used in control to rec in DB
-    private $botoes;
+    private $buttons;
     private $newButton;
     private $formLegend;
     private $is_horizontal;
@@ -46,7 +46,6 @@ class MForm
 
         $this->setSubmit($urlTarget, $divTarget);
         $this->is_horizontal = $is_horizontal;
-        $this->botoes = $botoes;
     }
 
     public function setControlName($controlName)
@@ -130,14 +129,10 @@ class MForm
         return $this->fields;
     }
 
-    public function getButton()
+    public function addButton($nome = 'Salvar', $action = null, $type = 'submit')
     {
-        return $this->newButton;
-    }
 
-    public function addButton($nome = 'Salvar', $type = 'submit', $action = null)
-    {
-        $this->newButton = " <input class='bt' type='{$type}'  name='{$nome}' value='{$nome}' {$action} /> ";
+        $this->buttons[] = " <input type='{$type}'  name='{$nome}' value='{$nome}' {$action} /> ";
     }
 
     public function show()
@@ -169,9 +164,22 @@ class MForm
             }
             $htmlForm.='</fieldset>';
 
+
+            if($this->buttons)
+            {
+
+                foreach($this->buttons as $button)
+                {
+                    $buttons .=$button;                
+                }        
+            }
+
+            if(!$buttons)
+                $buttons = '<input type="submit" value="Salvar">';
+
             $htmlForm.= '<fieldset class="tblFooters">' .
                     '<div class="highlight_messages"></div>' .
-                    '<input type="submit" value="Salvar">' .
+                    $buttons .
                     '</fieldset>' .
                     '</form>';
         }
