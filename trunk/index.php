@@ -31,6 +31,7 @@ $mcore = new MCore();
 
         <div id="container">
 
+            <?php if($mcore->getSession('loged')){  ?>    
             <div class="cabecalho">
                 <div class="fundo" >
                     <div class='topnav' id='topnav'>
@@ -60,14 +61,14 @@ $mcore = new MCore();
                     </div>
                 </div>
             </div>
-
+            <?php }  ?>    
             <!--<div style="height: 1px; border-top:1px solid white;"></div>-->
 
 
             <div id="sub-conteiner">
 
                 <div id="conteudo" class="conteudo" >
-                     
+                     <?php if(!$mcore->getSession('loged')){    $login = new LoginFormControl(); $login->show(); } ?>    
                 </div>
             </div>
 

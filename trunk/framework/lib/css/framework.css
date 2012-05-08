@@ -516,5 +516,12 @@ select[multiple] {
 	background-color:white;
 }
 
+.menu_vertical
+{
+    float:right;    
+    margin-top:-290px;
+    
+}
+
 
 
