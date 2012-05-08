@@ -88,7 +88,7 @@ class MCore
         }
     }
 
-    public function destroySession()
+    public function sessionDestroy()
     {
         session_destroy();
     }
