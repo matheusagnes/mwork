@@ -3,6 +3,7 @@ session_start();
 include_once 'framework/MCore.php';
 
 $mcore = new MCore();
+$mcore = $mcore->getInstance();
 
 ?>
 
@@ -38,7 +39,7 @@ $mcore = new MCore();
                         <div>
                             
                             <div style='width:50px; float:right; cursor:pointer;'>
-                                <a   style='color:black;'onclick="requestPage('ajax.php?class=login::logout()','conteudo','GET','');">
+                                <a   style='color:black;'onclick="requestPage('ajax.php?class=LoginFormControl::logout()','conteudo','GET','');">
                                     <img title="Sair" src="framework/images/logout.png"/> 
                                 </a> 
                             </div>
@@ -68,7 +69,13 @@ $mcore = new MCore();
             <div id="sub-conteiner">
 
                 <div id="conteudo" class="conteudo" >
-                     <?php if(!$mcore->getSession('loged')){    $login = new LoginFormControl(); $login->show(); } ?>    
+                     <?php 
+                        
+                        if(!$mcore->getSession('loged'))
+                        {
+                            $login = new LoginFormControl(); $login->show(); 
+                        }                        
+                     ?>    
                 </div>
             </div>
 
