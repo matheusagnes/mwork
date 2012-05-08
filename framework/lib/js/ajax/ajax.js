@@ -30,7 +30,7 @@ $(document).ready(function() {
     $(window).bind(	'hashchange',function(e) {
         console.log('a');
         var param_fragment = $.param.fragment();
-        var url = (param_fragment) ? param_fragment : 'ajax.php?class=UsuariosFormView::show()';
+        var url = (param_fragment) ? param_fragment : 'ajax.php?class=LoginFormControl::show()';
 
         // if the url cache exists
         if (cache[url]) {

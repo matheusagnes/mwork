@@ -129,10 +129,20 @@ class MForm
         return $this->fields;
     }
 
-    public function addButton($nome = 'Salvar', $action = null, $type = 'submit')
-    {
+    public function addButton($nome = 'Salvar', $js_function = null, $params = null, $type = 'submit')
+    {        
 
-        $this->buttons[] = " <input type='{$type}'  name='{$nome}' value='{$nome}' {$action} /> ";
+        if($js_function) 
+        {           
+            if($params)
+            {
+               $params = implode(',' ,$params);       
+            }        
+        
+            $js_function.="($params);";
+        }
+                
+        $this->buttons[] = " <input type='{$type}'  name='{$nome}' value='{$nome}' {$js_function} /> ";
     }
 
     public function show()
