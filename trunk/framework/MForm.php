@@ -6,7 +6,6 @@ class MForm
     private $fields;
     private $id; //Form id will be used in control to rec in DB
     private $buttons;
-    private $newButton;
     private $formLegend;
     private $is_horizontal;
     private $urlTarget;
@@ -22,7 +21,7 @@ class MForm
     {
         // get mcore instance
         $this->MCore = MCore::getInstance();
-
+        
         $this->setId($id);
         $this->setFormLegend($legend);
         $this->setControlName($controlName);
@@ -47,7 +46,7 @@ class MForm
         $this->setSubmit($urlTarget, $divTarget);
         $this->is_horizontal = $is_horizontal;
     }
-
+      
     public function setControlName($controlName)
     {
         $this->controlName = $controlName;

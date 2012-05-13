@@ -12,7 +12,8 @@ class MGrid
     private $formViewName;
     private $gridId;
     private $filter;
-
+    protected $model;
+            
     const EDIT = 'framework/images/edit.png';
     const DELETE = 'framework/images/delete.png';
     const VIEW = 'framework/images/view.png';
@@ -68,6 +69,11 @@ class MGrid
         $this->actions[] = $objAction;
     }
 
+    public function setModel($model)
+    {
+        $this->model = $model;
+    }
+    
     public function setListControlName($listControlName)
     {
         $this->listControlName = $listControlName;
@@ -183,6 +189,13 @@ class MGrid
         //pegar a tabela de forma automatica
         //fazer paginação, tenho a classe no mwork/lib
         //$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
+        if(!$this->actions)
+        {
+            $this->addAction('Ver', MGrid::VIEW, 'view');          // js func     // parameter 
+            $this->addAction('Editar', MGrid::EDIT, 'edit',array($this->model->getPrimaryKey()),'showContent',array('conteudo'));
+            $this->addAction('Deletar', MGrid::DELETE,'delete');
+        }
+        
         $objects = DB::getObjects($this->getSql());
         $grid = '<div class="list">';
         $grid .= '<div id ="' . $this->gridId . '"> <table> <thead>';
