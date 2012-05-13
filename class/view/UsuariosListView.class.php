@@ -15,7 +15,6 @@ class UsuariosListView extends MListView
             $ref_tipo_usuarios->addItem($obj->id, $obj->descricao);
         }
 
-        //public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null, $divTarget = '', $controlName = '')   
         $buscaForm = new MForm('usuarios_busca_form', 'Buscar Usuários', true, 'UsuariosListControl::search()', 'usuarios_list_grid');
         $buscaForm->addButton('Buscar');
         $buscaForm->addField('usuarios::nome', 'Nome', new MText(), true);
@@ -36,11 +35,6 @@ class UsuariosListView extends MListView
         parent::addColumn('usuarios::nome', 'varchar', 'Nome');
         parent::addColumn('usuarios::email', 'varchar', 'Email');
         parent::addColumn('tipos_usuarios::descricao', 'varchar', 'Tipo Usuário', 'tipos_usuarios.id=usuarios.ref_tipo_usuario');
-
-        // acoes da grid
-        parent::addAction('Ver', MGrid::VIEW, 'view');          // js func     // parameter 
-        parent::addAction('Editar', MGrid::EDIT, 'edit',array('id'),'showContent',array('conteudo'));
-        parent::addAction('Deletar', MGrid::DELETE,'delete');
     }
 
 }

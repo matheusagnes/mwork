@@ -2,32 +2,131 @@
 
 class Model
 {
-	public function rec($obj, $table, $primaryKey = 'id')
-	{
-		if(!$obj->{$primaryKey})
-		{			
-			// utilizar get_object_vars no obj para pegar o nome das colunas no foreach e ir concatenando com '', e tal..
-			DB::exec();
-		}
-		else
-		{
-			$this->update($obj);
-		}
-	}
 
-	public function update()
-	{
-		
-	}
+    private $primary_key;
+    private $table;
+
+    public function __construct($primary_key, $table)
+    {
+        $this->primary_key = $primary_key;
+        $this->table = $table;
+    }
+
+    public function getPrimaryKey()
+    {
+        return $this->primary_key;
+    }
     
-    public function delete()
+    public function getTable()
     {
-
-    }    
-
-    public function get()
+        return $this->table;
+    }
+    
+    public function setPrimaryKey($primary_key)
     {
+        $this->primary_key = $primary_key;
+    }
 
+    public function setTable($table)
+    {
+        $this->table = $table;
+    }
+
+    public function rec($obj)
+    {
+        if (!isset($obj->{$this->primary_key}))
+        {
+            $sql = 'INSERT INTO ' . $this->table;
+            $sql_fields = ' (';
+            $sql_values = ' VALUES (';
+
+            foreach (get_object_vars($obj) as $key => $value)
+            {
+                $sql_fields.= "{$key},";
+                $sql_values.= "'{$value}',";
+            }
+
+            $sql_fields = substr($sql_fields, 0, -1);
+            $sql_values = substr($sql_values, 0, -1);
+
+            $sql_fields.=')';
+            $sql_values.=')';
+
+            if (DB::exec($sql . $sql_fields . $sql_values))
+            {
+                return true;
+            }
+            else
+            {
+                #FIXME retornar obj de erros com nome de erros do banco ?!?!
+                return false;
+            }
+        }
+        else
+        {
+            return DB::update($obj, $this->table, $this->primary_key);
+        }
+    }
+
+    public function update($obj)
+    {
+        $sql = 'UPDATE ' . $this->table . ' SET';
+
+        foreach (get_object_vars($obj) as $key => $value)
+        {
+            if ($key != $primaryKey)
+                $sql.= " {$key} = '{$value}' ,";
+        }
+
+        $sql = substr($sql, 0, -1);
+        $sql.= "WHERE {$this->primary_key} = {$obj->{$primaryKey}}";
+
+        try
+        {
+            if (DB::exec($sql) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (Exception $e)
+        {
+            new Message($e->getMessage(), Message::ERROR, Message::DIALOG);
+            return false;
+        }
+    }
+
+    public function delete($id)
+    {
+        if (DB::exec("DELETE FROM {$this->table} WHERE {$this->primary_key} = {$id}"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function getObjects($sql)
+    {
+        $st = DB::query($sql);
+        while ($obj = $st->fetchObject())
+        {
+            $objects[] = $obj;
+        }
+
+        return $objects;
+    }
+
+    public function getObject($id)
+    {
+        $st = DB::query("SELECT * FROM {$this->table} where {$this->primary_key} = {$id}");
+        $obj = $st->fetchObject();
+        return $obj;
     }
 
 }

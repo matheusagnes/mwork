@@ -2,15 +2,10 @@
 
 class MControl
 {
-
-    private $sessionFormName;
     private $MCore = null;
-    private $aObligatories;
     private $post;
-    private $error;
     private $view;
-
-    #FIXME como pegar a view ? de uma forma facil para checar automaticamente os campos
+    protected $model;
 
     public function __construct()
     {
@@ -20,6 +15,14 @@ class MControl
         $controlName = get_called_class();
         $viewName = str_replace('Control', 'View', $controlName);
         $this->setView($viewName);
+        
+        if(!$this->model)
+            $this->setModel(str_replace('FormControl','',$controlName));  
+    }
+    
+    public function setModel($model)
+    {
+        $this->model = $this->MCore->getModel($model);
     }
 
     public function getFormId()
@@ -31,14 +34,14 @@ class MControl
     {        
         if ($this->validatePost())
         {
-            if (DB::rec($this->post, $this->getFormId()))
+            if ($this->model->rec($this->post))
             {
                 new Message('Dados gravados com sucesso!');
                 return;
             }
             else
             {
-                new Message('erro ao inserir os dados', Message::ERROR);
+                new Message('Erro ao inserir os dados', Message::ERROR);
                 return;
             }
         }

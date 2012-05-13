@@ -2,22 +2,19 @@
 
 class MListControl extends MList
 {
-
     private $postFilters;
-    private $listView;
-    private $table;
+    private $listView;    
+    private $MCore;
     
     public function __construct()
     {   
         parent::__construct(get_called_class());
-
+        $this->MCore = MCore::getInstance();
         $this->listView = parent::getListView();
         $this->postFilters = $this->getFiltersFromPost();       
-
         
-        $this->setTable(glue_upper(str_replace('ListControl','',parent::getListControlName()),'_'));    
+        
     }
-    
     
     public function getFiltersFromPost()
     {        
@@ -34,15 +31,15 @@ class MListControl extends MList
     public function edit($id)
     {
         // passar por parametro para o mformview os values
-        $obj = DB::getObject($id,$this->table);       
-        $formView = parent::getFormView();
-        $formView->setPost($obj);
+        $obj = $this->model->getObject($id);       
+        $formView = parent::getFormView(array($id));
+        $formView->setPost($obj);        
         $formView->show();                    
     }
 
     public function delete($id)
     {
-        if(DB::delete($id, $this->table))
+        if($this->model->delete($id))
         {
             new Message('Deletado com Sucesso', Message::SUCCESS, Message::DIALOG);
             return true;
@@ -54,10 +51,7 @@ class MListControl extends MList
         }            
     }
 
-    public function setTable($table)
-    {
-        $this->table = $table;
-    }
+    
 
     public function show()
     {

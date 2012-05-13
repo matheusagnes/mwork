@@ -6,7 +6,7 @@ class MCore
     private $projectName;
     private $siteName;
     private static $instance;
-    private static $configs;
+    private static $configs;  
     //private $mLists;
 
     public function __construct($new = true)
@@ -17,7 +17,6 @@ class MCore
             $this->init();
         }
     }
-    
     public function setList($list)
     {   
         $this->setSession($list->getListId(), $list);
@@ -30,9 +29,16 @@ class MCore
         //return $this->mLists[$listId];
     }
     
-    public function getForm($formName)
+    public function getForm($formName, $params = null)
     {
-        return new $formName();
+        return new $formName($params);
+    }
+    
+    public function getModel($model)
+    {
+        if(class_exists($model))
+            return new $model();
+        else return null;
     }
 
     public static function getInstance()
@@ -48,6 +54,14 @@ class MCore
     {
         return self::$configs;
     }
+    
+    public function isLoged()
+    {
+        if($this->getSession('loged'))        
+            return true;
+        
+        return false;
+    }
 
     public function init()
     {
@@ -55,6 +69,7 @@ class MCore
         self::$configs = require_once dirname( __FILE__ ).'/configs.php';
         require_once dirname( __FILE__ ).'/lib/php/tools.php';
         require_once dirname( __FILE__ ).'/DB.php';
+        require_once dirname( __FILE__ ).'/Model.php';
 
         $this->projectName = self::$configs['project_name'];
         $this->siteName = self::$configs['site_name'];
@@ -97,21 +112,15 @@ class MCore
     {
         unset($_SESSION[$this->projectName][$position]);
     }
-    
     /*
      * Passes on any static calls to this class onto the singleton PDO instance 
      * @param $chrMethod, $arrArguments 
      * @return $mix 
      */
-
     final public static function __callStatic($chrMethod, $arrArguments)
     {
-
         $objInstance = self::getInstance();
-
         return call_user_func_array(array($objInstance, $chrMethod), $arrArguments);
     }
-
 }
-
 ?>
