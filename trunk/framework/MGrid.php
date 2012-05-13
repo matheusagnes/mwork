@@ -41,13 +41,29 @@ class MGrid
 
         $this->columns[$column_table_name] = $objColumn;
     }
-
-    public function addAction($action, $title, $iconPath, $jsFunction = array('listAction'=>''))
+    
+    /*
+     * $title = 'deletar';
+     * $iconPath = icones padroes ou o caminho
+     * $action = UsuariosListControl::delete
+     * $param = array(id) -> chave primaria da tabela
+     * $jsFunction = listAction
+     * $jsParam = array('conteudo')
+     */
+                    
+    public function addAction($title, $iconPath, $action, $params = array('id'), $jsFunction = 'listAction', $jsParams = null)
     {
+        if(!preg_match('/::/',$action))
+        {
+            $action = $this->getListControlName().'::'.$action;
+        }
+        
         $objAction->icon = $iconPath;
         $objAction->title = $title;
         $objAction->action = $action;       
+        $objAction->params = $params;       
         $objAction->jsFunction = $jsFunction;
+        $objAction->jsParams = $jsParams;
 
         $this->actions[] = $objAction;
     }
@@ -190,18 +206,48 @@ class MGrid
                 }
 
                 foreach ($this->actions as $objAction)
-                {   
-                    
-                    $functionJs = key($objAction->jsFunction);                    
-                    $param = $objAction->jsFunction[$functionJs];
-                    if($param)
-                    {                        
-                        $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$functionJs}(\"{$this->listControlName}::{$objAction->action}({$object->id})\",\"{$param}\")'/> </td>";
+                {
+                    $params = null;
+                    if($objAction->params)
+                    {
+                        foreach($objAction->params as $actionParam)
+                        {
+                            if($object->{$actionParam})
+                            {
+                                $params.= $object->{$actionParam}.',';  
+                            }
+                            else
+                            {
+                                $params.= $actionParam.',';
+                            }
+                        }
+                        $params = substr($params, 0, -1);
+                        $params = '('.$params.')';                        
                     }
                     else
                     {
-                        $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = '{$functionJs}(\"{$this->listControlName}::{$objAction->action}({$object->id})\")'/> </td>";
-                    }                        
+                        $params ='()';
+                    }
+                    
+                    $objAction->action = $objAction->action.$params;
+                    
+                    if($objAction->jsParams)
+                    {
+                        $jsParams = null;
+                        $jsParams = "'{$objAction->action}',";
+                        
+                        foreach ($objAction->jsParams as $actionJsParam)
+                        {
+                            $jsParams .= "'{$actionJsParam}',";
+                        }
+                        $jsParams = substr($jsParams, 0, -1);
+                    }
+                    else
+                    {                        
+                        $jsParams = "('{$objAction->action}')";
+                    }                                        
+                    
+                    $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = \"{$objAction->jsFunction}({$jsParams})\"/> </td>";
                 }
 
                 $grid.= '</tr>';
