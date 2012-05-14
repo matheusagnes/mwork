@@ -3,7 +3,7 @@
 class MControl
 {
     private $MCore = null;
-    private $post;
+    protected $post;
     private $view;
     protected $model;
 
