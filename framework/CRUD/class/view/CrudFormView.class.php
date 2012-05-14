@@ -7,7 +7,7 @@ class CrudFormView extends MForm
     {
         parent::__construct('crud', 'Geração automática de código', true);
         
-        $tables = DB::getObjects("show tables from deliverys_no_vale");
+        $tables = DB::getObjects("show tables");
         
         foreach($tables as $table)
         {
