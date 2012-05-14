@@ -1,0 +1,19 @@
+<?php
+
+class $className extends MForm
+{
+    public function __construct($params = null)
+    {
+        parent::__construct('$table', 'Cadastro', false);
+
+        if($params)
+        {
+            parent::addField('$primary_key', '$primary_key', new MHiden(), true);    
+        }
+        #--                       
+        parent::addField('$column_name', '$label', new $fieldType(), true);
+        #--  
+    }
+}
+
+?>
