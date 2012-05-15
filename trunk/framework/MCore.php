@@ -66,7 +66,7 @@ class MCore
     public function init()
     {
         require_once dirname( __FILE__ ).'/include.php';
-        self::$configs = require_once dirname( __FILE__ ).'/configs.php';
+        self::$configs = require_once dirname( __FILE__ ).'/../configs.php';
         require_once dirname( __FILE__ ).'/lib/php/tools.php';
         require_once dirname( __FILE__ ).'/DB.php';
         require_once dirname( __FILE__ ).'/Model.php';

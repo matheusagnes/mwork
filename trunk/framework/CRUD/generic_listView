@@ -12,8 +12,7 @@ class $classNameListView extends MListView
         #--form
         $buscaForm->addField('$table::$column_name::$operator', '$label', new $fieldType(), true);
         #--form
-        parent::setForm($buscaForm);                
-
+                       
         #--grid
         parent::addColumn('$table::$column_name', '$label');
         #--grid
@@ -22,6 +21,7 @@ class $classNameListView extends MListView
         $menu->addLink('Cadastrar', '#ajax.php?class=$classNameFormControl::show()');
         $menu->addLink('Gerenciar', '#ajax.php?class=$classNameListControl::show()');
         
+        parent::setForm($buscaForm); 
         parent::setMenu($menu);
         
     }
