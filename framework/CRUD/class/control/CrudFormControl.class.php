@@ -59,7 +59,7 @@ class CrudFormControl extends MControl
             #--
             
             #Gera ListView
-            $listViewFile = file_get_contents(dirname(__FILE__).'/../../generic_formView');
+            $listViewFile = file_get_contents(dirname(__FILE__).'/../../generic_listView');
             $listViewFile = str_replace('$className', $className, $listViewFile);
             $listViewFile = str_replace('$table', $table, $listViewFile);
             
@@ -68,15 +68,28 @@ class CrudFormControl extends MControl
             $listViewFileForm = explode('#--form', $listViewFile);   
             $listViewFileGrid = explode('#--grid', $listViewFile);   
          
-            $searchForm = array('$column_name','$type','$label','$fieldType');            
+            $searchForm = array('$column_name','$label','$fieldType');            
+            $searchGrid = array('$column_name','$label','$operator');            
     
             foreach($objColumns as $objColumn)
             {
-                $replaceForm = array($objColumn->Field, , $objColumn->Field, MText);
+                $columnType = preg_replace('~\(.*~', '', $objColumn->Type);
+                if($columnType == 'int')
+                {
+                    $replaceGrid = array($objColumn->Field,  $objColumn->Field, '=');
+                }
+                else
+                {
+                    $replaceGrid = array($objColumn->Field,  $objColumn->Field, 'like');
+                }
                 
-                $listViewFileForm[1].= str_replace($search, $replace, $listViewFile[1]);
+                $replaceForm = array($objColumn->Field,  $objColumn->Field, MText);
+                
+                
+                $newListViewFileForm.= str_replace($searchForm, $replaceForm, $listViewFileForm[1]);
+                $newListViewFileGrid.= str_replace($searchGrid, $replaceGrid, $listViewFileGrid[1]);
             }
-            file_put_contents(dirname(__FILE__).'/../../new_class/view/'.$className.'ListView.class.php', $listViewFile[0].$formViewFile[2]);
+            file_put_contents(dirname(__FILE__).'/../../new_class/view/'.$className.'ListView.class.php', $listViewFileForm[0].$newListViewFileForm.$newListViewFileGrid.$listViewFileGrid[2]);
             #---        
 
         }
