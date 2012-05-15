@@ -68,23 +68,23 @@ class CrudFormControl extends MControl
             $listViewFileForm = explode('#--form', $listViewFile);   
             $listViewFileGrid = explode('#--grid', $listViewFile);   
          
-            $searchForm = array('$column_name','$label','$fieldType');            
-            $searchGrid = array('$column_name','$label','$operator');            
+            $searchForm = array('$column_name','$label','$fieldType','$operator');            
+            $searchGrid = array('$column_name','$label');            
     
             foreach($objColumns as $objColumn)
             {
                 $columnType = preg_replace('~\(.*~', '', $objColumn->Type);
                 if($columnType == 'int')
                 {
-                    $replaceGrid = array($objColumn->Field,  $objColumn->Field, '=');
+                    $replaceForm = array($objColumn->Field,  $objColumn->Field, 'MText', '=');
                 }
                 else
                 {
-                    $replaceGrid = array($objColumn->Field,  $objColumn->Field, 'like');
+                    $replaceForm = array($objColumn->Field,  $objColumn->Field, 'MText', 'like');
                 }
                 
-                $replaceForm = array($objColumn->Field,  $objColumn->Field, MText);
-                
+
+                $replaceGrid = array($objColumn->Field,  $objColumn->Field);                
                 
                 $newListViewFileForm.= str_replace($searchForm, $replaceForm, $listViewFileForm[1]);
                 $newListViewFileGrid.= str_replace($searchGrid, $replaceGrid, $listViewFileGrid[1]);

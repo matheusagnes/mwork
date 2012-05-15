@@ -24,7 +24,7 @@ class MGrid
     }
 
     // Action seria passar a url para o request
-    public function addColumn($column_table_name, $label, $operator = null, $relation = null, $mask = null)
+    public function addColumn($column_table_name, $label, $relation = null, $function = null)
     {
         if (!$this->sqlColumns)
         {
@@ -37,7 +37,6 @@ class MGrid
 
         $objColumn->label = $label;
         $objColumn->mask = $mask;
-        $objColumn->operator = $operator;
         $objColumn->relation = $relation;
 
         $this->columns[$column_table_name] = $objColumn;
@@ -127,6 +126,11 @@ class MGrid
 	// #FIXME Colocar o getSql no class DB, passando por parametro $this->filter, $this->columns
     public function getSql()
     {
+        $operators['='] = '=';
+        $operators['like'] = 'like';
+        $operators['>='] = '>=';
+        $operators['<='] = '<=';
+
         $select = 'SELECT ';
         foreach ($this->columns as $key => $value)
         {
@@ -147,16 +151,18 @@ class MGrid
             {
                 if ($filter)
                 {
-                    $key_filter = str_replace('::', '.', $key_filter);
-                    if($this->columns[$key_filter]->operator)
+		            $key_filter = explode('::', $key_filter);
+		            $operator = $key_filter[2];
+		            $key_filter = $key_filter[0].'.'.$key_filter[1];				
+                    if($operator)
                     {
-                        if ($this->columns[$key_filter]->operator == 'like')
+                        if ($operator == 'like')
                         {
                             $where.= " {$key_filter} like '%{$filter}%' AND";
                         }
-                        else
-                        {
-                            $where.= " {$key_filter} {$this->columns[$key_filter]->operator} '{$filter}' AND";
+                        elseif($operators[$operator])
+                        {   
+                            $where.= " {$key_filter} {$operators[$operator]} '{$filter}' AND";
                         }
                     }
                     else
@@ -196,13 +202,14 @@ class MGrid
         
         $objects = DB::getObjects($this->getSql());
         $grid = '<div class="list">';
-        $grid .= '<div id ="' . $this->gridId . '"> <table> <thead>';
+        $grid .= '<div id ="' . $this->gridId . '"> <table width="100%">';
 
         if ($objects)
         {
+            $grid.='<thead>';
             foreach ($this->columns as $column)
             {
-                $grid.="<td> {$column->label} </td>";
+                $grid.="<td align='center'> {$column->label} </td>";
             }
             $grid.='</thead> <tbody>';
 
@@ -213,7 +220,7 @@ class MGrid
                 foreach ($this->columns as $key => $value)
                 {
                     $key = explode('::', $key);
-                    $grid.='<td>' . $object->{$key[1]} . '</td>';
+                    $grid.='<td align="center">' . $object->{$key[1]} . '</td>';
                 }
 
                 foreach ($this->actions as $objAction)
@@ -258,7 +265,7 @@ class MGrid
                         $jsParams = "('{$objAction->action}')";
                     }                                        
                     
-                    $grid.="<td> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = \"{$objAction->jsFunction}({$jsParams})\"/> </td>";
+                    $grid.="<td align='center'> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = \"{$objAction->jsFunction}({$jsParams})\"/> </td>";
                 }
 
                 $grid.= '</tr>';
