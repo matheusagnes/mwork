@@ -1,7 +1,7 @@
 body {
 
     font-family: Verdana,Arial,sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     margin: 0px;
     padding: 0px;
 }
@@ -101,7 +101,7 @@ a {
     width: 100%;
     margin-top: 10px;
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
 }
 .paginacao table {
@@ -240,6 +240,7 @@ input[type=submit]{
     background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
     background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
     background: -o-linear-gradient(top,  #ffffff,  #cccccc);
+    font-size:11px;
     }
 
 input[type=submit]:hover{	position: relative;
@@ -249,6 +250,7 @@ input[type=submit]:hover{	position: relative;
     background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
     background: -o-linear-gradient(top,  #cccccc,  #dddddd);
         cursor:pointer;
+        font-size:11px;
 }
 
 input[type=submit]:active{	position: relative;
@@ -270,6 +272,7 @@ input[type=text]{
     color:#555555;
     padding:4px;
     margin:6px;
+    font-size:12px;
 
 }
 
@@ -385,7 +388,7 @@ select{
     -moz-box-shadow:0 1px 2px #ddd;
         -webkit-box-shadow:0 1px 2px #ddd;
     box-shadow:0 1px 2px #ddd;
-
+    margin-left:6px;
     border:1px solid #aaa;
     color:#333333;
     padding:3px;
@@ -415,6 +418,7 @@ select[multiple] {
 	padding-bottom:20px;
 }
 .item {
+    padding:5px;
     height: 30px;
 }
 
@@ -517,6 +521,7 @@ select[multiple] {
 	margin:auto;
 	border:solid 1px #BBB;
 	background-color:white;
+    font-size: 11px;
 }
 
 .menu_vertical

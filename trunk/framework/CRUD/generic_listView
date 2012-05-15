@@ -10,12 +10,12 @@ class $classNameListView extends MListView
         $buscaForm = new MForm('$table_busca_form', 'Buscar $table', true, '$classNameListControl::search()', '$table_list_grid');
         $buscaForm->addButton('Buscar');
         #--form
-        $buscaForm->addField('$table::$column_name', '$label', new $fieldType(), true);
+        $buscaForm->addField('$table::$column_name::$operator', '$label', new $fieldType(), true);
         #--form
         parent::setForm($buscaForm);                
 
         #--grid
-        parent::addColumn('$table::$column_name', '$label', '$operator');
+        parent::addColumn('$table::$column_name', '$label');
         #--grid
         
         $menu = new MMenu('menu_list');
