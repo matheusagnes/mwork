@@ -28,7 +28,7 @@ class CrudFormControl extends MControl
                         
             #Gera formView
             $formViewFile = file_get_contents(dirname(__FILE__).'/../../generic_formView');
-            $formViewFile = str_replace('$className', $className, $formViewFile);
+            $formViewFile = str_replace('$className', $className.'FormView', $formViewFile);
             $formViewFile = str_replace('$table', $table, $formViewFile);
             $formViewFile = str_replace('$primary_key', $primary_key, $formViewFile);
             
@@ -46,13 +46,38 @@ class CrudFormControl extends MControl
             file_put_contents(dirname(__FILE__).'/../../new_class/view/'.$className.'FormView.class.php', $formViewFile[0].$formViewFile[2]);
             #---
             
-            #Gera formControl
+            #Gera FormControl
             $formControlFile = file_get_contents(dirname(__FILE__).'/../../generic_formControl');
-            $formControlFile = str_replace('$className', $className, $formControlFile);
+            $formControlFile = str_replace('$className', $className.'FormControl', $formControlFile);
             file_put_contents(dirname(__FILE__).'/../../new_class/control/'.$className.'FormControl.class.php', $formControlFile);
             #--
             
-                        
+            #Gera ListControl
+            $listControlFile = file_get_contents(dirname(__FILE__).'/../../generic_listControl');
+            $listControlFile = str_replace('$className', $className.'ListControl', $listControlFile);
+            file_put_contents(dirname(__FILE__).'/../../new_class/control/'.$className.'ListControl.class.php', $formControlFile);
+            #--
+            
+            #Gera ListView
+            $listViewFile = file_get_contents(dirname(__FILE__).'/../../generic_formView');
+            $listViewFile = str_replace('$className', $className, $listViewFile);
+            $listViewFile = str_replace('$table', $table, $listViewFile);
+            
+            
+            $objColumns = DB::getObjects('show columns from '.$table);
+            $listViewFileForm = explode('#--form', $listViewFile);   
+            $listViewFileGrid = explode('#--grid', $listViewFile);   
+         
+            $searchForm = array('$column_name','$type','$label','$fieldType');            
+    
+            foreach($objColumns as $objColumn)
+            {
+                $replaceForm = array($objColumn->Field, , $objColumn->Field, MText);
+                
+                $listViewFileForm[1].= str_replace($search, $replace, $listViewFile[1]);
+            }
+            file_put_contents(dirname(__FILE__).'/../../new_class/view/'.$className.'ListView.class.php', $listViewFile[0].$formViewFile[2]);
+            #---        
 
         }
       

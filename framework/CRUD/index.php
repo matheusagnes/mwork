@@ -45,7 +45,7 @@ $mcore = $mcore->getInstance();
                                 </a> 
                             </div>
                             <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
-                                <a href="#!ajax.php?class=CrudFormControl::show()">Usuarios</a>                                
+                                <a href="#!ajax.php?class=CrudFormControl::show()">Gerador</a>                                
                             </div>
                             
                             <?php
