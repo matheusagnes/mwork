@@ -6,22 +6,24 @@ class $classNameListView extends MListView
     {
         parent::__construct();
 
+        
         $buscaForm = new MForm('$table_busca_form', 'Buscar $table', true, '$classNameListControl::search()', '$table_list_grid');
         $buscaForm->addButton('Buscar');
         #--form
         $buscaForm->addField('$table::$column_name', '$label', new $fieldType(), true);
         #--form
-        parent::setForm($buscaForm);
+        parent::setForm($buscaForm);                
+
+        #--grid
+        parent::addColumn('$table::$column_name', '$label', '$operator');
+        #--grid
         
         $menu = new MMenu('menu_list');
         $menu->addLink('Cadastrar', '#ajax.php?class=$classNameFormControl::show()');
         $menu->addLink('Gerenciar', '#ajax.php?class=$classNameListControl::show()');
         
         parent::setMenu($menu);
-
-        #--grid
-        parent::addColumn('$table::$column_name', '$type', '$label');
-        #--grid
+        
     }
 
 }

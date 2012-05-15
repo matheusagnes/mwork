@@ -24,7 +24,7 @@ class MGrid
     }
 
     // Action seria passar a url para o request
-    public function addColumn($column_table_name, $column_type, $label, $relation = null, $mask = null)
+    public function addColumn($column_table_name, $label, $operator = null, $relation = null, $mask = null)
     {
         if (!$this->sqlColumns)
         {
@@ -37,7 +37,7 @@ class MGrid
 
         $objColumn->label = $label;
         $objColumn->mask = $mask;
-        $objColumn->column_type = $column_type;
+        $objColumn->operator = $operator;
         $objColumn->relation = $relation;
 
         $this->columns[$column_table_name] = $objColumn;
@@ -148,23 +148,21 @@ class MGrid
                 if ($filter)
                 {
                     $key_filter = str_replace('::', '.', $key_filter);
-                    if ($this->columns[$key_filter]->column_type == 'varchar')
+                    if($this->columns[$key_filter]->operator)
+                    {
+                        if ($this->columns[$key_filter]->operator == 'like')
+                        {
+                            $where.= " {$key_filter} like '%{$filter}%' AND";
+                        }
+                        else
+                        {
+                            $where.= " {$key_filter} {$this->columns[$key_filter]->operator} '{$filter}' AND";
+                        }
+                    }
+                    else
                     {
                         $where.= " {$key_filter} like '%{$filter}%' AND";
                     }
-                    elseif ($this->columns[$key_filter]->column_type == 'primary')
-                    {
-                        $where.= " {$key_filter} = '{$filter}' AND";
-                    }
-                    elseif(is_string($filter))
-                    {
-                        $where.= " {$key_filter} like '%{$filter}%' AND";
-                    }
-                    elseif(is_int($key_filter))
-                    {
-                        $where.= " {$key_filter} = '{$filter}' AND";
-                    }
-                        
                 }
             }
         }
