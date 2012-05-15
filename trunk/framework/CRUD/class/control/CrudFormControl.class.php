@@ -70,7 +70,8 @@ class CrudFormControl extends MControl
          
             $searchForm = array('$column_name','$label','$fieldType','$operator');            
             $searchGrid = array('$column_name','$label');            
-    
+            unset($newListViewFileForm);
+            unset($newListViewFileGrid);
             foreach($objColumns as $objColumn)
             {
                 $columnType = preg_replace('~\(.*~', '', $objColumn->Type);
