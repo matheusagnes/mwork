@@ -54,8 +54,8 @@ class CrudFormControl extends MControl
             
             #Gera ListControl
             $listControlFile = file_get_contents(dirname(__FILE__).'/../../generic_listControl');
-            $listControlFile = str_replace('$className', $className.'ListControl', $listControlFile);
-            file_put_contents(dirname(__FILE__).'/../../new_class/control/'.$className.'ListControl.class.php', $formControlFile);
+            $listControlFile = str_replace('$className', $className, $listControlFile);
+            file_put_contents(dirname(__FILE__).'/../../new_class/control/'.$className.'ListControl.class.php', $listControlFile);
             #--
             
             #Gera ListView
