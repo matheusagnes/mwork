@@ -66,7 +66,8 @@ class MCore
     public function init()
     {
         require_once dirname( __FILE__ ).'/include.php';
-        self::$configs = require_once dirname( __FILE__ ).'/../configs.php';
+        if(!$configs)
+            self::$configs = require_once dirname( __FILE__ ).'/../configs.php';
         require_once dirname( __FILE__ ).'/lib/php/tools.php';
         require_once dirname( __FILE__ ).'/DB.php';
         require_once dirname( __FILE__ ).'/Model.php';
@@ -74,6 +75,11 @@ class MCore
         $this->projectName = self::$configs['project_name'];
         $this->siteName = self::$configs['site_name'];
         session_start();
+    }
+    
+    public function setConfigs($filePath)
+    {
+        self::$configs = require_once $filePath;
     }
 
     public function getProjectName()

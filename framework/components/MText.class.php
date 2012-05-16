@@ -4,7 +4,7 @@
 class MText extends MInput
 {
     
-    public function __construct($value=null, $name=null, $id=null,$maxlength=null)
+    public function __construct($value=null, $disabled=false,$name=null, $id=null,$maxlength=null)
     {
         parent::__construct();
         $this->maxlength = $maxlength;
@@ -12,6 +12,7 @@ class MText extends MInput
         $this->name = $name;
         $this->id = $id;
         $this->mask = null;
+        $this->disabled = $disabled;
         
     }
 
