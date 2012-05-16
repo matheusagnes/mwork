@@ -2,6 +2,8 @@
 
 function arrayToObject($array)
 {
+    return (object) $array;
+
     if (!is_array($array))
     {
         return $array;
