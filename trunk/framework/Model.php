@@ -111,8 +111,12 @@ class Model
         }
     }
 
-    public function getObjects($sql)
+    public function getObjects($sql = null)
     {
+        if(!$sql)
+        {
+            $sql = "SELECT * FROM {$this->table}";
+        }
         $st = DB::query($sql);
         while ($obj = $st->fetchObject())
         {
