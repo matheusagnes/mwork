@@ -8,7 +8,7 @@ class $className extends MForm
 
         if($params)
         {
-            parent::addField('$primary_key', '$primary_key', new MHiden(), true);    
+            parent::addField('$primary_key', '$primary_key', new MText($params[0],true), true);    
         }
         #--                       
         parent::addField('$column_name', '$label', new $fieldType(), true);
