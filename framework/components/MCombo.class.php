@@ -6,7 +6,7 @@ class MCombo extends MInput
     private $items; 
     private $click;
     private $selected;
-
+    private $multiple;
 
     public function __construct($itens = null)
     {
@@ -15,6 +15,10 @@ class MCombo extends MInput
             $this->addItens($itens);
     }
 
+    function setMultiple()
+    {
+        $this->multiple = true;    
+    }
 
     function addItem($index, $label )
     {
@@ -63,8 +67,11 @@ class MCombo extends MInput
             		//$required = "class=\"validate['required']\"";             
         	}          
             
-            $htmlCombo = "<select name='{$this->name}'  {$required}' id='{$this->id}'   $add >";
-            
+            if(!$this->multiple)    
+                $htmlCombo = "<select name='{$this->name}'  {$required}' id='{$this->id}'   $add >";
+            else
+                $htmlCombo = "<select name='{$this->name}[]' multiple='multiple' {$required}' id='{$this->id}'   $add >";
+
             $htmlCombo .= "<option value=\"0\">  Selecione </option>";
             
             if ($this->items)
