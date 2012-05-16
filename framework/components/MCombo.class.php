@@ -8,10 +8,11 @@ class MCombo extends MInput
     private $selected;
 
 
-    public function __construct()
+    public function __construct($itens = null)
     {
         parent::__construct();
-        
+        if($itens)
+            $this->addItens($itens);
     }
 
 
