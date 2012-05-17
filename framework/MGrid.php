@@ -180,7 +180,7 @@ class MGrid
         $select = substr($select, 0, -1);
         $from = implode(',', $from);
         
-        return $select . ' from ' . $from . $where;
+        return $select . ' from ' . $from . $where. ' limit 20';
     }
 
     public function setGridId($gridId)
@@ -199,6 +199,7 @@ class MGrid
             $this->addAction('Editar', MGrid::EDIT, 'edit',array($this->model->getPrimaryKey()),'showContent',array('conteudo'));
             $this->addAction('Deletar', MGrid::DELETE,'delete');
         }
+        
         
         $objects = DB::getObjects($this->getSql());
         $grid = '<div class="list">';
