@@ -46,7 +46,7 @@ class DB
 
             $DSN = "$mgDB_TYPE:host=$mgDB_HOST;dbname=$mgDB_NAME;";
 
-            self::$objInstance = new PDO($DSN, $mgDB_USER, $mgDB_PASS);
+            self::$objInstance = new PDO($DSN, $mgDB_USER, $mgDB_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8") );
             self::$objInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
 
@@ -207,7 +207,7 @@ class DB
     }
 
     public static function getObjects($sql)
-    {
+    {        
         $st = DB::query($sql);
         while($obj = $st->fetchObject())
         {
