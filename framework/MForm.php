@@ -14,6 +14,7 @@ class MForm
     private $aObligatories;
     private $sessionFormName;
     private $controlName;
+    protected $properties;
 
     #FIXME trocar para content
 
@@ -122,7 +123,12 @@ class MForm
 
         $this->fields[$name] = $objInput;
     }
-
+    
+    function addProperty($name,$value)
+    {
+        $this->properties[$name] = $value;
+    }
+    
     public function getFields()
     {
         return $this->fields;
@@ -148,9 +154,15 @@ class MForm
     {
         // create objForm to use in session for validade the form in control
         $this->MCore->setSession($this->sessionFormName, $this->aObligatories);
-
+        
+        if($this->properties)
+        foreach ($this->properties as $key => $value)
+        {
+            $properties .= " $key='$value' ";
+        }
+        
         #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
-        $htmlForm = "<form id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
+        $htmlForm = "<form {$properties} id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
         $htmlForm.= '<fieldset><legend>' . $this->getFormLegend() . '</legend>';
 
         $fields = $this->getFields();

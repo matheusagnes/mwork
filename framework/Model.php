@@ -101,7 +101,7 @@ class Model
         }
 
         $sql = substr($sql, 0, -1);
-        $sql.= "WHERE {$this->primary_key} = {$obj->{$primaryKey}}";
+        $sql.= "WHERE {$this->primary_key} = {$obj->{$this->primary_key}}";
 
         try
         {
@@ -124,6 +124,18 @@ class Model
     public function delete($id)
     {
         if (DB::exec("DELETE FROM {$this->table} WHERE {$this->primary_key} = {$id}"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function deleteSql($sql)
+    {
+        if (DB::exec($sql))
         {
             return true;
         }

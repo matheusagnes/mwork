@@ -26,14 +26,7 @@ class MText extends MInput
             
             foreach ($this->properties as $key => $value)
             {
-//                if (strtolower(trim($key)) == 'style')
-//                {
-//                    $style = $value;
-//                }
-//                else
-                //{
-                    $add .= " $key='$value' ";
-                //}
+                $add .= " $key='$value' ";
             }
         }
 

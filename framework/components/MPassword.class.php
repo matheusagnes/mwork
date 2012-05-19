@@ -24,20 +24,11 @@ class MPassword extends MInput
     {
         parent::show();
        
-        if (count($this->properties) > 0)
+        if($this->properties)
+        foreach ($this->properties as $key => $value)
         {
-            foreach ($this->properties as $key => $value)
-            {
-                if (strtolower(trim($key)) == 'style')
-                {
-                    $style = $value;
-                }
-                else
-                {
-                    $add .= " $key='$value' ";
-                }
-            }
-        }
+            $add .= " $key='$value' ";
+        }    
 
         if($this->maxlength)
         {
@@ -48,7 +39,7 @@ class MPassword extends MInput
         {
             $required = "class=\"validate['required']\"";            
         }
-        return "<input name='{$this->name}' id = '{$this->id}' $add  size='{$this->size}' value='{$this->value}' {$maxlength} type='password' $required />";
+        return "<input name='{$this->name}' id = '{$this->id}' $add  value='{$this->value}' {$maxlength} type='password' $required />";
        
     }
 

@@ -55,3 +55,15 @@ class MMenu
 }
 
 ?>
+
+
+<!--<div class="portlet" id="yw2">
+<div class="portlet-decoration">
+<div class="portlet-title"><span class="icon icon-sitemap_color">Operations</span></div>
+</div>
+<div class="portlet-content">
+<ul class="operations" id="yw3">
+<li><a href="/themes/index.php?r=theme/create">Create Theme</a></li>
+<li><a href="/themes/index.php?r=theme/admin">Manage Theme</a></li>
+</ul></div>
+</div>-->
