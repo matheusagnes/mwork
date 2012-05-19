@@ -76,12 +76,27 @@ class MCombo extends MInput
             
             if ($this->items)
             {                
+                if(is_array($this->value))
+                {
+                    foreach($this->value as $v)
+                        $keysValue[$v] = $v;
+                }
                 foreach ($this->items as $key => $item)
                 {
-                    $text = '';                    
-                    if ($this->selected && $this->selected == $key || $this->value && $this->value == $key)
-                    {                        
-                        $text = "selected = 'selected' ";
+                    $text = '';            
+                    if($keysValue)
+                    {
+                        if ($keysValue[$key])
+                        {                        
+                            $text = "selected = 'selected' ";
+                        }
+                    }
+                    else
+                    {
+                        if ($this->selected && $this->selected == $key || $this->value && $this->value == $key)
+                        {                        
+                            $text = "selected = 'selected' ";
+                        }
                     }
                     $htmlCombo .= "<option $text value=\"$key\">$item</option>";
                     

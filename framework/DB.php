@@ -78,51 +78,8 @@ class DB
 
 # end method 
 
-    public static function rec($obj, $table)
-    {
-        
-        $primaryKey = DB::getPrimaryKey($table);
-        
-        
-        if (!isset($obj->{$primaryKey}))
-        {
-            
-            $sql = 'INSERT INTO ' . $table;
-            $sql_fields = ' (';
-            $sql_values = ' VALUES (';
-
-            foreach (get_object_vars($obj) as $key => $value)
-            {
-                $sql_fields.= "{$key},";
-                $sql_values.= "'{$value}',";
-            }
-
-            $sql_fields = substr($sql_fields, 0, -1);
-            $sql_values = substr($sql_values, 0, -1);
-
-            $sql_fields.=')';
-            $sql_values.=')';
-
-            if (DB::exec($sql . $sql_fields . $sql_values))
-            {
-                return true;
-            }
-            else
-            {
-                #FIXME retornar obj de erros com nome de erros do banco ?!?!
-                return false;
-            }
-        }
-        else
-        {                   
-            return DB::update($obj, $table, $primaryKey);
-        }
-    }
-    
     public static function getPrimaryKey($table)
     {
-
-
         if (self::getDatabaseSystem() == 'pgsql')
         {
             $sql = 
@@ -160,52 +117,6 @@ class DB
         return $field;
     }
 
-    public static function update($obj, $table, $primaryKey = 'id')
-    {
-        $sql = 'UPDATE '.$table.' SET' ;
-
-        foreach (get_object_vars($obj) as $key => $value)
-        {
-            if($key != $primaryKey)
-            $sql.= " {$key} = '{$value}' ,";
-        }
-
-        $sql = substr($sql, 0, -1);
-        $sql.= "WHERE {$primaryKey} = {$obj->{$primaryKey}}";
-        
-        try
-        {       
-            if (DB::exec($sql) >= 0)
-            {            
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch( Exception $e )
-        {
-            new Message($e->getMessage(), Message::ERROR, Message::DIALOG );
-            return false;
-        }
-       
-    }
-
-    public static function delete($id,$table)
-    {
-        $primaryKey = DB::getPrimaryKey($table);
-        
-        if(DB::exec("DELETE FROM {$table} WHERE {$primaryKey} = {$id}"))
-        {
-            return true;
-        }
-        else
-        {           
-            return false;
-        }
-    }
-
     public static function getObjects($sql)
     {        
         $st = DB::query($sql);
@@ -217,15 +128,7 @@ class DB
         return $objects;
     }
 
-    public static function getObject($id, $table)
-    {
-        $primaryKey = DB::getPrimaryKey($table);
-        $st = DB::query("SELECT * FROM {$table} where {$primaryKey} = {$id}");
-        $obj = $st->fetchObject();
-
-
-        return $obj;    
-    }
+   
     
    
 

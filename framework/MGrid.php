@@ -13,14 +13,14 @@ class MGrid
     private $gridId;
     private $filter;
     protected $model;
-            
+
     const EDIT = 'framework/images/edit.png';
     const DELETE = 'framework/images/delete.png';
     const VIEW = 'framework/images/view.png';
 
     public function __construct()
     {
-
+        
     }
 
     // Action seria passar a url para o request
@@ -41,7 +41,7 @@ class MGrid
 
         $this->columns[$column_table_name] = $objColumn;
     }
-    
+
     /*
      * $title = 'deletar';
      * $iconPath = icones padroes ou o caminho
@@ -50,18 +50,18 @@ class MGrid
      * $jsFunction = listAction
      * $jsParam = array('conteudo')
      */
-                    
+
     public function addAction($title, $iconPath, $action, $params = array('id'), $jsFunction = 'listAction', $jsParams = null)
     {
-        if(!preg_match('/::/',$action))
+        if (!preg_match('/::/', $action))
         {
-            $action = $this->getListControlName().'::'.$action;
+            $action = $this->getListControlName() . '::' . $action;
         }
-        
+
         $objAction->icon = $iconPath;
         $objAction->title = $title;
-        $objAction->action = $action;       
-        $objAction->params = $params;       
+        $objAction->action = $action;
+        $objAction->params = $params;
         $objAction->jsFunction = $jsFunction;
         $objAction->jsParams = $jsParams;
 
@@ -72,7 +72,7 @@ class MGrid
     {
         $this->model = $model;
     }
-    
+
     public function setListControlName($listControlName)
     {
         $this->listControlName = $listControlName;
@@ -102,7 +102,7 @@ class MGrid
     {
         return $this->formViewName;
     }
-    
+
     public function setFormControlName($formControlName)
     {
         $this->formControlName = $formControlName;
@@ -123,7 +123,7 @@ class MGrid
         $this->sql = $sql;
     }
 
-	// #FIXME Colocar o getSql no class DB, passando por parametro $this->filter, $this->columns
+    // #FIXME Colocar o getSql no class DB, passando por parametro $this->filter, $this->columns
     public function getSql()
     {
         $operators['='] = '=';
@@ -138,10 +138,10 @@ class MGrid
             $select.= " {$key},";
             $table = explode('.', $key);
             $from[$table[0]] = $table[0];
-            
-            if($value->relation)
+
+            if ($value->relation)
             {
-                $where.= $value->relation.' AND';
+                $where.= ' ' . $value->relation . ' AND';
             }
         }
 
@@ -151,17 +151,17 @@ class MGrid
             {
                 if ($filter)
                 {
-		            $key_filter = explode('::', $key_filter);
-		            $operator = $key_filter[2];
-		            $key_filter = $key_filter[0].'.'.$key_filter[1];				
-                    if($operator)
+                    $key_filter = explode('::', $key_filter);
+                    $operator = $key_filter[2];
+                    $key_filter = $key_filter[0] . '.' . $key_filter[1];
+                    if ($operator)
                     {
                         if ($operator == 'like')
                         {
                             $where.= " {$key_filter} like '%{$filter}%' AND";
                         }
-                        elseif($operators[$operator])
-                        {   
+                        elseif ($operators[$operator])
+                        {
                             $where.= " {$key_filter} {$operators[$operator]} '{$filter}' AND";
                         }
                     }
@@ -179,8 +179,8 @@ class MGrid
         $where = substr($where, 0, -3);
         $select = substr($select, 0, -1);
         $from = implode(',', $from);
-        
-        return $select . ' from ' . $from . $where. ' limit 20';
+
+        return $select . ' from ' . $from . $where . ' limit 20';
     }
 
     public function setGridId($gridId)
@@ -193,13 +193,12 @@ class MGrid
         //pegar a tabela de forma automatica
         //fazer paginação, tenho a classe no mwork/lib
         //$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
-        if(!$this->actions)
+        if (!$this->actions)
         {
             $this->addAction('Ver', MGrid::VIEW, 'view');          // js func     // parameter 
-            $this->addAction('Editar', MGrid::EDIT, 'edit',array($this->model->getPrimaryKey()),'showContent',array('conteudo'));
-            $this->addAction('Deletar', MGrid::DELETE,'delete');
+            $this->addAction('Editar', MGrid::EDIT, 'edit', array($this->model->getPrimaryKey()), 'showContent', array('conteudo'));
+            $this->addAction('Deletar', MGrid::DELETE, 'delete');
         }
-        
         
         $objects = DB::getObjects($this->getSql());
         $grid = '<div class="list">';
@@ -223,50 +222,51 @@ class MGrid
                     $key = explode('::', $key);
                     $grid.='<td align="center">' . $object->{$key[1]} . '</td>';
                 }
-
                 foreach ($this->actions as $objAction)
                 {
-                    $params = null;
-                    if($objAction->params)
+                    $params= null;
+                    if ($objAction->params)
                     {
-                        foreach($objAction->params as $actionParam)
+                        $params= null;
+                        foreach ($objAction->params as $actionParam)
                         {
-                            if($object->{$actionParam})
+                            if ($object->{$actionParam})
                             {
-                                $params.= $object->{$actionParam}.',';  
+                                $params.= $object->{$actionParam} . ',';
                             }
                             else
                             {
-                                $params.= $actionParam.',';
+                                $params.= $actionParam . ',';
                             }
+                            
                         }
                         $params = substr($params, 0, -1);
-                        $params = '('.$params.')';                        
+                        $params = '(' . $params . ')';
                     }
                     else
                     {
-                        $params ='()';
+                        $params = '()';
                     }
-                    
-                    $objAction->action = $objAction->action.$params;
-                    
-                    if($objAction->jsParams)
-                    {
-                        $jsParams = null;
-                        $jsParams = "'{$objAction->action}',";
-                        
+                    $action = null;    
+                    $action = $objAction->action . $params;
+                    $jsParams = null;
+                    if ($objAction->jsParams)
+                    {                        
+                        $jsParams = "'{$action}',";
+
                         foreach ($objAction->jsParams as $actionJsParam)
                         {
                             $jsParams .= "'{$actionJsParam}',";
                         }
                         $jsParams = substr($jsParams, 0, -1);
+                        $jsParams = "({$jsParams})";
                     }
                     else
-                    {                        
-                        $jsParams = "('{$objAction->action}')";
-                    }                                        
+                    {
+                        $jsParams = "('{$action}')";
+                    }
                     
-                    $grid.="<td align='center'> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = \"{$objAction->jsFunction}({$jsParams})\"/> </td>";
+                    $grid.="<td align='center'> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = \"{$objAction->jsFunction}{$jsParams}\"/> </td>";
                 }
 
                 $grid.= '</tr>';

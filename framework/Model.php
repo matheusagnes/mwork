@@ -6,12 +6,32 @@ class Model
     private $primary_key;
     private $table;
 
-    public function __construct($primary_key, $table)
+    public function __construct($primary_key , $table)
     {
         $this->primary_key = $primary_key;
         $this->table = $table;
     }
 
+    public function begin()
+    {
+        return DB::beginTransaction();
+    }
+    
+    public function rollBack()
+    {
+        return DB::rollBack();
+    }
+    
+    public function commit()
+    {
+        return DB::commit();
+    }
+    
+    public function getLastInsertId()
+    {
+        return DB::lastInsertId();
+    }
+    
     public function getPrimaryKey()
     {
         return $this->primary_key;
@@ -54,6 +74,8 @@ class Model
 
             if (DB::exec($sql . $sql_fields . $sql_values))
             {
+                if($this->primary_key)
+                    $obj->{$this->primary_key} = $this->getLastInsertId();
                 return true;
             }
             else
@@ -64,7 +86,7 @@ class Model
         }
         else
         {
-            return DB::update($obj, $this->table, $this->primary_key);
+            return $this->update($obj, $this->table, $this->primary_key);
         }
     }
 
