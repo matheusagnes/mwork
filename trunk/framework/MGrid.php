@@ -195,7 +195,7 @@ class MGrid
         //$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
         if (!$this->actions)
         {
-            $this->addAction('Ver', MGrid::VIEW, 'view');          // js func     // parameter 
+            $this->addAction('Ver', MGrid::VIEW, 'info');          // js func     // parameter 
             $this->addAction('Editar', MGrid::EDIT, 'edit', array($this->model->getPrimaryKey()), 'showContent', array('conteudo'));
             $this->addAction('Deletar', MGrid::DELETE, 'delete');
         }
