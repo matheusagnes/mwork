@@ -34,7 +34,7 @@ class UsuariosListView extends MListView
         parent::addColumn('usuarios::id', 'Cód');
         parent::addColumn('usuarios::nome', 'Nome');
         parent::addColumn('usuarios::email', 'Email');
-        parent::addColumn('tipos_usuarios::descricao', 'Tipo Usuári', 'tipos_usuarios.id=usuarios.ref_tipo_usuario');
+        parent::addColumn('tipos_usuarios::descricao', 'Tipo Usuário', 'tipos_usuarios.id=usuarios.ref_tipo_usuario');
     }
 
 }
