@@ -40,6 +40,11 @@ class MCore
             return new $model();
         else return null;
     }
+    
+    public function getModelFromTable($table)
+    {
+        return $this->getModel(glue_first_upper($table, '_'));
+    }
 
     public static function getInstance()
     {

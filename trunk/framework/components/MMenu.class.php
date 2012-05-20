@@ -27,11 +27,17 @@ class MMenu
 
     public function show()
     {
-        $class = $this->is_vertical ? 'menu_vertical': 'menu_horizontal';
+        $class = $this->is_vertical ? 'portlet': 'menu_vertical';
         
         $menu = "<div id = '{$this->id}' class='{$class}'>";
+        $menu .= '<div class="portlet-decoration">
+                    <div class="portlet-title">
+                        <span class="icon icon-sitemap_color">Operações</span>
+                    </div>
+                 </div>';   
         if($this->links)
         {
+            $menu.='<div class="portlet-content"> <ul class="operations" >';
             foreach ($this->links as $link)
             {
                 unset($img);
@@ -42,11 +48,12 @@ class MMenu
                     {
                         $img = "<img src = '{$link->icon}'> ";
                     }
-                    $linkUrl = "<div> <a href='{$link->url}'> {$link->label} {$img}</a> </div>";
+                    $linkUrl = "<li> <a href='{$link->url}'> {$link->label} {$img}</a> </li>";
                 }
                 $menu.= $linkUrl;
             }
-            $menu.='</div>';
+            
+            $menu.='</ul></div></div>';
         }
         echo $menu;
         
@@ -57,13 +64,3 @@ class MMenu
 ?>
 
 
-<!--<div class="portlet" id="yw2">
-<div class="portlet-decoration">
-<div class="portlet-title"><span class="icon icon-sitemap_color">Operations</span></div>
-</div>
-<div class="portlet-content">
-<ul class="operations" id="yw3">
-<li><a href="/themes/index.php?r=theme/create">Create Theme</a></li>
-<li><a href="/themes/index.php?r=theme/admin">Manage Theme</a></li>
-</ul></div>
-</div>-->
