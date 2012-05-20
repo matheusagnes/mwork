@@ -16,8 +16,8 @@ class TiposUsuariosListView extends MListView
         parent::setForm($buscaForm);
 
         // colunas da grid
-        parent::addColumn('tipos_usuarios::id', 'primary', 'Cód.');
-        parent::addColumn('tipos_usuarios::descricao', 'varchar', 'Descrição');
+        parent::addColumn('tipos_usuarios::id',  'Cód.');
+        parent::addColumn('tipos_usuarios::descricao', 'Descrição');
 
     }
 
