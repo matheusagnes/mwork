@@ -36,8 +36,22 @@ function dbug($obj)
 }
 
 function glue_upper($string,$glue) 
-{
+{        
     return strtolower(preg_replace( '/([a-z0-9])([A-Z])/', "$1$glue$2", $string ));
 }
+
+function glue_first_upper($string, $glue)
+{
+    $words = explode($glue, $string);
+    
+    foreach ($words as $word)
+    {
+        $new_string .= ucfirst($word);
+    }
+    
+    return $new_string;
+}
+
+
 
 ?>

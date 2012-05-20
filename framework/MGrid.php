@@ -13,6 +13,7 @@ class MGrid
     private $gridId;
     private $filter;
     protected $model;
+    private $MCore;
 
     const EDIT = 'framework/images/edit.png';
     const DELETE = 'framework/images/delete.png';
@@ -20,7 +21,7 @@ class MGrid
 
     public function __construct()
     {
-        
+        $this->MCore = MCore::getInstance();
     }
 
     // Action seria passar a url para o request
@@ -38,7 +39,7 @@ class MGrid
         $objColumn->label = $label;
         $objColumn->mask = $mask;
         $objColumn->relation = $relation;
-
+        
         $this->columns[$column_table_name] = $objColumn;
     }
 
@@ -193,6 +194,8 @@ class MGrid
         //pegar a tabela de forma automatica
         //fazer paginação, tenho a classe no mwork/lib
         //$objects = DB::getObjects("SELECT {$this->sqlColumns} FROM usuarios");
+        $table = $this->model->getTable();
+        
         if (!$this->actions)
         {
             $this->addAction('Ver', MGrid::VIEW, 'info');          // js func     // parameter 
@@ -201,16 +204,59 @@ class MGrid
         }
         
         $objects = DB::getObjects($this->getSql());
-        $grid = '<div class="list">';
+        
+        $grid = '<div class="list" style="width:95%;">';
         $grid .= '<div id ="' . $this->gridId . '"> <table width="100%">';
 
         if ($objects)
         {
             $grid.='<thead>';
-            foreach ($this->columns as $column)
+            $gridLabels = '';
+            $gridInputs = '';
+            foreach ($this->columns as $columnTable => $column)
             {
-                $grid.="<td align='center'> {$column->label} </td>";
+                
+                if($column->relation)                    
+                {   
+                    
+                    $ref_column = explode('=', $column->relation);
+                    
+                    foreach($ref_column as $ref)
+                    {
+                        if(preg_match(".$table.", $ref))
+                        {
+                            $ref_column = explode('.',$ref);
+                            $ref_column = $ref_column[1];
+                            break;
+                        }                                
+                    }
+                    
+                    $newColumnTable = '';        
+                    $newColumnTable = str_replace('::','.', $columnTable);
+                                        
+                    $tableColumn = explode('.', $newColumnTable);
+                    $tableColumn = $tableColumn[0];
+                    
+                    unset($modelTable);
+                    $modelTable = $this->MCore->getModelFromTable($tableColumn);
+                    unset($combo);
+                    $combo = new MCombo($modelTable->getArray());   
+                    $combo->setName($tableColumn.'::'.$ref_column.'::'.'=');
+                    $combo->setId($tableColumn.'::'.$ref_column.'::'.'=');
+                    $gridInputs .= "<td> ".$combo->show()." </td>";
+                }
+                else
+                {
+                    unset($input);
+                    $input = new MText();
+                    $input->setName($columnTable.'::'.'=');
+                    $gridInputs .= "<td> ".$input->show()." </td>";
+                }
+                $gridLabels.="<td align='center'> {$column->label} </td>";
             }
+            
+            $grid.="<tr> {$gridLabels} </tr>";
+            $grid.="<tr class='filters-list'> {$gridInputs} </tr>";
             $grid.='</thead> <tbody>';
 
             foreach ($objects as $object)
