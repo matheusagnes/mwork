@@ -119,7 +119,8 @@ class DB
 
     public static function getObjects($sql)
     {        
-        $st = DB::query($sql);
+        $st = DB::prepare($sql);
+        $st->execute();
         while($obj = $st->fetchObject())
         {
             $objects[] = $obj;

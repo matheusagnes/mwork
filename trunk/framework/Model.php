@@ -71,8 +71,8 @@ class Model
 
             $sql_fields.=')';
             $sql_values.=')';
-
-            if (DB::exec($sql . $sql_fields . $sql_values))
+            $objStmt = DB::prepare($sql . $sql_fields . $sql_values);
+            if ($objStmt->execute())
             {
                 if($this->primary_key)
                     $obj->{$this->primary_key} = $this->getLastInsertId();
@@ -105,7 +105,10 @@ class Model
 
         try
         {
-            if (DB::exec($sql) >= 0)
+            //if (DB::exec($sql) >= 0)
+            
+            $objStmt = DB::prepare($sql);
+            if ($objStmt->execute() >= 0)
             {
                 return true;
             }
@@ -123,7 +126,8 @@ class Model
 
     public function delete($id)
     {
-        if (DB::exec("DELETE FROM {$this->table} WHERE {$this->primary_key} = {$id}"))
+        $objStmt = DB::prepare("DELETE FROM {$this->table} WHERE {$this->primary_key} = {$id}");
+        if ($objStmt->execute())
         {
             return true;
         }
@@ -135,7 +139,8 @@ class Model
     
     public function deleteSql($sql)
     {
-        if (DB::exec($sql))
+        $objStmt = DB::prepare($sql);
+        if ($objStmt->execute())
         {
             return true;
         }
@@ -151,7 +156,8 @@ class Model
         {
             $sql = "SELECT * FROM {$this->table}";
         }
-        $st = DB::query($sql);
+        $st = DB::prepare($sql);
+        $st->execute();
         while ($obj = $st->fetchObject())
         {
             $objects[] = $obj;
@@ -162,7 +168,8 @@ class Model
 
     public function getObject($id)
     {
-        $st = DB::query("SELECT * FROM {$this->table} where {$this->primary_key} = {$id}");
+        $st = DB::prepare("SELECT * FROM {$this->table} where {$this->primary_key} = {$id}");
+        $st->execute();
         $obj = $st->fetchObject();
         return $obj;
     }

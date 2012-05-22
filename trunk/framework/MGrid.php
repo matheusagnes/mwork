@@ -215,10 +215,8 @@ class MGrid
             $gridInputs = '';
             foreach ($this->columns as $columnTable => $column)
             {
-                
                 if($column->relation)                    
                 {   
-                    
                     $ref_column = explode('=', $column->relation);
                     
                     foreach($ref_column as $ref)
@@ -243,14 +241,14 @@ class MGrid
                     $combo = new MCombo($modelTable->getArray());   
                     $combo->setName($tableColumn.'::'.$ref_column.'::'.'=');
                     $combo->setId($tableColumn.'::'.$ref_column.'::'.'=');
-                    $gridInputs .= "<td> ".$combo->show()." </td>";
+                    $gridInputs .= "<td align='center'> ".$combo->show()." </td>";
                 }
                 else
                 {
                     unset($input);
                     $input = new MText();
                     $input->setName($columnTable.'::'.'=');
-                    $gridInputs .= "<td> ".$input->show()." </td>";
+                    $gridInputs .= "<td align='center'> ".$input->show()." </td>";
                 }
                 $gridLabels.="<td align='center'> {$column->label} </td>";
             }
