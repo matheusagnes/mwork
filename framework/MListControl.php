@@ -10,6 +10,14 @@ class MListControl extends MList
     {   
         parent::__construct(get_called_class());
         $this->MCore = MCore::getInstance();
+        
+        if(!$this->MCore->isLoged()) #FIXME trocar para permissao apenas temporario
+        {
+            new Message('Você precisa estar logado!!', Message::ERROR, Message::DIALOG);
+            echo '<script> window.location.href = "index.php" </script>';
+            return false;
+        }
+        
         $this->listView = parent::getListView();
         $this->postFilters = $this->getFiltersFromPost();       
         
