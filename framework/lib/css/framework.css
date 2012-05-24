@@ -520,11 +520,21 @@ select[multiple] {
 /* List */
 .list
 {
-    width:700px;
+    width:98%;
     margin:auto;
     border:solid 1px #BBB;
     background-color:white;
     font-size: 11px;
+}
+
+.list input
+{
+    width:100%;
+}
+
+.list select
+{
+    width:100%;
 }
 
 .menu_vertical

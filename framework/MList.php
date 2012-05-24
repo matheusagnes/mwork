@@ -23,6 +23,7 @@ class MList extends MGrid
         $listViewName = str_replace('Control', 'View', $listControlName);        
         $formViewName = str_replace('List', 'Form', $listViewName);
         $formControlName = str_replace('View', 'Control', $formViewName);
+
         parent::setListControlName($listControlName);
         parent::setListViewName($listViewName);       
         parent::setFormControlName($formControlName);

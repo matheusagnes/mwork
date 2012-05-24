@@ -22,7 +22,9 @@ class MListView extends MList
                 $this->menu->show();
 
             parent::setGridId($this->form->getDivTarget());
+            echo '<div class="list" >';
             parent::showGrid();
+            echo '</div>';
         }
     }
 

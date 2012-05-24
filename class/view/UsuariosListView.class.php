@@ -35,10 +35,11 @@ class UsuariosListView extends MListView
         parent::setMenu($menu);
 
         // colunas da grid
-        parent::addColumn('usuarios::id', 'Cód');
+        parent::addColumn('usuarios::id', 'Cód',array(5));
         parent::addColumn('usuarios::nome', 'Nome');
         parent::addColumn('usuarios::email', 'Email');
-        parent::addColumn('tipos_usuarios::descricao', 'Tipo Usuário', 'tipos_usuarios.id=usuarios.ref_tipo_usuario');
+        parent::addColumn('tipos_usuarios::descricao', 'Tipo Usuário', array(30),'tipos_usuarios.id=usuarios.ref_tipo_usuario');
+        parent::addColumn('usuarios::valor', 'Valor');
     }
 
 }

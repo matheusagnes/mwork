@@ -31,9 +31,9 @@ class MListControl extends MList
         return $objFilter;
     }
   
-    public function search()
+    public function search($fast_search = false)
     {        
-        $this->listView->showGrid();
+        $this->listView->showGrid($fast_search);
     }
 
     public function edit($id)
