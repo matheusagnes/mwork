@@ -13,6 +13,8 @@ class UsuariosFormView extends MForm
         }
         
         $ref_tipo_usuarios = new MCombo();
+        $ref_tipo_usuarios->setMultiple(true);
+        $ref_tipo_usuarios->addProperty('style','width:300px; height:300px;');
         
         $objs = DB::getObjects('select * from tipos_usuarios');
         foreach ($objs as $obj)
