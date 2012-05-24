@@ -28,7 +28,6 @@ var cache = {
 $(document).ready(function() {
 
     $(window).bind(	'hashchange',function(e) {
-        console.log('a');
         var param_fragment = $.param.fragment();
         var url = (param_fragment) ? param_fragment : '';
         if(param_fragment){
@@ -98,16 +97,18 @@ function loadCombo(url)
 }
 
 
-function requestPage(url,div,formId,campoId, tipo, loading, saveCache)
+function requestPage(url,div,formId,objs,tipo,loading,saveCache)
 {        
     // remove dialogs na tela
     $('.ui-loader').remove(); 
 	
     var elementos = null;
-
-    elementos = (formId) ? formId : campoId;
-    elementos = $('#'+elementos+'').serialize();
+    if(!objs)
+        elementos = $('#'+formId+'').serialize();
+    else 
+        elementos = objs.serialize();
     
+
     if(loading)
     {
         // This configurable timeout allows cached pages a brief delay to load without showing a message
@@ -211,6 +212,11 @@ function ajaxSubmit(url,id,formId)
     requestPage('ajax.php?class='+url,id,formId,'', 'POST', true, false);
 } 
 
+function ajaxSubmitObjs(url,id,objs)
+{
+    requestPage('ajax.php?class='+url,id,'',objs, 'POST', true, false);
+}
+
 function showPageLoadingMsg() {
     
     //var activeBtn = $( "." + $.mobile.activeBtnClass ).first();
@@ -229,11 +235,6 @@ function showPageLoadingMsg() {
     });
     
     $html.addClass( "ui-loading" );
-
-	
-
-    
-
 
 }
 
