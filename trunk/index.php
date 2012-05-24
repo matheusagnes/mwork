@@ -18,7 +18,7 @@ $mcore = $mcore->getInstance();
         
         <script type="text/javascript" src="framework/lib/js/jquery.js"></script>
         <script type="text/javascript" src="framework/lib/js/jquery-ui.js"></script>
-        
+	<script type="text/javascript" src="framework/lib/js/jquery-ui-timepicker.js"></script>        
         <script type="text/javascript" src="framework/lib/js/ajax/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="framework/lib/js/open_dialog_ui.js"></script>
         <script type="text/javascript" src="framework/lib/js/js_tools.js"></script>
@@ -43,14 +43,14 @@ $mcore = $mcore->getInstance();
                                 </a> 
                             </div>
                             <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
-                                <a href="#!ajax.php?class=UsuariosListControl::show()">Usuarios</a>                                
+                                <a href="#!ajax.php?class=UsuariosAdminListControl::show()">UsuariosAdmin</a>                                
                             </div>
                              <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
-                                <a href="#!ajax.php?class=TiposUsuariosListControl::show()">TiposUsuariosList</a>                                
+                                <a href="#!ajax.php?class=TiposUsuariosAdminListControl::show()">TiposUsuariosAdminList</a>                                
                             </div>
                             
                             <div style='width:50px; margin-left:200px; float:left; cursor:pointer;'>
-                                <a href="#!ajax.php?class=TiposUsuariosFormControl::show()">TiposUsuariosForm</a>                                
+                                <a href="#!ajax.php?class=TiposUsuariosAdminFormControl::show()">TiposUsuariosAdminForm</a>                                
                             </div>
                             <?php
                                 
