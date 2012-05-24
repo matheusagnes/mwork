@@ -4,7 +4,7 @@ class LoginFormControl extends MControl
 {
     public function __construct()
     {        
-        parent::__construct();
+        parent::__construct(false);
         parent::setModel('Usuarios');        
     }
     
