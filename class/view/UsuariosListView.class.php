@@ -15,9 +15,13 @@ class UsuariosListView extends MListView
             $ref_tipo_usuarios->addItem($obj->id, $obj->descricao);
         }
 
+        $hora = new MTime();
+        $hora->setId('a');        
+
         $buscaForm = new MForm('usuarios_busca_form', 'Buscar Usuários', true, 'UsuariosListControl::search()', 'usuarios_list_grid');
         $buscaForm->addButton('Buscar');
         $buscaForm->addField('usuarios::nome::like', 'Nome', new MText(), true);
+        $buscaForm->addField('horaaa', 'Hora', $hora, true);
         $buscaForm->addField('usuarios::email::like', 'E-mail', new MText(), true);
         $buscaForm->addField('usuarios::senha::like', 'Senha  ', new MText(), true);
         $buscaForm->addField('usuarios::ref_tipo_usuario::=', 'Tipo', $ref_tipo_usuarios, true);

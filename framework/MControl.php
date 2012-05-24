@@ -10,15 +10,14 @@ class MControl
     public function __construct($validate=true)
     {
         $this->MCore = MCore::getInstance();
-        $this->post = $this->getPostObject();
-        
         if($validate)
             if(!$this->MCore->isLoged()) #FIXME trocar para permissao apenas temporario
             {
                 new Message('Você precisa estar logado!!', Message::ERROR, Message::DIALOG);
                 echo '<script> window.location.href = "index.php" </script>';
-                return false;
-            }
+                die; #FIXME
+            }        
+        $this->post = $this->getPostObject();
         
         $controlName = get_called_class();
         $viewName = str_replace('Control', 'View', $controlName);
