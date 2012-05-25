@@ -14,12 +14,15 @@ class MForm
     private $aObligatories;
     private $sessionFormName;
     private $controlName;
+    private $tabs;
+    private $tab;
     protected $properties;
 
     #FIXME trocar para content
 
     public function __construct($id, $legend, $is_horizontal = true, $urlTarget = null, $divTarget = '', $controlName = '')
     {
+        
         // get mcore instance
         $this->MCore = MCore::getInstance();
         
@@ -106,6 +109,11 @@ class MForm
             }
         }                            
     }
+    
+    public function addTab($tab)
+    {
+        $this->tab = $tab;
+    }
 
     public function addField($name, $label, MInput $objInput, $obligatory = false)
     {
@@ -120,7 +128,8 @@ class MForm
         {
             $objInput->setId($name);
         }
-
+        if($this->tab)
+            $this->tabs[$this->tab][$name] = $objInput;
         $this->fields[$name] = $objInput;
     }
     
@@ -161,48 +170,91 @@ class MForm
             $properties .= " $key='$value' ";
         }
         
+        if($this->buttons)
+        {
+
+            foreach($this->buttons as $button)
+            {
+                $buttons .=$button;                
+            }        
+        }
+
+        if(!$buttons)
+            $buttons = '<input type="submit" value="Salvar">';
+        
         #FIXME achar outra maneira para não fazer utilizar o return false no onsubmit;
         $htmlForm = "<form {$properties} id = '{$this->id}'  onsubmit=\" ajaxSubmit('{$this->urlTarget}','{$this->divTarget}','{$this->id}'); return false;\" class='mform' >";
-        $htmlForm.= '<fieldset><legend>' . $this->getFormLegend() . '</legend>';
 
-        $fields = $this->getFields();
+        $inputs = $this->getFields();
 
-        if ($fields)
+        if ($inputs)
         {
-            foreach ($fields as $field)
+            if(count($this->tabs)>1)
             {
-                $obligatory = null;
-                if ($field->getObligatory())
+                $tabsUl = '<ul>';
+                $divTabs.= "
+                <script>
+                    $(function(){
+                        $( '#tabs-{$this->id}' ).tabs();
+                    });
+                </script> 
+                <div id='tabs-{$this->id}'>";
+                $contTabs = 0;
+                foreach ($this->tabs as $tab => $fields)
                 {
-                    $obligatory = '<span class="obligatory">*</span>';
+                    $contTabs++;
+                    $tabsUl.= "<li> <a href='#tabs-{$this->id}-{$contTabs}'>{$tab}</a> </li>";                                        
+                                  
+                    $divTabFields .= "<div id='tabs-{$this->id}-{$contTabs}'> <fieldset>";
+                    foreach ($fields as $field)
+                    {
+                        $obligatory = null;
+                        if ($field->getObligatory())
+                        {
+                            $obligatory = '<span class="obligatory">*</span>';
+                        }
+
+                        $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
+                        $divTabFields .= "<div class='{$classItem}'> " .
+                                "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
+                                $field->show() .
+                                "</div>";
+                    }
+                    $divTabFields .= '</fieldset> </div>';
+                    
                 }
-
-                $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
-                $htmlForm .= "<div class='{$classItem}'> " .
-                        "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
-                        $field->show() .
-                        "</div>";
+                
+                $tabsUl .= '</ul>';
+                $footer.= '<div style = "text-align: right; padding: 15px; height:auto;"> <div class="highlight_messages"></div>'.$buttons.'</div>';
+                $divTabs .= $tabsUl.$divTabFields.$footer.'</div>';
+                $htmlForm .= $divTabs;
             }
-            $htmlForm.='</fieldset>';
-
-
-            if($this->buttons)
+            else
             {
-
-                foreach($this->buttons as $button)
+                $htmlForm.= '<fieldset><legend>' . $this->getFormLegend() . '</legend>';                
+                foreach ($inputs as $field)
                 {
-                    $buttons .=$button;                
-                }        
-            }
+                    $obligatory = null;
+                    if ($field->getObligatory())
+                    {
+                        $obligatory = '<span class="obligatory">*</span>';
+                    }
 
-            if(!$buttons)
-                $buttons = '<input type="submit" value="Salvar">';
-
-            $htmlForm.= '<fieldset class="tblFooters">' .
+                    $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
+                    $htmlForm .= "<div class='{$classItem}'> " .
+                            "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
+                            $field->show() .
+                            "</div>";
+                }
+                $htmlForm.='</fieldset>';
+                $htmlForm.= '<fieldset class="tblFooters">' .
                     '<div class="highlight_messages"></div>' .
                     $buttons .
-                    '</fieldset>' .
-                    '</form>';
+                    '</fieldset>';
+            }
+
+            
+                    $htmlForm.='</form>';
         }
         echo $htmlForm;
     }

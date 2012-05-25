@@ -32,7 +32,7 @@ class MText extends MInput
 
         if ($this->mask)
         {
-            $OnKeyPress .= " onKeyPress=\"var e; if(!window.event){ e = event; }else{e = window.event};  return(formataCampo(this,'{$this->mask}',e))\" ";
+            $mask .= " <script> $('#{$this->id}').mask('{$this->mask}'); </script> ";
         }
         if($this->maxlength)
         {
@@ -48,7 +48,7 @@ class MText extends MInput
         {
             $required = "class=\"validate['required']\"";            
         }
-        return "<input name='{$this->name}' $disabled id = '{$this->id}' $add  size='{$this->size}' value='{$this->value}' {$maxlength} type='text' $required  $OnKeyPress />";
+        return "<input name='{$this->name}' $disabled id = '{$this->id}' $add  size='{$this->size}' value='{$this->value}' {$maxlength} type='text' $required  /> $mask";
        
     }
 
@@ -60,7 +60,9 @@ class MText extends MInput
     }
 
 
-
+    //a - Represents an alpha character (A-Z,a-z)
+    //9 - Represents a numeric character (0-9)
+    //* - Represents an alphanumeric character (A-Z,a-z,0-9)
     public function setMask($mask)
     {
         $this->mask = $mask;
