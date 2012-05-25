@@ -122,7 +122,7 @@ class MForm
         $objInput->setObligatory($obligatory);
 
         if ($obligatory)
-            $this->aObligatories[$name] = $obligatory;
+            $this->aObligatories[$name] = $label;
 
         if (!$objInput->getId())
         {
@@ -198,14 +198,16 @@ class MForm
                         $( '#tabs-{$this->id}' ).tabs();
                     });
                 </script> 
-                <div id='tabs-{$this->id}'>";
+                <fieldset>
+                    <legend>" . $this->getFormLegend() . "</legend>
+                    <div id='tabs-{$this->id}'>";
                 $contTabs = 0;
                 foreach ($this->tabs as $tab => $fields)
                 {
                     $contTabs++;
                     $tabsUl.= "<li> <a href='#tabs-{$this->id}-{$contTabs}'>{$tab}</a> </li>";                                        
                                   
-                    $divTabFields .= "<div id='tabs-{$this->id}-{$contTabs}'> <fieldset>";
+                    $divTabFields .= "<div id='tabs-{$this->id}-{$contTabs}'> <fieldset> ";
                     foreach ($fields as $field)
                     {
                         $obligatory = null;
@@ -215,19 +217,19 @@ class MForm
                         }
 
                         $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
-                        $divTabFields .= "<div class='{$classItem}'> " .
-                                "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
-                                $field->show() .
+                        $divTabFields .= "
+                                <div class='{$classItem}'> " .
+                                    "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
+                                        $field->show() .
                                 "</div>";
                     }
                     $divTabFields .= '</fieldset> </div>';
-                    
                 }
                 
                 $tabsUl .= '</ul>';
-                $footer.= '<div style = "text-align: right; padding: 15px; height:auto;"> <div class="highlight_messages"></div>'.$buttons.'</div>';
+                $footer.= '<div style = "text-align: right; padding: 15px; height:auto; display:table; width: 95%;"> <div class="highlight_messages"></div>'.$buttons.'</div>';
                 $divTabs .= $tabsUl.$divTabFields.$footer.'</div>';
-                $htmlForm .= $divTabs;
+                $htmlForm .= $divTabs . '</fieldset>';
             }
             else
             {
@@ -252,8 +254,6 @@ class MForm
                     $buttons .
                     '</fieldset>';
             }
-
-            
                     $htmlForm.='</form>';
         }
         echo $htmlForm;

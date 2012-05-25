@@ -70,7 +70,7 @@ class MControl
             {
                 if (!$this->post->{$key})
                 {
-                    $missed_fields .= '<br>- ' . $key;
+                    $missed_fields .= '<br>- ' . $value;
                 }
             }
         }
