@@ -60,9 +60,14 @@ class MText extends MInput
     }
 
 
-    //a - Represents an alpha character (A-Z,a-z)
-    //9 - Represents a numeric character (0-9)
-    //* - Represents an alphanumeric character (A-Z,a-z,0-9)
+    /** 
+    * Add mask to input text    
+    * @param String $mask
+      * a - Represents an alpha character (A-Z,a-z)
+      * 9 - Represents a numeric character (0-9)
+      * * - Represents an alphanumeric character (A-Z,a-z,0-9)
+    * @return void 
+    */ 
     public function setMask($mask)
     {
         $this->mask = $mask;

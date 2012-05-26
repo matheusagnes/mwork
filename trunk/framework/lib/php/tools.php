@@ -2,6 +2,14 @@
 
 function arrayToObject($array)
 {
+    
+    foreach($array as $key=>$value)
+    {
+        if(json_decode($value))
+        {
+            $array[$key] = json_decode($value);
+        }
+    }
     return (object) $array;
 
     if (!is_array($array))
