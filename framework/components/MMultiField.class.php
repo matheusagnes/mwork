@@ -46,21 +46,19 @@ class MMultiField extends MInput
         
         $formDialog =
         "
-        <div id='dialog-form' title='Adicionar'>
+        <div id='dialog-form-{$this->id}' title='Adicionar'>
             <p class='validateTips'>Todos os campos com * são obrigatórios.</p>
-            <fieldset>
+            <fieldset id='multiFieldDialogFields-{$this->id}'>
          ";
         
         //allFields = $( [] ).add( name ).add( email ).add( password ),";
         $jsArrayFields = 'var allFields = $( [] )';
         $jsVars = 'var tips = $( ".validateTips" );';
-        $jsAppendFields = '';
         foreach ($this->fields as $field)
         {
             $jsVars.= "var var_{$field->id} = $( '#{$field->id}' );";
            
             $jsArrayFields .=".add(var_{$field->id})";
-            $jsAppendFields .="'<td>' + var_{$field->id}.val() + '</td>' +";
             
             $obligatory = null;
             if ($field->getObligatory())
@@ -85,11 +83,11 @@ class MMultiField extends MInput
             body { font-size: 62.5%; }
             label, input { display:block; }
             input.text { margin-bottom:12px; width:95%; padding: .4em; }
-            fieldset { padding:0; border:0; margin-top:25px; }
+            #multiFieldDialogFields-{$this->id} { padding:0; border:0; margin-top:25px; }
             h1 { font-size: 1.2em; margin: .6em 0; }
-            div#multiField-contain { width: 350px; margin: 20px 0; }
-            div#multiField-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-            div#multiField-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+            div#multiField-contain-{$this->id} { width: 350px; margin: 20px 0; }
+            div#multiField-contain-{$this->id} table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+            div#multiField-contain-{$this->id} table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
             .ui-dialog .ui-state-error { padding: .3em; }
             .validateTips { border: 1px solid transparent; padding: 0.3em; }
         </style>    
@@ -116,8 +114,8 @@ class MMultiField extends MInput
                         tips.removeClass( 'ui-state-highlight', 1500 );
                     }, 500 );
                 }
-
-                $( '#dialog-form' ).dialog({
+                var arrayMultiField_{$this->id} = new Array();
+                $( '#dialog-form-{$this->id}' ).dialog({
                     autoOpen: false,
                     height: 300,
                     width: 350,
@@ -126,18 +124,22 @@ class MMultiField extends MInput
                         'Adicionar': function() {
                             //add aqui pra ve se eh requerido os campos
                             if ( 1 ) {
-                                $( '#multiFieldTable-{$this->id} tbody' ).append( '<tr>' +
-                                {$jsAppendFields}
-                                    '</tr>' ); 
-                                $( this ).dialog( 'close' );
-                                var json = '';
-                                $('#multiFieldTable-{$this->id} tbody tr').each(function() 
-                                {          
-                                    
-                                    json += $(this).serializeArray();  
-                                });
+                
+                                var tr = $('<tr>');                                
+                                $('#multiFieldDialogFields-{$this->id}').find('input,select,textarea').each(function()  
+                                {
+                                    var td = $('<td>');
+                                    td.append($(this).clone().hide());
+                                    td.append($(this).val());
+                                    tr.append(td);    
+                                });  
+                
+                                $( '#multiFieldTable-{$this->id} tbody' ).append(tr);
                                 
-                                console.log(json);
+                                arrayMultiField_{$this->id}.push($('#multiFieldDialogFields-{$this->id}').find('input,select,textarea').serializeJSON());
+                                $('#{$this->id}').val( $.toJSON(arrayMultiField_{$this->id}));
+                                
+                                
                             }
                         },
                         Cancelar: function() {
@@ -149,18 +151,18 @@ class MMultiField extends MInput
                     }
                 });
 
-                $( '#multiFieldAdd' )
+                $( '#multiFieldAdd-{$this->id}' )
                 .button()
                 .click(function() {
-                    $( '#dialog-form' ).dialog( 'open' ); return false;
+                    $( '#dialog-form-{$this->id}' ).dialog( 'open' ); return false;
                 });
             });
         </script>
         ";        
         
         $multiFieldTable = 
-        "<div id='multiField-contain' class='ui-widget'>
-            <div style='text-align:left; width:100%; height:35px'> <br><button style='text-align:left;float:left;' id='multiFieldAdd'>Adicionar</button> </div>
+        "<div id='multiField-contain-{$this->id}' class='ui-widget'>
+            <div style='text-align:left; width:100%; height:35px'> <br><button style='text-align:left;float:left;' id='multiFieldAdd-{$this->id}'>Adicionar</button> </div>
             <table id='multiFieldTable-{$this->id}' class='ui-widget ui-widget-content'>
                 <thead>
                     <tr class='ui-widget-header '>
@@ -171,7 +173,7 @@ class MMultiField extends MInput
 
                 </tbody>
             </table>
-            <input type='text' id='{$this->id}1' name='{$this->name}1' />
+            <input type='text' id='{$this->id}' name='{$this->name}' style='display:none;'/>
         </div>";
             
         return $multiFieldScript.$formDialog.$multiFieldTable;
