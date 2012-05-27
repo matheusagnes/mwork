@@ -156,7 +156,8 @@ class MGrid
                 {
                     $key_filter = explode('::', $key_filter);
                     $operator = $key_filter[2];
-                    $key_filter = $key_filter[0] . '.' . $key_filter[1];
+                    $key_filter = $this->model->getTable() . '.' . $key_filter[1];
+                    //$key_filter = $this->model->getTable() .'.'.$key_filter[1];
                     if ($operator)
                     {
                         if ($operator == 'like')
@@ -182,7 +183,7 @@ class MGrid
         $where = substr($where, 0, -3);
         $select = substr($select, 0, -1);
         $from = implode(',', $from);
-
+        
         return $select . ' from ' . $from . $where . ' limit 20';
     }
 
@@ -205,6 +206,8 @@ class MGrid
             $this->addAction('Editar', MGrid::EDIT, 'edit', array($this->model->getPrimaryKey()), 'showContent', array('conteudo'));
             $this->addAction('Deletar', MGrid::DELETE, 'delete');
         }
+        
+        $objects = new stdClass();
         
         $objects = DB::getObjects($this->getSql());
         
@@ -244,6 +247,8 @@ class MGrid
                                             
                         $tableColumn = explode('.', $newColumnTable);
                         $tableColumn = $tableColumn[0];
+                        $tableColumn = trim($tableColumn);
+                        $ref_column = trim($ref_column);
                         
                         unset($modelTable);
                         $modelTable = $this->MCore->getModelFromTable($tableColumn);
@@ -265,18 +270,28 @@ class MGrid
                 
                 $grid.="<tr> {$gridLabels} </tr>";
                 $grid.="<tr class='filters-grid'>  {$gridInputs} </tr> ";
-            $grid.='</thead> <tbody id="tbody_'.$this->gridId.'">';
+                $grid.='</thead> <tbody id="tbody_'.$this->gridId.'">';
             }
-
 
             foreach ($objects as $object)
             {
                 $grid.= '<tr>';
-
+                
                 foreach ($this->columns as $key => $value)
                 {
-                    $key = explode('::', $key);
-                    $grid.='<td align="center">' . $object->{$key[1]} . '</td>';
+                    $objKey = '';
+                    if(count(explode(' as ', $key)) > 1)
+                    {         
+                        $key = explode(' as ', $key);
+                        $objKey = trim($key[1]);
+                    }
+                    else
+                    {
+                        $key = explode('::', $key);   
+                        $objKey = trim($key[1]);
+                    }
+                    
+                    $grid.='<td align="center">' . $object->{$objKey} . '</td>';
                 }
                 foreach ($this->actions as $objAction)
                 {
