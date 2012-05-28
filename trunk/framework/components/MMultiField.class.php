@@ -4,6 +4,7 @@
 class MMultiField extends MInput
 {
     private $fields;
+    private $objects;
     
     public function __construct($value=null, $name=null, $id=null,$maxlength=null)
     {
@@ -11,6 +12,11 @@ class MMultiField extends MInput
         $this->value = $value;
         $this->name = $name;
         $this->id = $id;
+    }
+
+    public function setValue($objects)
+    {
+        $this->objects;
     }
 
     
@@ -83,7 +89,7 @@ class MMultiField extends MInput
             body { font-size: 62.5%; }
             label, input { display:block; }
             input.text { margin-bottom:12px; width:95%; padding: .4em; }
-            #multiFieldDialogFields-{$this->id} { padding:0; border:0; margin-top:25px; }
+            #multiFieldDialogFields-{$this->id} { padding:10px; border:0; margin-top:25px; }
             h1 { font-size: 1.2em; margin: .6em 0; }
             div#multiField-contain-{$this->id} { width: 350px; margin: 20px 0; }
             div#multiField-contain-{$this->id} table { margin: 1em 0; border-collapse: collapse; width: 100%; }
@@ -120,7 +126,10 @@ class MMultiField extends MInput
                     height: 300,
                     width: 350,
                     modal: true,
-                    buttons: {
+                    buttons: {                        
+                        Cancelar: function() {
+                            $( this ).dialog( 'close' );
+                        },
                         'Adicionar': function() {
                             //add aqui pra ve se eh requerido os campos
                             if ( 1 ) {
@@ -129,7 +138,7 @@ class MMultiField extends MInput
                                 $('#multiFieldDialogFields-{$this->id}').find('input,select,textarea').each(function()  
                                 {
                                     var td = $('<td>');
-                                    td.append($(this).clone().attr('id','multifield_'+$(this).attr('id')).attr('name','multifield_'+$(this).attr('name')).hide());
+                                    td.append($(this).clone().attr('disabled','disabled').attr('id','multifield_'+$(this).attr('id')).attr('name','multifield_'+$(this).attr('name')).hide());
                                     
                                     console.log($(this).prop('tagName'));
                                     if($(this).prop('tagName') == 'SELECT')   
@@ -144,7 +153,15 @@ class MMultiField extends MInput
                                 arrayMultiField_{$this->id} = new Array();
                                 $( '#multiFieldTable-{$this->id} tbody' ).find('tr').each(function()
                                 {
+                                    $(this).find('input,select,textarea').each(function()
+                                    {
+                                        $(this).attr('disabled',false);
+                                    });
                                     arrayMultiField_{$this->id}.push($(this).find('input,select,textarea').serializeJSON());
+                                    $(this).find('input,select,textarea').each(function()
+                                    {
+                                        $(this).attr('disabled','true');
+                                    });
                                 });
                                 
                                 
@@ -153,9 +170,6 @@ class MMultiField extends MInput
                                 
                             }
                         },
-                        Cancelar: function() {
-                            $( this ).dialog( 'close' );
-                        }
                     },
                     close: function() {
                         allFields.val( '' ).removeClass( 'ui-state-error' );
@@ -173,7 +187,10 @@ class MMultiField extends MInput
         
         $multiFieldTable = 
         "<div id='multiField-contain-{$this->id}' class='ui-widget'>
-            <div style='text-align:left; width:100%; height:35px'> <br><button style='text-align:left;float:left;' id='multiFieldAdd-{$this->id}'>Adicionar</button> </div>
+            <div style='text-align:left; width:100%; height:35px'> 
+                <br>
+                <button style='text-align:left;float:left;' id='multiFieldAdd-{$this->id}'>Adicionar</button> 
+            </div>
             <table id='multiFieldTable-{$this->id}' class='ui-widget ui-widget-content'>
                 <thead>
                     <tr class='ui-widget-header '>
@@ -190,23 +207,6 @@ class MMultiField extends MInput
         return $multiFieldScript.$formDialog.$multiFieldTable;
        
     }
-
-
-
-    public function setMaxLength($maxlength)
-    {
-        $this->maxlength = $maxlength;
-    }
-
-
-    //a - Represents an alpha character (A-Z,a-z)
-    //9 - Represents a numeric character (0-9)
-    //* - Represents an alphanumeric character (A-Z,a-z,0-9)
-    public function setMask($mask)
-    {
-        $this->mask = $mask;
-    }
-
 }
 
 ?>
