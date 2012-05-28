@@ -18,7 +18,8 @@ $mcore = $mcore->getInstance();
         
         <script type="text/javascript" src="framework/lib/js/jquery.js"></script>
         <script type="text/javascript" src="framework/lib/js/jquery-ui.js"></script>
-	    
+	            <script type="text/javascript" src="framework/lib/js/jquery-mask.js"></script>
+	            <script type="text/javascript" src="framework/lib/js/jquery-json.js"></script>
         <script type="text/javascript" src="framework/lib/js/jquery-ui-timepicker.js"></script>        
 
         <script type="text/javascript" src="framework/lib/js/ajax/jquery.ba-bbq.js"></script>
