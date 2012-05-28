@@ -93,7 +93,7 @@ function openLink(url)
 
 function loadCombo(url)
 {
-    requestPage(url, null,  null, null, 'post', true, null);
+    requestPage('ajax.php?class='+url, null,  null, null, 'post', true, null);
 }
 
 

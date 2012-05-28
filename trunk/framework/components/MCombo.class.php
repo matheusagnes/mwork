@@ -57,7 +57,7 @@ class MCombo extends MInput
         {
             foreach ($this->properties as $name => $value)
             {
-                $add .= " $name='$value'";
+                $add .= ''.$name.'="'.$value.'"';
             }
         }
 
