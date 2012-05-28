@@ -60,6 +60,17 @@ function glue_first_upper($string, $glue)
     return $new_string;
 }
 
+function changeCombo($array, $id_field)
+{
+    $script = "<script>";
+    $script.="clearCombo('{$id_field}');";
+    foreach ($array as $key=>$value)
+    {
+        $script.="addSelectOption(document.getElementById('{$id_field}'),'{$value}','{$key}'); \n";
+    }
+    $script .= "</script>";
+    echo $script;
+}
 
 
 ?>

@@ -129,15 +129,26 @@ class MMultiField extends MInput
                                 $('#multiFieldDialogFields-{$this->id}').find('input,select,textarea').each(function()  
                                 {
                                     var td = $('<td>');
-                                    td.append($(this).clone().hide());
-                                    td.append($(this).val());
+                                    td.append($(this).clone().attr('id','multifield_'+$(this).attr('id')).attr('name','multifield_'+$(this).attr('name')).hide());
+                                    
+                                    console.log($(this).prop('tagName'));
+                                    if($(this).prop('tagName') == 'SELECT')   
+                                        td.append($(this).find('option:selected').text());
+                                    else
+                                        td.append($(this).val());
                                     tr.append(td);    
                                 });  
                 
                                 $( '#multiFieldTable-{$this->id} tbody' ).append(tr);
                                 
-                                arrayMultiField_{$this->id}.push($('#multiFieldDialogFields-{$this->id}').find('input,select,textarea').serializeJSON());
-                                $('#{$this->id}').val( $.toJSON(arrayMultiField_{$this->id}));
+                                arrayMultiField_{$this->id} = new Array();
+                                $( '#multiFieldTable-{$this->id} tbody' ).find('tr').each(function()
+                                {
+                                    arrayMultiField_{$this->id}.push($(this).find('input,select,textarea').serializeJSON());
+                                });
+                                
+                                
+                                $('#{$this->id}').val( $.toJSON(arrayMultiField_{$this->id}).replace(/multifield_/gi,''));
                                 
                                 
                             }
@@ -173,7 +184,7 @@ class MMultiField extends MInput
 
                 </tbody>
             </table>
-            <input type='text' id='{$this->id}' name='{$this->name}' style='display:none;'/>
+            <input type='text' id='{$this->id}' name='{$this->name}' style='display:;'/>
         </div>";
             
         return $multiFieldScript.$formDialog.$multiFieldTable;
