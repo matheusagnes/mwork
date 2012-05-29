@@ -13,7 +13,9 @@ class MMultiField extends MInput
         $this->name = $name;
         $this->id = $id;
     }
+    
 
+    
     public function setValue($objects)
     {
         $this->objects = $objects;
@@ -83,19 +85,33 @@ class MMultiField extends MInput
         if($this->objects)
         {
             $editMutiField = '';
-            foreach ($this->objects as $object)
+            $cont = 0;
+            foreach ($this->objects as $key=>$object)
             {
-                $editMutiField .="<tr>";
+                $cont++;
+                $editMutiField .="<tr>";                
+                $editMutiField .= "<td style='display:none;'> <input type='text' disabled='disabled' name='multifield_id' id='multifield_id' value='{$key}' style='display:none'> </td>";
                 foreach ($this->fields as $field)
                 {
                     $text = null;
                     $value = null;
-                    $text = trim($object->{$field->name}->text);
-                    $value = trim($object->{$field->name}->value);
+                    if(!is_array($object->{$field->name}))
+                    {
+                        $text = $object->{$field->name};
+                        $value = $object->{$field->name};                    
+                    }
+                    else
+                    {
+                        $text = $object->{$field->name}[0];
+                        $value = $object->{$field->name}[1];                    
+                    }
+                    $text = trim($text);
+                    $value = trim($value);
                     $editMutiField .= "<td>";
-                    $editMutiField .= "{$text} <input tupe='text' disabled='disabled' name='multifield_{$field->name} id='multifield_{$field->id} value='{$value}' style='display:none'>";
+                    $editMutiField .= "{$text} <input type='text' disabled='disabled' name='multifield_{$field->name}' id='multifield_{$field->id}' value='{$value}' style='display:none'>";
                     $editMutiField .= "</td>";
                 }
+                $editMutiField .= "<td> <img name = 'edit' class='multiFieldIcon' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon' src='framework/images/delete.png' title='Deletar'> </td>";
                 $editMutiField .="</tr>";
             }
         }
@@ -111,9 +127,10 @@ class MMultiField extends MInput
             input.text { margin-bottom:12px; width:95%; padding: .4em; }
             #multiFieldDialogFields-{$this->id} { padding:10px; border:0; margin-top:25px; }
             h1 { font-size: 1.2em; margin: .6em 0; }
-            div#multiField-contain-{$this->id} { width: 350px; margin: 20px 0; }
-            div#multiField-contain-{$this->id} table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-            div#multiField-contain-{$this->id} table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+            .multiField-contain { width: 350px; margin: 20px 0; }
+            .multiField-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+            .multiField-contain table td, .multiField-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+            .multiFieldIcon {cursor: pointer;border: 0px; padding:0px;}
             .ui-dialog .ui-state-error { padding: .3em; }
             .validateTips { border: 1px solid transparent; padding: 0.3em; }
         </style>    
@@ -121,11 +138,31 @@ class MMultiField extends MInput
 
 
             <script>
+            function getJsonFromTable()
+            {
+                arrayMultiField_{$this->id} = new Array();
+                $( '#multiFieldTable-{$this->id} tbody' ).find('tr').each(function()
+                {
+                    $(this).find('input,select,textarea').each(function()
+                    {
+                        $(this).attr('disabled',false);
+                    });
+                    arrayMultiField_{$this->id}.push($(this).find('input,select,textarea').serializeJSON());
+                    $(this).find('input,select,textarea').each(function()
+                    {
+                        $(this).attr('disabled','true');
+                    });
+                });
+                $('#{$this->id}').val( $.toJSON(arrayMultiField_{$this->id}).replace(/multifield_/gi,''));
+            }
             $(function() {
                 $( '#dialog:ui-dialog' ).dialog( 'destroy' );
 	";
         
-        
+        if($this->objects)
+        {
+            $scriptJsonObjects = "getJsonFromTable();";
+        }
         
         $multiFieldScript .="	
                     
@@ -153,41 +190,24 @@ class MMultiField extends MInput
                         'Adicionar': function() {
                             //add aqui pra ve se eh requerido os campos
                             if ( 1 ) {
-                
                                 var tr = $('<tr>');                                
                                 $('#multiFieldDialogFields-{$this->id}').find('input,select,textarea').each(function()  
                                 {
                                     var td = $('<td>');
                                     td.append($(this).clone().attr('disabled','disabled').attr('id','multifield_'+$(this).attr('id')).attr('name','multifield_'+$(this).attr('name')).hide());
-                                    
-                                    console.log($(this).prop('tagName'));
                                     if($(this).prop('tagName') == 'SELECT')   
                                         td.append($(this).find('option:selected').text());
                                     else
                                         td.append($(this).val());
                                     tr.append(td);    
-                                });  
+                                });
+                                var td = $('<td>');
+                                td.append($('.actionsMultiField img').clone(true));
+                                tr.append(td)  
                 
                                 $( '#multiFieldTable-{$this->id} tbody' ).append(tr);
                                 
-                                arrayMultiField_{$this->id} = new Array();
-                                $( '#multiFieldTable-{$this->id} tbody' ).find('tr').each(function()
-                                {
-                                    $(this).find('input,select,textarea').each(function()
-                                    {
-                                        $(this).attr('disabled',false);
-                                    });
-                                    arrayMultiField_{$this->id}.push($(this).find('input,select,textarea').serializeJSON());
-                                    $(this).find('input,select,textarea').each(function()
-                                    {
-                                        $(this).attr('disabled','true');
-                                    });
-                                });
-                                
-                                
-                                $('#{$this->id}').val( $.toJSON(arrayMultiField_{$this->id}).replace(/multifield_/gi,''));
-                                
-                                
+                                getJsonFromTable();
                             }
                         },
                     },
@@ -202,11 +222,21 @@ class MMultiField extends MInput
                     $( '#dialog-form-{$this->id}' ).dialog( 'open' ); return false;
                 });
             });
+
+            $('.multiFieldIcon').click(function() 
+            {
+                if($(this).prop('name') == 'delete')
+                {
+                    $(this).closest('tr').remove();    
+                    getJsonFromTable();                
+                }
+                //console.log($(this).prop('name'), );
+            });           
         </script>
         ";        
         
         $multiFieldTable = 
-        "<div id='multiField-contain-{$this->id}' class='ui-widget'>
+        "<div id='multiField-contain-{$this->id}' class='ui-widget multiField-contain'>
             <div style='text-align:left; width:100%; height:35px'> 
                 <br>
                 <button style='text-align:left;float:left;' id='multiFieldAdd-{$this->id}'>Adicionar</button> 
@@ -221,7 +251,11 @@ class MMultiField extends MInput
                         {$editMutiField}
                 </tbody>
             </table>
+            <div class='actionsMultiField' style='display:none;'>
+                <img name = 'edit' class='multiFieldIcon' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon' src='framework/images/delete.png' title='Deletar'>            
+            </div> 
             <input type='text' id='{$this->id}' name='{$this->name}' style='display:;'/>
+        <script> {$scriptJsonObjects} </script>
         </div>";
             
         return $multiFieldScript.$formDialog.$multiFieldTable;
