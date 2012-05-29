@@ -16,7 +16,7 @@ class MMultiField extends MInput
 
     public function setValue($objects)
     {
-        $this->objects;
+        $this->objects = $objects;
     }
 
     
@@ -77,7 +77,27 @@ class MMultiField extends MInput
                 <label for='{$field->id}'>{$obligatory} {$field->label}</label>
                 ".$field->show()."
             ";
-            $tableLabels.= "<td> {$field->label} </td>";    
+            $tableLabels.= "<td> {$field->label} </td>";                                        
+        }
+        
+        if($this->objects)
+        {
+            $editMutiField = '';
+            foreach ($this->objects as $object)
+            {
+                $editMutiField .="<tr>";
+                foreach ($this->fields as $field)
+                {
+                    $text = null;
+                    $value = null;
+                    $text = trim($object->{$field->name}->text);
+                    $value = trim($object->{$field->name}->value);
+                    $editMutiField .= "<td>";
+                    $editMutiField .= "{$text} <input tupe='text' disabled='disabled' name='multifield_{$field->name} id='multifield_{$field->id} value='{$value}' style='display:none'>";
+                    $editMutiField .= "</td>";
+                }
+                $editMutiField .="</tr>";
+            }
         }
         $formDialog .= "</fieldset> </div>";
         
@@ -198,7 +218,7 @@ class MMultiField extends MInput
                     </tr>
                 </thead>
                 <tbody>
-
+                        {$editMutiField}
                 </tbody>
             </table>
             <input type='text' id='{$this->id}' name='{$this->name}' style='display:;'/>
