@@ -61,6 +61,7 @@ class MMultiField extends MInput
         $formDialog =
         "
         <div id='dialog-form-{$this->id}' title='Adicionar'>
+            <input type = 'text' name='trIndex' class = 'trIndex' style='display:'/> 
             <p class='validateTips'>Todos os campos com * são obrigatórios.</p>
             <fieldset id='multiFieldDialogFields-{$this->id}'>
          ";
@@ -96,7 +97,7 @@ class MMultiField extends MInput
             {
                 $cont++;
                 $editMutiField .="<tr>";                
-                $editMutiField .= "<td style='display:none;'> <input type='text' disabled='disabled' name='multifield_id' id='multifield_id' value='{$key}' style='display:none'> </td>";
+                $editMutiField .= "<td style='display:none;'> <input class='multifield_id'type='text' disabled='disabled' name='multifield_id' id='multifield_id' value='{$key}' style='display:none'> </td>";
                 foreach ($this->fields as $field)
                 {
                     $text = null;
@@ -196,28 +197,44 @@ class MMultiField extends MInput
                         'Adicionar': function() {
                             //add aqui pra ve se eh requerido os campos
                             if ( 1 ) {
-                                var tr = $('<tr>');                                
+                                var tr = $('<tr>');                                                                
+                                if($('#dialog-form-{$this->id} .trIndex').val() != '')
+                                {
+                                    var trTable = $( '#multiFieldTable-{$this->id} tbody tr :eq('+$('#dialog-form-{$this->id} .trIndex').val()+')' );
+                                    var tdId = trTable.find('.multifield_id').closest('td').clone(true);
+                                    tr.append(tdId);
+                                }
                                 $('#multiFieldDialogFields-{$this->id}').find('input,select,textarea').each(function()  
                                 {
                                     var td = $('<td>');
-                                    td.append($(this).clone().attr('disabled','disabled').attr('id','multifield_'+$(this).attr('id')).attr('name','multifield_'+$(this).attr('name')).hide());
+                                    td.append(\"<input value='\"+$(this).val()+\"' name='multifield_\"+$(this).attr('name')+\"' id='multifield_\"+$(this).attr('id')+\"' type = 'text' style='display:none' > \");
+                                    tr.append(td); 
                                     if($(this).prop('tagName') == 'SELECT')   
-                                        td.append($(this).find('option:selected').text());
+                                        td.append($(this).find('option:selected').text());                                    
                                     else
                                         td.append($(this).val());
                                     tr.append(td);    
                                 });
                                 var td = $('<td>');
                                 td.append($('.actionsMultiField{$this->id} img').clone(true));
-                                tr.append(td)  
-                
-                                $( '#multiFieldTable-{$this->id} tbody' ).append(tr);
                                 
+                                tr.append(td);
+
+                                if($('#dialog-form-{$this->id} .trIndex').val() == '')
+                                {                                                                                     
+                                    $( '#multiFieldTable-{$this->id} tbody' ).append(tr);
+                                }
+                                else
+                                {   console.log( $('#multiFieldTable-{$this->id} tbody tr :eq('+$('#dialog-form-{$this->id} .trIndex').val()+')') ); 
+                                    trTable.closest('tr').empty().append(tr.find('td'));                                    
+                                    $( this ).dialog( 'close' );
+                                }
                                 getJsonFromTable_{$this->id}();
                             }
                         },
                     },
                     close: function() {
+                        $('#dialog-form-{$this->id} .trIndex').val('');    
                         allFields.val( '' ).removeClass( 'ui-state-error' );
                     }
                 });
@@ -238,9 +255,16 @@ class MMultiField extends MInput
                 }
                 else
                 {
-                    
+                    $(this).closest('tr').find('input,select,textarea').each(function()
+                    {
+                        if($(this).attr('name') != 'multifield_id')
+                        {    
+                            $('#'+$(this).attr('name').replace(/multifield_/gi,'')).val($(this).val()); 
+                        }
+                    });
+                    $( '#dialog-form-{$this->id} .trIndex').val( $(this).closest('tr').index() );
+                    $( '#dialog-form-{$this->id}' ).dialog( 'open' ); return false; 
                 }
-                //console.log($(this).prop('name'), );
             });           
         </script>
         ";        
@@ -264,7 +288,7 @@ class MMultiField extends MInput
             <div class='actionsMultiField{$this->id}' style='display:none;'>
                 <img name = 'edit' class='multiFieldIcon' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon' src='framework/images/delete.png' title='Deletar'>            
             </div> 
-            <input type='text' id='{$this->id}' name='{$this->name}' style='display:;'/>
+            <input type='text' id='{$this->id}' name='{$this->name}' style='width:500px;display:;'/>
         <script> {$scriptJsonObjects} </script>
         </div>";
             
