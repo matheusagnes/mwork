@@ -63,7 +63,7 @@ class MCombo extends MInput
 
         if ($this->getObligatory())
         {
-            //$required = "class=\"validate['required']\"";             
+            $required = "required=\"1\"";             
         }
 
         if (!$this->multiple)

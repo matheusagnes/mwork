@@ -61,8 +61,8 @@ class MMultiField extends MInput
         $formDialog =
         "
         <div id='dialog-form-{$this->id}' title='Adicionar'>
-            <input type = 'text' name='trIndex' class = 'trIndex' style='display:'/> 
-            <p class='validateTips'>Todos os campos com * são obrigatórios.</p>
+            <input type = 'text' name='trIndex' class = 'trIndex' style='display:none'/> 
+            <div class='validate-tips message warning_message'> Todos os campos com <b> <span class='obligatory'>*</span> </b> são obrigatórios !!  </div>
             <fieldset id='multiFieldDialogFields-{$this->id}'>
          ";
         
@@ -118,7 +118,7 @@ class MMultiField extends MInput
                     $editMutiField .= "{$text} <input type='text' disabled='disabled' name='multifield_{$field->name}' id='multifield_{$field->id}' value='{$value}' style='display:none'>";
                     $editMutiField .= "</td>";
                 }
-                $editMutiField .= "<td> <img name = 'edit' class='multiFieldIcon' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon' src='framework/images/delete.png' title='Deletar'> </td>";
+                $editMutiField .= "<td> <img name = 'edit' class='multiFieldIcon-{$this->id}' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon-{$this->id}' src='framework/images/delete.png' title='Deletar'> </td>";
                 $editMutiField .="</tr>";
             }
         }
@@ -137,7 +137,7 @@ class MMultiField extends MInput
             .multiField-contain { width: 350px; margin: 20px 0; }
             .multiField-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
             .multiField-contain table td, .multiField-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-            .multiFieldIcon {cursor: pointer;border: 0px; padding:0px;}
+            .multiFieldIcon-{$this->id} {cursor: pointer;border: 0px; padding:0px;}
             .ui-dialog .ui-state-error { padding: .3em; }
             .validateTips { border: 1px solid transparent; padding: 0.3em; }
         </style>    
@@ -145,6 +145,7 @@ class MMultiField extends MInput
 
 
             <script>
+            
             function getJsonFromTable_{$this->id}()
             {
                 var arrayMultiField_{$this->id} = new Array();
@@ -176,15 +177,7 @@ class MMultiField extends MInput
                 {$jsVars}
                
                 {$jsArrayFields};
-                function updateTips( t ) {
-                    tips
-                    .text( t )
-                    .addClass( 'ui-state-highlight' );
-                    setTimeout(function() {
-                        tips.removeClass( 'ui-state-highlight', 1500 );
-                    }, 500 );
-                }
-                
+                                
                 $( '#dialog-form-{$this->id}' ).dialog({
                     autoOpen: false,
                     height: 300,
@@ -195,11 +188,12 @@ class MMultiField extends MInput
                             $( this ).dialog( 'close' );
                         },
                         'Adicionar': function() {
-                            //add aqui pra ve se eh requerido os campos
-                            if ( 1 ) {
+
+                            if ( $('#dialog-form-{$this->id}').checkFields() ) {
                                 var tr = $('<tr>');                                                                
                                 if($('#dialog-form-{$this->id} .trIndex').val() != '')
                                 {
+                                    console.log(123);
                                     var trTable = $( '#multiFieldTable-{$this->id} tbody tr :eq('+$('#dialog-form-{$this->id} .trIndex').val()+')' );
                                     var tdId = trTable.find('.multifield_id').closest('td').clone(true);
                                     tr.append(tdId);
@@ -235,7 +229,8 @@ class MMultiField extends MInput
                     },
                     close: function() {
                         $('#dialog-form-{$this->id} .trIndex').val('');    
-                        allFields.val( '' ).removeClass( 'ui-state-error' );
+                        $('#dialog-form-{$this->id} .validate-tips').hide();                             
+                        allFields.val( '' );
                     }
                 });
 
@@ -246,7 +241,7 @@ class MMultiField extends MInput
                 });
             });
 
-            $('.multiFieldIcon').click(function() 
+            $('.multiFieldIcon-{$this->id}').click(function() 
             {
                 if($(this).prop('name') == 'delete')
                 {
@@ -271,8 +266,7 @@ class MMultiField extends MInput
         
         $multiFieldTable = 
         "<div id='multiField-contain-{$this->id}' class='ui-widget multiField-contain'>
-            <div style='text-align:left; width:100%; height:35px'> 
-                <br>
+            <div style='text-align:left; width:100%; height:35px'> <br>
                 <button style='text-align:left;float:left;' id='multiFieldAdd-{$this->id}'>Adicionar</button> 
             </div>
             <table id='multiFieldTable-{$this->id}' class='ui-widget ui-widget-content'>
@@ -286,9 +280,9 @@ class MMultiField extends MInput
                 </tbody>
             </table>
             <div class='actionsMultiField{$this->id}' style='display:none;'>
-                <img name = 'edit' class='multiFieldIcon' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon' src='framework/images/delete.png' title='Deletar'>            
+                <img name = 'edit' class='multiFieldIcon-{$this->id}' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon-{$this->id}' src='framework/images/delete.png' title='Deletar'>            
             </div> 
-            <input type='text' id='{$this->id}' name='{$this->name}' style='width:500px;display:;'/>
+            <input type='text' id='{$this->id}' name='{$this->name}' style='display:none;'/>
         <script> {$scriptJsonObjects} </script>
         </div>";
             
