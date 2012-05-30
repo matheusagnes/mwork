@@ -30,7 +30,7 @@ class UsuariosFormView extends MForm
         $aCoisas[3] = 'coisa3';
         
 
-        parent::addField('coisas', 'Coisas', new MCombo($aCoisas), true);
+        //parent::addField('coisas', 'Coisas', new MCombo($aCoisas), true);
 
         $multifield = new MMultiField();
         $multifield->addField('senha', 'Senha  ', new MText(), true);
@@ -40,12 +40,11 @@ class UsuariosFormView extends MForm
         $objField->coisas = array('coisa1',1);
         unset($objs);
         $objs[1] = $objField;
-        $objs[2] = $objField;
         $multifield->setValue($objs);
         parent::addField('multiField', 'MultiField', $multifield, true);
 
         parent::addTab('oii');
-        parent::addField('senha', 'Senha  ', new MText(), true);
+        //parent::addField('senha', 'Senha  ', new MText(), true);
         parent::addField('ref_tipo_usuario', 'Tipo Usuário  ', $ref_tipo_usuarios, true);
     }
 

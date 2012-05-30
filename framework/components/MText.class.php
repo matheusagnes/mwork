@@ -48,7 +48,7 @@ class MText extends MInput
         {
             $required = "class=\"validate['required']\"";            
         }
-        return "<input name='{$this->name}' $disabled id = '{$this->id}' $add  size='{$this->size}' value='{$this->value}' {$maxlength} type='text' $required  /> $mask";
+        return "<input name='{$this->name}' $disabled id = '{$this->id}' $add  value='{$this->value}' {$maxlength} type='text' $required  /> $mask";
        
     }
 
