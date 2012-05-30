@@ -14,13 +14,19 @@ class MMultiField extends MInput
         $this->id = $id;
     }
     
-
-    
+    /** 
+    * Set vales to multifield    
+    * @param Array
+      Usage:
+        $objects[table_id] = object->fieldName = 'test'
+        $objects[table_id] = object->fieldName = array('test', 10)
+    * @return void 
+    */ 
     public function setValue($objects)
     {
+        
         $this->objects = $objects;
     }
-
     
     public function addField($name, $label, MInput $objInput, $obligatory = false)
     {
@@ -138,9 +144,9 @@ class MMultiField extends MInput
 
 
             <script>
-            function getJsonFromTable()
+            function getJsonFromTable_{$this->id}()
             {
-                arrayMultiField_{$this->id} = new Array();
+                var arrayMultiField_{$this->id} = new Array();
                 $( '#multiFieldTable-{$this->id} tbody' ).find('tr').each(function()
                 {
                     $(this).find('input,select,textarea').each(function()
@@ -152,7 +158,7 @@ class MMultiField extends MInput
                     {
                         $(this).attr('disabled','true');
                     });
-                });
+                });                
                 $('#{$this->id}').val( $.toJSON(arrayMultiField_{$this->id}).replace(/multifield_/gi,''));
             }
             $(function() {
@@ -161,7 +167,7 @@ class MMultiField extends MInput
         
         if($this->objects)
         {
-            $scriptJsonObjects = "getJsonFromTable();";
+            $scriptJsonObjects = "getJsonFromTable_{$this->id}();";
         }
         
         $multiFieldScript .="	
@@ -177,7 +183,7 @@ class MMultiField extends MInput
                         tips.removeClass( 'ui-state-highlight', 1500 );
                     }, 500 );
                 }
-                var arrayMultiField_{$this->id} = new Array();
+                
                 $( '#dialog-form-{$this->id}' ).dialog({
                     autoOpen: false,
                     height: 300,
@@ -202,12 +208,12 @@ class MMultiField extends MInput
                                     tr.append(td);    
                                 });
                                 var td = $('<td>');
-                                td.append($('.actionsMultiField img').clone(true));
+                                td.append($('.actionsMultiField{$this->id} img').clone(true));
                                 tr.append(td)  
                 
                                 $( '#multiFieldTable-{$this->id} tbody' ).append(tr);
                                 
-                                getJsonFromTable();
+                                getJsonFromTable_{$this->id}();
                             }
                         },
                     },
@@ -228,7 +234,11 @@ class MMultiField extends MInput
                 if($(this).prop('name') == 'delete')
                 {
                     $(this).closest('tr').remove();    
-                    getJsonFromTable();                
+                    getJsonFromTable_{$this->id}();                
+                }
+                else
+                {
+                    
                 }
                 //console.log($(this).prop('name'), );
             });           
@@ -251,7 +261,7 @@ class MMultiField extends MInput
                         {$editMutiField}
                 </tbody>
             </table>
-            <div class='actionsMultiField' style='display:none;'>
+            <div class='actionsMultiField{$this->id}' style='display:none;'>
                 <img name = 'edit' class='multiFieldIcon' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon' src='framework/images/delete.png' title='Deletar'>            
             </div> 
             <input type='text' id='{$this->id}' name='{$this->name}' style='display:;'/>
