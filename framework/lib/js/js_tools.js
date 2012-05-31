@@ -44,3 +44,23 @@ function showHighLight(message, state)
     };
 })( jQuery );
 
+(function( $ )
+{
+    $.fn.checkFields=function() 
+    {
+        var valid = true;
+        this.find('input,select,textarea').each(function()  
+        {
+            if($(this).prop('required') && ($(this).val() == '' || $(this).val() == 0))
+            {
+                valid  = false;
+                return false;
+            }
+        });
+        console.log(this);
+        if(!valid)
+            this.find('.validate-tips').slideDown();
+
+        return valid;                
+    };
+})( jQuery );
