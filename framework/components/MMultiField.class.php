@@ -61,7 +61,7 @@ class MMultiField extends MInput
         $formDialog =
         "
         <div id='dialog-form-{$this->id}' title='Adicionar'>
-            <input type = 'text' name='trIndex' class = 'trIndex' style='display:none'/> 
+            <input type = 'text' name='trIndex' class = 'trIndex' style='display:none;'/> 
             <div class='validate-tips message warning_message'> Todos os campos com <b> <span class='obligatory'>*</span> </b> são obrigatórios !!  </div>
             <fieldset id='multiFieldDialogFields-{$this->id}'>
          ";
@@ -188,13 +188,14 @@ class MMultiField extends MInput
                             $( this ).dialog( 'close' );
                         },
                         'Adicionar': function() {
-
-                            if ( $('#dialog-form-{$this->id}').checkFields() ) {
-                                var tr = $('<tr>');                                                                
-                                if($('#dialog-form-{$this->id} .trIndex').val() != '')
+                            //$('#dialog-form-{$this->id}').checkFields()
+                            if ( 1 ) {
+                                var tr = $('<tr>'); 
+                                var trIndexVal = $('#dialog-form-{$this->id} .trIndex').val();
+                                if(trIndexVal != '')
                                 {
-                                    console.log(123);
-                                    var trTable = $( '#multiFieldTable-{$this->id} tbody tr :eq('+$('#dialog-form-{$this->id} .trIndex').val()+')' );
+                                    var trTable = $($('#multiFieldTable-{$this->id} tbody tr')[trIndexVal]);
+                                    
                                     var tdId = trTable.find('.multifield_id').closest('td').clone(true);
                                     tr.append(tdId);
                                 }
@@ -219,8 +220,8 @@ class MMultiField extends MInput
                                     $( '#multiFieldTable-{$this->id} tbody' ).append(tr);
                                 }
                                 else
-                                {   console.log( $('#multiFieldTable-{$this->id} tbody tr :eq('+$('#dialog-form-{$this->id} .trIndex').val()+')') ); 
-                                    trTable.closest('tr').empty().append(tr.find('td'));                                    
+                                {
+                                    trTable.empty().append(tr.find('td'));                                    
                                     $( this ).dialog( 'close' );
                                 }
                                 getJsonFromTable_{$this->id}();
@@ -257,6 +258,7 @@ class MMultiField extends MInput
                             $('#'+$(this).attr('name').replace(/multifield_/gi,'')).val($(this).val()); 
                         }
                     });
+                    console.log($(this).closest('tr').index());
                     $( '#dialog-form-{$this->id} .trIndex').val( $(this).closest('tr').index() );
                     $( '#dialog-form-{$this->id}' ).dialog( 'open' ); return false; 
                 }
