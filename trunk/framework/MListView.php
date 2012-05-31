@@ -15,9 +15,13 @@ class MListView extends MList
     {
         if ($this->form)
         {
-            
-            $this->form->show();
-            
+            if($this->form)
+            {
+                //echo '<div> Busca Avançada </div>';
+                //echo '<div class="advanced-search">';
+                $this->form->show();
+                //echo '</div>';
+            }
             if($this->menu)
                 $this->menu->show();
 

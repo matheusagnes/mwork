@@ -269,7 +269,7 @@ class MGrid
                 }
                 
                 $grid.="<tr> {$gridLabels} </tr>";
-                $grid.="<tr class='filters-grid'>  {$gridInputs} </tr> ";
+                $grid.="<tr class='filters-grid'>  {$gridInputs}  </tr> ";
                 $grid.='</thead> <tbody id="tbody_'.$this->gridId.'">';
             }
 
@@ -352,15 +352,18 @@ class MGrid
         echo $grid;
 
         echo " <script>
-        $('#{$this->gridId}').keyup(function(e){ 
-            if(e.keyCode == 13) {
+        $('#{$this->gridId}').keyup(function(e)
+        { 
+            if(e.keyCode == 13) 
+            {
                 var objsFilter = $('.filters-grid').find('input,select'); 
                 ajaxSubmitObjs('{$this->listControlName}::search(1)','tbody_{$this->gridId}',objsFilter);
                 return true;
             }
         });
     
-        $('#{$this->gridId}').find('select').change(function(e){ 
+        $('#{$this->gridId}').find('select').change(function(e)
+        { 
             var objsFilter = $('.filters-grid').find('input,select'); 
             ajaxSubmitObjs('{$this->listControlName}::search(1)','tbody_{$this->gridId}',objsFilter);
             return true;
