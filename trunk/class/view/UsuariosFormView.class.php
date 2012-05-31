@@ -40,6 +40,9 @@ class UsuariosFormView extends MForm
         $objField->coisas = array('coisa1',1);
         unset($objs);
         $objs[1] = $objField;
+        $objField1->senha = 'texto1';
+        $objField1->coisas = array('coisa2',2);
+        $objs[2] = $objField1;
         $multifield->setValue($objs);
         parent::addField('multiField', 'MultiField', $multifield, true);
 
