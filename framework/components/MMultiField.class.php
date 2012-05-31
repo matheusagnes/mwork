@@ -189,7 +189,7 @@ class MMultiField extends MInput
                         },
                         'Adicionar': function() {
                             //$('#dialog-form-{$this->id}').checkFields()
-                            if ( 1 ) {
+                            if ( $('#dialog-form-{$this->id}').checkFields() ) {
                                 var tr = $('<tr>'); 
                                 var trIndexVal = $('#dialog-form-{$this->id} .trIndex').val();
                                 if(trIndexVal != '')

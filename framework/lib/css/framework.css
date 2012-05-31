@@ -518,6 +518,12 @@ select[multiple] {
 }
 
 /* List */
+
+.advanced-search
+{
+    display:none;
+}
+
 .list
 {
     width:98%;
