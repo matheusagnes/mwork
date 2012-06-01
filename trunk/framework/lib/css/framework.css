@@ -518,19 +518,35 @@ select[multiple] {
 }
 
 /* List */
-
+h1{
+    border-bottom-color: #CCC;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    color: #222;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding-bottom: 0.25em;
+}
 .advanced-search
 {
     display:none;
 }
 
+#advanced-search-button
+{
+    margin:15px;
+}
+
 .list
 {
-    width:98%;
+    width:100%;
     margin:auto;
     border:solid 1px #BBB;
     background-color:white;
     font-size: 11px;
+    padding-top:15px;
+    padding-bottom:15px;
 }
 
 .list input
@@ -543,6 +559,23 @@ select[multiple] {
     width:100%;
 }
 
+.content-list
+{
+    width:800px;
+    padding:10px;
+    float:left;
+}
+
+.menu-list
+{
+    float:right;
+    width:120px;
+    padding-top:30px;
+    padding-right:10px;
+}
+
+
+
 .menu_vertical
 {
     float:right;    
@@ -554,13 +587,10 @@ select[multiple] {
 
 .portlet
 {
+    width: 100%;
     border: 1px solid #ccc;
     background:#F9F9F9;
     margin-bottom:10px;
-    width:120px;
-    float:right;
-    margin-top: -25%;
-
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -683,6 +713,14 @@ select[multiple] {
     padding: 15px;    
     margin: 10px;
 }
+
+
+
+.clear
+{
+    clear:both;
+}
+
 
 
 
