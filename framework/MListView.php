@@ -15,20 +15,34 @@ class MListView extends MList
     {
         if ($this->form)
         {
+
+            echo '<div class="content-list">';
+             echo '<h1> Gerenciamento de Usuários </h1>';
             if($this->form)
             {
-                //echo '<div> Busca Avançada </div>';
-                //echo '<div class="advanced-search">';
+                echo '<button id="advanced-search-button"> Busca Avançada </button>';
+                echo '<script> $("#advanced-search-button").button().click(function() {
+                      $(".advanced-search").show();
+                    });; </script>';
+                echo '<div class="advanced-search">';
                 $this->form->show();
-                //echo '</div>';
+                echo '</div>';
             }
-            if($this->menu)
-                $this->menu->show();
-
-            parent::setGridId($this->form->getDivTarget());
+            
+            parent::setGridId($this->form->getDivTarget());           
             echo '<div class="list" >';
+           
             parent::showGrid();
             echo '</div>';
+            echo '</div>';
+            
+            if($this->menu)
+            {  
+                echo '<div class = "menu-list">'; 
+                $this->menu->show();
+                echo '</div>';
+            }
+            echo '<div class="clear"> </div>';
         }
     }
 
