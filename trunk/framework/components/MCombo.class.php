@@ -69,8 +69,18 @@ class MCombo extends MInput
         if (!$this->multiple)
             $htmlCombo = "<select name='{$this->name}'  {$required}' id='{$this->id}'   $add >";
         else
-            $htmlCombo = "<select name='{$this->name}[]' multiple='multiple' {$required}' id='{$this->id}'   $add >";
-
+        {
+            $htmlCombo = '<script type="text/javascript">
+                            $(function(){
+                            // choose either the full version
+                            $(".multiselect").multiselect();
+                            // or disable some features
+                            $(".multiselect").multiselect({sortable: false, searchable: true});
+                            });
+                            </script>';
+            
+            $htmlCombo .= "<select name='{$this->name}[]' class='multiselect' multiple='multiple' {$required}' id='{$this->id}'   $add >";
+        }    
         $htmlCombo .= "<option value=\"0\">  Selecione </option>";
 
         if ($this->items)
