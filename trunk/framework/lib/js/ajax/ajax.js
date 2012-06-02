@@ -28,6 +28,7 @@ var cache = {
 $(document).ready(function() {
 
     $(window).bind(	'hashchange',function(e) {
+        //console.log(window.location.pathname,window.location.href);
         var param_fragment = $.param.fragment();
         var url = (param_fragment) ? param_fragment : '';
         if(param_fragment){

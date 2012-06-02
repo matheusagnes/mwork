@@ -518,16 +518,7 @@ select[multiple] {
 }
 
 /* List */
-h1{
-    border-bottom-color: #CCC;
-    border-bottom-style: dotted;
-    border-bottom-width: 1px;
-    color: #222;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 1em;
-    padding-bottom: 0.25em;
-}
+
 .advanced-search
 {
     display:none;
@@ -551,12 +542,23 @@ h1{
 
 .list input
 {
-    width:100%;
+    width:98%;
 }
 
 .list select
 {
-    width:100%;
+    width:98%;
+}
+
+.list table thead
+{
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.list table img
+{
+    padding:2px;
 }
 
 .content-list
@@ -564,6 +566,19 @@ h1{
     width:800px;
     padding:10px;
     float:left;
+}
+
+.content-list h1
+{
+    border-bottom-color: #CCC;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    color: #222;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding-bottom: 0.25em;
+
 }
 
 .menu-list

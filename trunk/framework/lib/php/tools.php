@@ -5,6 +5,7 @@ function arrayToObject($array)
     
     foreach($array as $key=>$value)
     {
+        if($value)
         if(json_decode($value))
         {
             $array[$key] = json_decode($value);

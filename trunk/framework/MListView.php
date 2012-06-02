@@ -5,9 +5,11 @@ class MListView extends MList
 
     private $form;
     private $menu;
+    private $name;
     
-    public function __construct()
+    public function __construct($name = null)
     {
+        $this->name = $name;
         parent::__construct(get_called_class());
     }
 
@@ -17,12 +19,19 @@ class MListView extends MList
         {
 
             echo '<div class="content-list">';
-             echo '<h1> Gerenciamento de Usuários </h1>';
+             echo '<h1> '.$this->name.' </h1>';
             if($this->form)
             {
                 echo '<button id="advanced-search-button"> Busca Avançada </button>';
                 echo '<script> $("#advanced-search-button").button().click(function() {
-                      $(".advanced-search").show();
+                      if($(".advanced-search").css("display") == "none")
+                      {
+                          $(".advanced-search").slideDown();
+                      }
+                      else
+                      {
+                          $(".advanced-search").slideUp();
+                      }
                     });; </script>';
                 echo '<div class="advanced-search">';
                 $this->form->show();
@@ -60,7 +69,6 @@ class MListView extends MList
     {        
         $this->menu = $menu;
     }
-
 }
 
 ?>

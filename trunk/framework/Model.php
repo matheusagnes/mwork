@@ -9,7 +9,7 @@ class Model
     public function __construct($primary_key , $table)
     {
         $this->primary_key = $primary_key;
-        $this->table = $table;
+        $this->table = $table;        
     }
 
     public function begin()
@@ -76,6 +76,9 @@ class Model
             {
                 if($this->primary_key)
                     $obj->{$this->primary_key} = $this->getLastInsertId();
+                 
+                $MCore = MCore::getInstance();
+                $MCore->getSession('ref_usuario');
                 return true;
             }
             else
