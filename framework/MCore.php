@@ -14,7 +14,7 @@ class MCore
         if ($new)
         {
             self::$instance = new MCore(false);
-            $this->init();
+            $this->init();            
         }
     }
     public function setList($list)
@@ -71,20 +71,25 @@ class MCore
     public function init()
     {
         require_once dirname( __FILE__ ).'/include.php';
-        if(!self::$configs)
-            self::$configs = require_once dirname( __FILE__ ).'/../configs.php';
+//        if(!self::$configs)
+//            self::$configs = require_once dirname( __FILE__ ).'/../configs.php';
         require_once dirname( __FILE__ ).'/lib/php/tools.php';
         require_once dirname( __FILE__ ).'/DB.php';
         require_once dirname( __FILE__ ).'/Model.php';
-
-        $this->projectName = self::$configs['project_name'];
-        $this->siteName = self::$configs['site_name'];
+       
         session_start();
     }
     
-    public function setConfigs($filePath)
+    public function initConfigs()
     {
-        self::$configs = require_once $filePath;
+        $this->projectName = self::$configs['project_name'];
+        $this->siteName = self::$configs['site_name'];
+    }
+    
+    public function setConfigs($filePath)
+    {       
+        self::$configs = require_once $filePath;        
+        $this->initConfigs();
     }
 
     public function getProjectName()

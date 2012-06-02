@@ -32,7 +32,7 @@ class MText extends MInput
 
         if ($this->mask)
         {
-            $mask .= " <script> $('#{$this->id}').mask('{$this->mask}'); </script> ";
+            $mask .= " <script> $('#{$this->id}').mask('{$this->mask}').val('{$this->value}'); </script> ";
         }
         if($this->maxlength)
         {
