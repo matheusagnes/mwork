@@ -76,8 +76,10 @@ class MCore
         require_once dirname( __FILE__ ).'/lib/php/tools.php';
         require_once dirname( __FILE__ ).'/DB.php';
         require_once dirname( __FILE__ ).'/Model.php';
-       
-        session_start();
+        if (!isset($_SESSION))
+        {
+                session_start();
+        }
     }
     
     public function initConfigs()

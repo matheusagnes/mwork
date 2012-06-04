@@ -24,34 +24,40 @@ var cache = {
     '' : ''
 };
 
+var ajaxTarget = 'conteudo';
+
 // BBQ
 $(document).ready(function() {
 
-    $(window).bind(	'hashchange',function(e) {
+    $(window).bind(	'hashchange',function(e) 
+    {
+        
         //console.log(window.location.pathname,window.location.href);
         var param_fragment = $.param.fragment();
         var url = (param_fragment) ? param_fragment : '';
         if(param_fragment){
-        // if the url cache exists
-        if (cache[url]) {
-		    
-            // load html from cache
-            $( '#conteudo' ).empty().append( cache[url] ).trigger('create');
-					
-        } else {
-	
-            if( url.substring(0, 1) == '!')
-            {   
-                
-                requestPage(url.substring(1,url.strlen), 'conteudo', null, null,'post', true,false);
+            // if the url cache exists
+            if (cache[url]) {
+
+                // load html from cache
+                $( '#'+ajaxTarget ).empty().append( cache[url] ).trigger('create');
+
+            } else {
+
+                if( url.substring(0, 1) == '!')
+                {   
+
+                    requestPage(url.substring(1,url.strlen), ajaxTarget, null, null,'post', true,false);
+                }
+                else
+                {
+                    requestPage(url, ajaxTarget, null, null,'post', true,true);				
+                }
+
             }
-            else
-            {
-                requestPage(url, 'conteudo', null, null,'post', true,true);				
-            }
-            			
         }
-    }
+        ajaxTarget = 'conteudo';
+        
     })
     
     $(window).trigger('hashchange');
@@ -75,16 +81,18 @@ function listAction(url)
     requestPage('ajax.php?class='+url, null,  null, null, 'post', true, false);
 }
 
-function openPage(url)
+function openPage(url, div)
 {
-    if( url.substring(0, 1) == '#')
-    {
-        location.href = url;
-    }
-    else
-    {    
-        requestPage(url, 'conteudo',  null, null, 'post', true, true);
-    }
+    ajaxTarget = div;
+    location.href = url;
+//    if( url.substring(0, 1) == '#')
+//    {
+//        location.href = url;
+//    }
+//    else
+//    {    
+//        requestPage(url, 'conteudo',  null, null, 'post', true, true);
+//    }
 }
 
 function openLink(url)
