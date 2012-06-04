@@ -18,7 +18,7 @@ class MListView extends MList
         if ($this->form)
         {
 
-            echo '<div class="content-list">';
+            echo '<div class="content-list" id = "content-list">';
              echo '<h1> '.$this->name.' </h1>';
             if($this->form)
             {

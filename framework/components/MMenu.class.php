@@ -9,7 +9,7 @@ class MMenu
     private $is_vertical;
     private $id;
     
-    public function __construct($id = 'menu',$is_vertical = true)
+    public function  __construct($id = 'menu',$is_vertical = true)
     {
         $this->id = $id;
         $this->is_vertical = $is_vertical;
@@ -42,14 +42,16 @@ class MMenu
             {
                 unset($img);
                 unset($linkUrl);
-                if(!$js_function && $link->url)
+                
+                if($link->icon)
                 {
-                    if($link->icon)
-                    {
-                        $img = "<img src = '{$link->icon}'> ";
-                    }
-                    $linkUrl = "<li> <a href='{$link->url}'> {$link->label} {$img}</a> </li>";
+                    $img = "<img src = '{$link->icon}'> ";
                 }
+                if($link->url)                
+                    $linkUrl = "<li> <a {$link->js_function}=\"{$link->params}\" href='{$link->url}'> {$link->label} {$img}</a> </li>";
+                else
+                    $linkUrl = "<li> <a {$link->js_function}=\"{$link->params}\" href ='javascript:void(0)'>  {$link->label} {$img}</a> </li>";
+                
                 $menu.= $linkUrl;
             }
             

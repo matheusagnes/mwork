@@ -16,14 +16,16 @@ class Message
     private $type;
     private $state;
     private $message; 
+    private $title; 
 
-    public function __construct($message, $state = null, $type = self::HIGHLIGHT, $width = null, $height = null)
+    public function __construct($message, $state = null, $type = self::HIGHLIGHT, $title = null, $width = null, $height = null)
     {
         $type = (!$type) ? self::HIGHLIGHT : $type ;
 
         $this->type = $type;
         $this->state = $state;
         $this->message = $message;
+        $this->title = $title;
         $this->show(); 
     }
 
