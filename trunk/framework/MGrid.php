@@ -272,7 +272,7 @@ class MGrid
                 $grid.="<tr class='filters-grid'>  {$gridInputs}  </tr> ";
                 $grid.='</thead> <tbody id="tbody_'.$this->gridId.'">';
             }
-
+            
             foreach ($objects as $object)
             {
                 $grid.= '<tr>';
@@ -293,6 +293,7 @@ class MGrid
                     
                     $grid.='<td align="center">' . $object->{$objKey} . '</td>';
                 }
+                
                 foreach ($this->actions as $objAction)
                 {
                     $params= null;
@@ -347,29 +348,33 @@ class MGrid
         {
             $grid.='<tr> <td> Nothing found </td> </tr>';
         }
+        
         if(!$fast_search)
+        {
             $grid.='</tbody> </table></div>';        
-        echo $grid;
+            echo " <script>
+            $('#{$this->gridId}').keyup(function(e)
+            { 
+                if(e.keyCode == 13) 
+                {
+                    var objsFilter = $('.filters-grid').find('input,select'); 
+                    ajaxSubmitObjs('{$this->listControlName}::search(1)','tbody_{$this->gridId}',objsFilter);
+                    return true;
+                }
+            });
 
-        echo " <script>
-        $('#{$this->gridId}').keyup(function(e)
-        { 
-            if(e.keyCode == 13) 
-            {
+            $('#{$this->gridId}').find('select').change(function(e)
+            { 
                 var objsFilter = $('.filters-grid').find('input,select'); 
                 ajaxSubmitObjs('{$this->listControlName}::search(1)','tbody_{$this->gridId}',objsFilter);
                 return true;
-            }
-        });
-    
-        $('#{$this->gridId}').find('select').change(function(e)
-        { 
-            var objsFilter = $('.filters-grid').find('input,select'); 
-            ajaxSubmitObjs('{$this->listControlName}::search(1)','tbody_{$this->gridId}',objsFilter);
-            return true;
-        });
+            });
 
-        </script>";
+            </script>";
+        }
+        echo $grid;
+        
+        
     }
 }
 
