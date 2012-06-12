@@ -227,7 +227,8 @@ class MForm
                 }
                 
                 $tabsUl .= '</ul>';
-                $footer.= '<div style = "text-align: right; padding: 15px; height:auto; display:table; width: 95%;"> <div class="highlight_messages"></div>'.$buttons.'</div>';
+                $footer.= '<div style = "text-align: right; padding: 15px; height:auto; display:table; width: 95%;"> 
+                                <div class="highlight_messages"> </div> <div style="text-align:right; float:right"> '.$buttons.' </div> </div>';
                 $divTabs .= $tabsUl.$divTabFields.$footer.'</div>';
                 $htmlForm .= $divTabs . '</fieldset>';
             }
