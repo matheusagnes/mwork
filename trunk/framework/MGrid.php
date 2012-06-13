@@ -137,9 +137,21 @@ class MGrid
         $select = 'SELECT ';
         foreach ($this->columns as $key => $value)
         {
-            $key = str_replace('::', '.', $key);
-            $select.= " {$key},";
-            $table = explode('.', $key);
+            $alias = '';
+            //bairros::nome|bairro
+            if(preg_match('/\|/',$key))
+            {
+                $explode_values = explode('|',$key);
+                $table_field = str_replace('::', '.', $explode_values[0]);
+                $alias = $explode_values[1];            
+                $alias = " as {$alias}";
+            }
+            else
+            {
+                $table_field = str_replace('::', '.', $key);            
+            }                
+            $select.= " {$table_field}{$alias},";
+            $table = explode('.', $table_field);
             $from[$table[0]] = $table[0];
 
             if ($value->relation)
@@ -154,10 +166,23 @@ class MGrid
             {
                 if ($filter)
                 {
-                    $key_filter = explode('::', $key_filter);
-                    $operator = $key_filter[2];
-                    $key_filter = $this->model->getTable() . '.' . $key_filter[1];
-                    //$key_filter = $this->model->getTable() .'.'.$key_filter[1];
+                    
+
+                    if(preg_match('/\|/',$key_filter))
+                    {
+                        $key_filter = explode('::', $key_filter);
+                        $operator = $key_filter[2];
+                        $explode_values = explode('|',$key_filter[1]);
+                        $key_filter = $this->model->getTable() . '.' . $explode_values[0]; 
+
+                    }
+                    else
+                    {
+                        $key_filter = explode('::', $key_filter);
+                        $operator = $key_filter[2];
+                        $key_filter = $this->model->getTable() . '.' . $key_filter[1];            
+                    }
+
                     if ($operator)
                     {
                         if ($operator == 'like')
@@ -280,9 +305,9 @@ class MGrid
                 foreach ($this->columns as $key => $value)
                 {
                     $objKey = '';
-                    if(count(explode(' as ', $key)) > 1)
+                    if(preg_match('/\|/',$key))
                     {         
-                        $key = explode(' as ', $key);
+                        $key = explode('|', $key);
                         $objKey = trim($key[1]);
                     }
                     else
