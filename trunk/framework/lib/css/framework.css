@@ -279,6 +279,27 @@ input[type=text]{
 
 }
 
+textarea
+{
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+
+    box-shadow:0 1px 2px #ddd;
+    -moz-box-shadow:0 1px 2px #ddd;
+    -webkit-box-shadow:0 1px 2px #ddd;
+
+    
+    border:1px solid #aaa;
+    color:#555555;
+    
+    width: 160px;
+    height:50px;
+    font-size:12px;
+}
+
+
+
 fieldset {
     margin-top:         1em;
     border-radius:4px 4px 0 0;
@@ -737,5 +758,10 @@ select[multiple] {
 }
 
 
-
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, textarea:focus 
+{
+    box-shadow: 0 0 4px 
+    rgba(0, 153, 153, 0.5);
+    border-color: #7EC2C2 !important;
+}
 
