@@ -63,7 +63,7 @@ class MCombo extends MInput
 
         if ($this->getObligatory())
         {
-            $required = "required=\"1\"";             
+            $required = "obligatory=\"1\"";             
         }
 
         if (!$this->multiple)
@@ -81,7 +81,8 @@ class MCombo extends MInput
             
             $htmlCombo .= "<select name='{$this->name}[]' class='multiselect' multiple='multiple' {$required}' id='{$this->id}'   $add >";
         }    
-        $htmlCombo .= "<option value=\"0\">  Selecione </option>";
+        if(!$this->multiple)
+             $htmlCombo .= "<option value=\"0\">  Selecione </option>";
 
         if ($this->items)
         {
