@@ -3,6 +3,7 @@ include_once 'framework/MCore.php';
 
 $mcore = new MCore();
 $mcore = $mcore->getInstance();
+$mcore->setConfigs(dirname( __FILE__ ).'/configs.php'); #FIXME ?
 
 ?>
 
