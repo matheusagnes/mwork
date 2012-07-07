@@ -7,6 +7,7 @@ class MCore
     private $siteName;
     private static $instance;
     private static $configs;  
+    private $frameworkDir;
     //private $mLists;
 
     public function __construct($new = true)
@@ -17,6 +18,17 @@ class MCore
             $this->init();            
         }
     }
+    
+    public function getFrameworkDir()
+    {
+        return $this->frameworkDir;
+    }
+    
+    public function setFrameworkDir($dir)
+    {
+        return $this->frameworkDir = $dir;
+    }
+    
     public function setList($list)
     {   
         $this->setSession($list->getListId(), $list);
