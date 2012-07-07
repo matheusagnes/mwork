@@ -14,16 +14,19 @@ class MGrid
     private $filter;
     protected $model;
     private $MCore;
-
-    const EDIT = 'framework/images/edit.png';
-    const DELETE = 'framework/images/delete.png';
-    const VIEW = 'framework/images/view.png';
+    private $editImage;
+    private $deleteImage;
+    private $viewImage;
 
     public function __construct()
-    {
-        $this->MCore = MCore::getInstance();
+    {	
+        $this->MCore = MCore::getInstance();        
+        $frameworkDir = $this->MCore->getFrameworkDir();
+        $this->editImage = $frameworkDir.'/images/edit.png';
+        $this->deleteImage = $frameworkDir.'/images/delete.png';
+        $this->viewImage = $frameworkDir.'/images/view.png';
     }
-
+    
     // Action seria passar a url para o request
     // array parameter
     //  - size, align,     
@@ -227,9 +230,9 @@ class MGrid
         
         if (!$this->actions)
         {
-            $this->addAction('Ver', MGrid::VIEW, 'info');          // js func     // parameter 
-            $this->addAction('Editar', MGrid::EDIT, 'edit', array($this->model->getPrimaryKey()), 'showContent', array('conteudo'));
-            $this->addAction('Deletar', MGrid::DELETE, 'delete');
+            $this->addAction('Ver', $this->viewImage, 'info');          // js func     // parameter 
+            $this->addAction('Editar', $this->editImage, 'edit', array($this->model->getPrimaryKey()), 'showContent', array('conteudo'));
+            $this->addAction('Deletar', $this->deleteImage, 'delete');
         }
         
         $objects = new stdClass();
