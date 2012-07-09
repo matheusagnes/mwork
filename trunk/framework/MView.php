@@ -1,6 +1,5 @@
 <?php
-
-class View
+class MView
 {
     public function _construct()
     {
