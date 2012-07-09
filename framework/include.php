@@ -2,6 +2,7 @@
 
 function __autoload($classe)
 {
+    
     if (class_exists($classe))
     {
         return true;
@@ -19,7 +20,7 @@ function __autoload($classe)
         else
         {
             $arquivo = dirname(__FILE__) . '/' . $classe . '.php';
-
+            
             if (file_exists($arquivo))
             {
                 require_once $arquivo;
@@ -29,7 +30,9 @@ function __autoload($classe)
     }
     else
     {
-        if (count(explode('FormView', $classe)) >= 1)
+        
+        //if (count(explode('FormView', $classe)) >= 1)
+        if (preg_match('.FormView.', $classe))
         {
             $arquivo = 'class/view/' . $classe . '.class.php';
 
@@ -39,7 +42,8 @@ function __autoload($classe)
                 return true;
             }
         }
-        if (count(explode('FormControl', $classe)) >= 1)
+        
+        if (preg_match('.FormControl.', $classe) || preg_match('.Control.', $classe) )
         {
             $arquivo = 'class/control/' . $classe . '.class.php';
 
@@ -48,13 +52,23 @@ function __autoload($classe)
                 require_once $arquivo;
                 return true;
             }
-        }
-        
+        }        
         if (file_exists('class/model/' . $classe . '.class.php'))
         {
             require_once 'class/model/' . $classe . '.class.php';
             return true;
         }
+        
+        if (preg_match('.View.', $classe) && !preg_match('.Form.', $classe))
+        {            
+            $arquivo = 'class/view/' . $classe . '.class.php';
+            if (file_exists($arquivo))
+            {
+                require_once $arquivo;
+                return true;
+            }
+        }
+        
     }
 }
 
