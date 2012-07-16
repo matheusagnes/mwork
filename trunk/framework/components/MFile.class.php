@@ -5,21 +5,27 @@ class MFile extends MInput
 {
     private $MCore;
     private $frameWorkDir;
+    private $objFile;
     
-    public function __construct($value=null, $disabled=false,$name=null, $id=null,$maxlength=null)
+    public function __construct($name=null, $id=null,$maxlength=null)
     {
         parent::__construct();
         $this->maxlength = $maxlength;
-        $this->value = $value;
         $this->name = $name;
         $this->id = $id;
-        $this->mask = null;
-        $this->disabled = $disabled;
         $this->MCore = MCore::getInstance();
-        
         $this->frameWorkDir = $this->MCore->getFrameworkDir();
     }
-
+    
+    /*
+     * $objFile->location
+     * $objFile->name
+     */
+    public function setValue($objFile)
+    {
+        $this->objFile = $objFile;
+    }
+    
     public function show()
     {
         parent::show();
@@ -30,11 +36,30 @@ class MFile extends MInput
                 $add .= " $key='$value' ";
             }
         }
-
         if($this->getObligatory())
         {
             $required = "required=\"1\"";            
         }
+        
+        $edit = '';
+        $get_edit = '';
+        $style_div_new_file = '';
+        $jq_button = '';
+        if($this->objFile)
+        {
+            $obj->edit = true;
+            $json_objFile = json_encode($obj);
+            
+            $edit = 
+            "<div id='edit_file'>   
+                <a href='{$this->objFile->location}'> {$this->objFile->name} </a>
+                <div class='jq_button' onclick=\"$('#edit_file').hide(); $('#div_new_file').show();$('#{$this->name}_file').val(json_file_edit);\"> Novo Arquivo ?</div>
+            </div>";
+            $jq_button = '$(".jq_button").button(); json_file_edit = \''.$json_objFile.'\' ';
+            $style_div_new_file = 'display:none';
+            $get_edit = '?edit=1';
+        }
+        
         $script = 
         "   <script>
             $(document).ready(function() 
@@ -70,8 +95,9 @@ class MFile extends MInput
         <script>
         $(document).ready(function() 
         {
-            $('#div_form_file').append(\"<form id='formFile' action='upload.php' enctype='multipart/form-data' method='post'> <input name='{$this->name}' id='{$this->id}' $add  value='{$this->value}' type='file' $required /> <button id='b_file_sub'style='display:none'> Enviar Arquivo </button></form>\");
+            $('#div_form_file').append(\"<form id='formFile' action='upload.php{$get_edit}' enctype='multipart/form-data' method='post'> <input name='{$this->name}' id='{$this->id}' {$add} type='file' $required /> <button id='b_file_sub'style='display:none'> Enviar Arquivo </button></form>\");
             $('#{$this->id}').change(function(){ $('#b_file_sub').click(); });
+            {$jq_button}
         });
 	</script>
         <style>
@@ -81,7 +107,8 @@ class MFile extends MInput
         </style>
     
         <script src='{$this->frameWorkDir}/lib/js/jquery-form.js'> </script> 
-        <div style='float:left;font-size:12px;'>
+        {$edit}
+        <div style='float:left;font-size:12px;$style_div_new_file' {$style_div_new_file} id='div_new_file'>
             <div id='div_form_file'> </div>
 
             <div class='progress'>
@@ -89,7 +116,7 @@ class MFile extends MInput
                 <div class='percent'>0%</div>
             </div>
             <div id='status'> </div>
-            <input type='hidden' id='{$this->name}_file' name='{$this->name}_file' />
+            <input type='hidden' id='{$this->name}_file' name='{$this->name}_file'  />
         </div>
             {$script}
             
