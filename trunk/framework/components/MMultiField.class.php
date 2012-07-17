@@ -5,6 +5,10 @@ class MMultiField extends MInput
 {
     private $fields;
     private $objects;
+    private $MCore;
+    private $editImage;
+    private $deleteImage;
+    private $viewImage;
     
     public function __construct($value=null, $name=null, $id=null,$maxlength=null)
     {
@@ -12,6 +16,12 @@ class MMultiField extends MInput
         $this->value = $value;
         $this->name = $name;
         $this->id = $id;
+        
+        $this->MCore = MCore::getInstance();        
+        $frameworkDir = $this->MCore->getFrameworkDir();
+        $this->editImage = $frameworkDir.'/images/edit.png';
+        $this->deleteImage = $frameworkDir.'/images/delete.png';
+        $this->viewImage = $frameworkDir.'/images/view.png';
     }
     
     /** 
@@ -118,7 +128,7 @@ class MMultiField extends MInput
                     $editMutiField .= "{$text} <input type='text' disabled='disabled' name='multifield_{$field->name}' id='multifield_{$field->id}' value='{$value}' style='display:none'>";
                     $editMutiField .= "</td>";
                 }
-                $editMutiField .= "<td> <img name = 'edit' class='multiFieldIcon-{$this->id}' src='framework/images/edit.png' title='Editar'> <img name = 'delete' class='multiFieldIcon-{$this->id}' src='framework/images/delete.png' title='Deletar'> </td>";
+                $editMutiField .= "<td width='100px'> <img name = 'edit' class='multiFieldIcon-{$this->id}' src='{$this->editImage}' title='Editar'> <img name = 'delete' class='multiFieldIcon-{$this->id}' src='{$this->deleteImage}' title='Deletar'> </td>";
                 $editMutiField .="</tr>";
             }
         }
@@ -258,7 +268,6 @@ class MMultiField extends MInput
                             $('#'+$(this).attr('name').replace(/multifield_/gi,'')).val($(this).val()); 
                         }
                     });
-                    console.log($(this).closest('tr').index());
                     $( '#dialog-form-{$this->id} .trIndex').val( $(this).closest('tr').index() );
                     $( '#dialog-form-{$this->id}' ).dialog( 'open' ); return false; 
                 }

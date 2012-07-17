@@ -52,7 +52,7 @@ class MFile extends MInput
             
             $edit = 
             "<div id='edit_file'>   
-                <a href='{$this->objFile->location}'> {$this->objFile->name} </a>
+                <a href='{$this->objFile->location}' target='_blank'> {$this->objFile->name} </a>
                 <div class='jq_button' onclick=\"$('#edit_file').hide(); $('#div_new_file').show();$('#{$this->name}_file').val(json_file_edit);\"> Novo Arquivo ?</div>
             </div>";
             $jq_button = '$(".jq_button").button(); json_file_edit = \''.$json_objFile.'\' ';

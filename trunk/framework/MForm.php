@@ -133,6 +133,13 @@ class MForm
         $this->fields[$name] = $objInput;
     }
     
+    public function addHtml($id, MHtml $html)
+    {
+        if($this->tab)
+            $this->tabs[$this->tab][$id] = $html;
+        $this->fields[$id] = $html;
+    }
+    
     function addProperty($name,$value)
     {
         $this->properties[$name] = $value;
@@ -210,18 +217,26 @@ class MForm
                     $divTabFields .= "<div id='tabs-{$this->id}-{$contTabs}'> <fieldset> ";
                     foreach ($fields as $field)
                     {
-                        $obligatory = null;
-                        if ($field->getObligatory())
+                        if(get_class($field) != 'MHtml')
                         {
-                            $obligatory = '<span class="obligatory">*</span>';
-                        }
+                            $obligatory = null;
+                            if ($field->getObligatory())
+                            {
+                                $obligatory = '<span class="obligatory">*</span>';
+                            }
 
-                        $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
-                        $divTabFields .= "
-                                <div class='{$classItem}'> " .
-                                    "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
-                                        $field->show() .
-                                "</div>";
+                            $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
+                        
+                            $divTabFields .= "
+                                    <div class='{$classItem}'> " .
+                                        "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
+                                            $field->show() .
+                                    "</div>";
+                        }
+                        else
+                        {
+                            $htmlForm .= ''.$field->show().'';
+                        }
                     }
                     $divTabFields .= '</fieldset> </div>';
                 }
@@ -237,17 +252,24 @@ class MForm
                 $htmlForm.= '<fieldset><legend>' . $this->getFormLegend() . '</legend>';                
                 foreach ($inputs as $field)
                 {
-                    $obligatory = null;
-                    if ($field->getObligatory())
+                    if(get_class($field) != 'MHtml')
                     {
-                        $obligatory = '<span class="obligatory">*</span>';
-                    }
+                        $obligatory = null;
+                        if ($field->getObligatory())
+                        {
+                            $obligatory = '<span class="obligatory">*</span>';
+                        }
 
-                    $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
-                    $htmlForm .= "<div class='{$classItem}'> " .
-                            "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
-                            $field->show() .
-                            "</div>";
+                        $classItem = ($this->is_horizontal) ? 'item' : 'item-vertical';
+                        $htmlForm .= "<div class='{$classItem}'> " .
+                                "<label for='{$field->getId()}'> $obligatory {$field->getLabel()}: </label>" .
+                                $field->show() .
+                                "</div>";
+                    }
+                    else
+                    {
+                        $htmlForm .= ''.$field->show().'';
+                    }
                 }
                 $htmlForm.='</fieldset>';
                 $htmlForm.= '<fieldset class="tblFooters">' .
