@@ -7,7 +7,7 @@ class MControl
     private $view;
     protected $model;
 
-    public function __construct($validate=true)
+    public function __construct($validate=true, $getView=true)
     {
         $this->MCore = MCore::getInstance();
         if($validate)
@@ -20,9 +20,12 @@ class MControl
         $this->post = $this->getPostObject();
         
         $controlName = get_called_class();
-        $viewName = str_replace('Control', 'View', $controlName);
-        $this->setView($viewName);
         
+        if($getView)
+        {
+            $viewName = str_replace('Control', 'View', $controlName);
+            $this->setView($viewName);
+        }
         if(!$this->model)
             $this->setModel(str_replace('FormControl','',$controlName));  
     }
@@ -77,7 +80,7 @@ class MControl
 
         if ($missed_fields)
         {
-            new Message('Preencha todos os campos obrigatóros (javascript, voce devia ter validado isto.):' . $missed_fields, Message::WARNING);
+            new Message('Preencha todos os campos obrigatóros :' . $missed_fields, Message::WARNING);
             return false;
         }
 
@@ -97,6 +100,7 @@ class MControl
     // Sets the view
     public function setView($view)
     {
+        if($view);
         $this->view = new $view();
     }
 
