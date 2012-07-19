@@ -5,7 +5,7 @@ imgLoad.src = path_carregando;
 
 
 // mostra um dialog com o conteudo que retornar a url
-function openDialog(message, state, url, title, width, height)
+function openDialog(message, state, title, url, width, height)
 {
 
     // valores padrao caso nao seja passado por parametro
@@ -24,12 +24,12 @@ function openDialog(message, state, url, title, width, height)
     }else if(state == 'WARNING'){
         image_src = 'warning.png';
     }
-    message = (image_src) ? '<img class="img_message" src="framework/images/'+image_src+'"/>'+message : message;
+    
 
     // insere a div do dialog apenas a primeira vez que chama o openDialog
     if (!document.getElementById('ui-dialog'))
     {
-            $("BODY").append('<div id="ui-dialog" title="'+title+'" style="display:none;" ><center><img src="'+path_carregando+'" style="display:none;padding-top:20px;" class="loading_dialog_ui" /></center> <div id="popup"> '+message+' </div></div>');
+            $("BODY").append('<div id="ui-dialog" title="<img style=\'margin-right:5px;\'class=\'img_message\' src=\'framework/images/'+image_src+'\'/>'+title+'" style="display:none;" ><center><img src="'+path_carregando+'" style="display:none;padding-top:20px;" class="loading_dialog_ui" /></center> <div id="popup"> '+message+' </div></div>');
     }
 
     // chama a funcao dialog do jQuery-ui para transformar a div em um dialog
@@ -38,7 +38,7 @@ function openDialog(message, state, url, title, width, height)
         $( "#ui-dialog" ).dialog({ modal: true , height: height, width: width });
     });
 
-    if (url != null && url != 'undefined')
+    if (url != null && url != 'undefined' && url != '')
     {
         // mostra loading dentro do dialog e oculta o conteudo do dialog
         $('.loading_dialog_ui').show();
