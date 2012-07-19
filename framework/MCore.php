@@ -19,6 +19,11 @@ class MCore
         }
     }
     
+    public function setProjectName($projectName)
+    {
+        $this->projectName = $projectName;
+    }
+    
     public function getFrameworkDir()
     {
         return $this->frameworkDir;

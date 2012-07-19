@@ -17,6 +17,7 @@ class Message
     private $state;
     private $message; 
     private $title; 
+    private $url; 
 
     public function __construct($message, $state = null, $type = self::HIGHLIGHT, $title = null, $width = null, $height = null)
     {
@@ -26,6 +27,7 @@ class Message
         $this->state = $state;
         $this->message = $message;
         $this->title = $title;
+        $this->url = '';
         $this->show(); 
     }
 
@@ -38,7 +40,7 @@ class Message
         }
         elseif($this->type == self::DIALOG)
         {
-            echo 'openDialog("'.addslashes($this->message).'","'. $this->state.'");';
+            echo 'openDialog("'.addslashes($this->message).'","'. $this->state.'","'. $this->title.'","'. $this->url.'");';
 
         }
         echo '</script>';
