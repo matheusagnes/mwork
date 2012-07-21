@@ -104,6 +104,7 @@ class MCore
     {
         $this->projectName = self::$configs['project_name'];
         $this->siteName = self::$configs['site_name'];
+        $this->frameworkDir = self::$configs['framework_dir'];
     }
     
     public function setConfigs($filePath)
