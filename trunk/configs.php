@@ -13,7 +13,8 @@ return array(
     'DB_USER' => 'user',
     'DB_PASS' => 'user',
     'project_name' => 'default_project',
-    'site_name' => 'Default Project'
+    'site_name' => 'Default Project',
+    'framework_dir' => 'framework'
     
 );
 

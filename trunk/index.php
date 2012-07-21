@@ -13,20 +13,26 @@ $mcore->setConfigs(dirname( __FILE__ ).'/configs.php'); #FIXME ?
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
+        <link href="framework/lib/css/reset.css" rel="stylesheet" type="text/css" />
         <link href="framework/lib/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link href="framework/lib/css/ui.multiselect.css" rel="stylesheet" type="text/css" />
         <link href="framework/lib/css/framework.css" rel="stylesheet" type="text/css" />
         <link href="framework/lib/css/ajax.css" rel="stylesheet" type="text/css" />
         
+        
         <script type="text/javascript" src="framework/lib/js/jquery.js"></script>
         <script type="text/javascript" src="framework/lib/js/jquery-ui.js"></script>
-	            <script type="text/javascript" src="framework/lib/js/jquery-mask.js"></script>
-	            <script type="text/javascript" src="framework/lib/js/jquery-json.js"></script>
-        <script type="text/javascript" src="framework/lib/js/jquery-ui-timepicker.js"></script>        
-
+        <script type="text/javascript" src="framework/lib/js/jquery-ui-timepicker.js"></script>
+        <script type="text/javascript" src="framework/lib/js/jquery-mask.js"></script>
+        <script type="text/javascript" src="framework/lib/js/jquery-json.js"></script>
+        <script type="text/javascript" src="framework/lib/js/jquery-multiselect.js"></script>
+        
         <script type="text/javascript" src="framework/lib/js/ajax/jquery.ba-bbq.js"></script>
         <script type="text/javascript" src="framework/lib/js/open_dialog_ui.js"></script>
         <script type="text/javascript" src="framework/lib/js/js_tools.js"></script>
         <script type="text/javascript" src="framework/lib/js/ajax/ajax.js"></script>
+        <script type="text/javascript" src="lib/js/arrays.js"></script>
+        <script type="text/javascript" src="lib/js/tools.js"></script>
          
 
         <title><? echo $mcore->getSiteName(); ?> </title>
