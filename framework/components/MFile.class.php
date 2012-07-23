@@ -38,7 +38,7 @@ class MFile extends MInput
         }
         if($this->getObligatory())
         {
-            $required = "required=\"1\"";            
+            $required = "obligatory='1'";            
         }
         
         $edit = '';
