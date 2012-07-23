@@ -57,7 +57,6 @@ function showHighLight(message, state)
                 return false;
             }
         });
-        console.log(this);
         if(!valid)
             this.find('.validate-tips').slideDown();
 
