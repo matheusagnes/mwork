@@ -63,7 +63,8 @@ class Model
             foreach (get_object_vars($obj) as $key => $value)
             {
                 $sql_fields.= "{$key},";
-                $sql_values.= "'{$value}',";
+                $value = DB::quote($value);
+                $sql_values.= "{$value},";
             }
 
             $sql_fields = substr($sql_fields, 0, -1);
@@ -71,8 +72,7 @@ class Model
 
             $sql_fields.=')';
             $sql_values.=')';
-            $objStmt = DB::prepare($sql . $sql_fields . $sql_values);
-            if ($objStmt->execute())
+            if(DB::exec($sql . $sql_fields . $sql_values))            
             {
                 if($this->primary_key)
                     $obj->{$this->primary_key} = $this->getLastInsertId();
@@ -100,7 +100,10 @@ class Model
         foreach (get_object_vars($obj) as $key => $value)
         {
             if ($key != $primaryKey)
-                $sql.= " {$key} = '{$value}' ,";
+            {
+                $value = DB::quote($value);
+                $sql.= " {$key} = {$value} ,";
+            }
         }
 
         $sql = substr($sql, 0, -1);
@@ -108,10 +111,7 @@ class Model
 
         try
         {
-            //if (DB::exec($sql) >= 0)
-            
-            $objStmt = DB::prepare($sql);
-            if ($objStmt->execute() >= 0)
+            if (DB::exec($sql) >= 0)
             {
                 return true;
             }
@@ -129,8 +129,8 @@ class Model
 
     public function delete($id)
     {
-        $objStmt = DB::prepare("DELETE FROM {$this->table} WHERE {$this->primary_key} = {$id}");
-        if ($objStmt->execute())
+        $id = DB::quote($id);
+        if (DB::exec("DELETE FROM {$this->table} WHERE {$this->primary_key} = {$id}"))
         {
             return true;
         }
@@ -142,8 +142,7 @@ class Model
     
     public function deleteSql($sql)
     {
-        $objStmt = DB::prepare($sql);
-        if ($objStmt->execute())
+        if (DB::exec($sql))
         {
             return true;
         }
@@ -159,8 +158,7 @@ class Model
         {
             $sql = "SELECT * FROM {$this->table}";
         }
-        $st = DB::prepare($sql);
-        $st->execute();
+        $st = DB::query($sql);
         while ($obj = $st->fetchObject())
         {
             $objects[] = $obj;
@@ -171,6 +169,7 @@ class Model
 
     public function getObject($id)
     {
+        $id = DB::quote($id);
         $st = DB::prepare("SELECT * FROM {$this->table} where {$this->primary_key} = {$id}");
         $st->execute();
         $obj = $st->fetchObject();

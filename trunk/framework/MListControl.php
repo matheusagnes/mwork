@@ -39,7 +39,7 @@ class MListControl extends MList
     public function edit($id)
     {
         // passar por parametro para o mformview os values
-        $obj = $this->model->getObject($id);       
+        $obj = $this->model->getObject($id);
         $formView = parent::getFormView(array($id));
         $formView->setPost($obj);        
         $formView->show();                    
