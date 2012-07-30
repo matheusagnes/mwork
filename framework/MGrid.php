@@ -366,7 +366,7 @@ class MGrid
                         $jsParams = "('{$action}')";
                     }
                     
-                    $grid.="<td align='center'> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = \"{$objAction->jsFunction}{$jsParams}\"/> </td>";
+                    $grid.="<td align='center' width='15'> <img class='grid_img_action' src='{$objAction->icon}' title='{$objAction->title}' onclick = \"{$objAction->jsFunction}{$jsParams}\"/> </td>";
                 }
 
                 $grid.= '</tr>';
