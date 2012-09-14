@@ -765,3 +765,29 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
     border-color: #4D90FE; !important;
 }
 
+
+.check_label
+{    
+    float: left;
+    width: auto;
+    cursor:pointer;
+    font-weight: normal;
+}
+
+.check_input
+{
+    float:left;
+}
+
+.h2_divider
+{    
+    border-bottom-color: #CCC;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    color: #222;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5;
+    margin-top: 8;
+    padding-bottom: 0.25em;
+}
