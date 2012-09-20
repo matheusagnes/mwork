@@ -602,6 +602,19 @@ select[multiple] {
 
 }
 
+.h2_hr
+{
+    border-bottom-color: #CCC;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    color: #222;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding-bottom: 0.25em;
+
+}
+
 .menu-list
 {
     float:right;
