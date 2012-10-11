@@ -142,17 +142,29 @@ class MGrid
         {
             $alias = '';
             //bairros::nome|bairro
-            if(preg_match('/\|/',$key))
+            if(preg_match('/\|/',$key) && !preg_match('/like/',$key))            
             {
                 $explode_values = explode('|',$key);
                 $table_field = str_replace('::', '.', $explode_values[0]);
                 $alias = $explode_values[1];            
+                $alias = " as {$alias}";                
+            }
+            elseif(preg_match('/like/',$key))
+            {
+                
+                $explode_values = explode('|',$key);
+                $exKey = explode('::',$explode_values[0]);
+                $alias = $explode_values[1];            
                 $alias = " as {$alias}";
+                
+                $table_field = "{$exKey[0]}.{$exKey[1]}";                
             }
             else
             {
+
                 $table_field = str_replace('::', '.', $key);            
-            }                
+            }
+            
             $select.= " {$table_field}{$alias},";
             $table = explode('.', $table_field);
             $from[$table[0]] = $table[0];
@@ -255,9 +267,9 @@ class MGrid
                 {
                     $align = $column->parameters[1] ? $column->parameters[1] : 'center';
                     $width = $column->parameters[0] ? $column->parameters[0].'%' : '';
-
-                    if($column->relation)                    
-                    {   
+                    var_dump($columnTable);
+                    if($column->relation && !preg_match('/like/', $columnTable))                    
+                    {                           
                         $ref_column = explode('=', $column->relation);
                         
                         foreach($ref_column as $ref)
