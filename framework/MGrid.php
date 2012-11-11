@@ -149,16 +149,16 @@ class MGrid
                 $alias = $explode_values[1];            
                 $alias = " as {$alias}";                
             }
-            elseif(preg_match('/like/',$key))
-            {
+            // elseif(preg_match('/like/',$key))
+            // {
                 
-                $explode_values = explode('|',$key);
-                $exKey = explode('::',$explode_values[0]);
-                $alias = $explode_values[1];            
-                $alias = " as {$alias}";
+            //     $explode_values = explode('|',$key);
+            //     $exKey = explode('::',$explode_values[0]);
+            //     $alias = $explode_values[1];            
+            //     $alias = " as {$alias}";
                 
-                $table_field = "{$exKey[0]}.{$exKey[1]}";                
-            }
+            //     $table_field = "{$exKey[0]}.{$exKey[1]}";                
+            // }
             else
             {
 
@@ -266,8 +266,7 @@ class MGrid
                 foreach ($this->columns as $columnTable => $column)
                 {
                     $align = $column->parameters[1] ? $column->parameters[1] : 'center';
-                    $width = $column->parameters[0] ? $column->parameters[0].'%' : '';
-                    var_dump($columnTable);
+                    $width = $column->parameters[0] ? $column->parameters[0].'%' : '';                    
                     if($column->relation && !preg_match('/like/', $columnTable))                    
                     {                           
                         $ref_column = explode('=', $column->relation);

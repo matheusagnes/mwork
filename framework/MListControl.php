@@ -33,6 +33,7 @@ class MListControl extends MList
   
     public function search($fast_search = false)
     {        
+        // quando passa script para a listview na hora de fazer a busca da erro
         $this->listView->showGrid($fast_search);
     }
 
@@ -66,6 +67,8 @@ class MListControl extends MList
         $this->listView->show();
     }
 
+    public function info()
+    {}
 }
 
 ?>

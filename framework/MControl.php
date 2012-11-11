@@ -6,6 +6,7 @@ class MControl
     protected $post;
     private $view;
     protected $model;
+    private $getView;
 
     public function __construct($validate=true, $getView=true)
     {
@@ -20,6 +21,8 @@ class MControl
         $this->post = $this->getPostObject();
         
         $controlName = get_called_class();
+
+        $this->getView = $getView;
         
         if($getView)
         {
@@ -100,8 +103,11 @@ class MControl
     // Sets the view
     public function setView($view)
     {
-        if($view);
-        $this->view = new $view();
+        if($this->getView)
+        {            
+            if($view);
+            $this->view = new $view();
+        }
     }
 
     // Render the form

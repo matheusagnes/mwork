@@ -18,8 +18,10 @@ class Message
     private $message; 
     private $title; 
     private $url; 
+    private $width; 
+    private $height; 
 
-    public function __construct($message, $state = null, $type = self::HIGHLIGHT, $title = null, $width = null, $height = null)
+    public function __construct($message, $state = null, $type = self::HIGHLIGHT, $title = null, $width = 300, $height = 200, $url = null)
     {
         $type = (!$type) ? self::HIGHLIGHT : $type ;
 
@@ -27,12 +29,15 @@ class Message
         $this->state = $state;
         $this->message = $message;
         $this->title = $title;
-        $this->url = '';
+        $this->url = $url;        
+        $this->width = $width;
+        $this->height = $height;
         $this->show(); 
     }
 
     private function show()
     {
+        #openDialog(message, state, title, url, width, height)
         echo '<script>';
         if ($this->type == self::HIGHLIGHT)
         {
@@ -40,7 +45,7 @@ class Message
         }
         elseif($this->type == self::DIALOG)
         {
-            echo 'openDialog("'.addslashes($this->message).'","'. $this->state.'","'. $this->title.'","'. $this->url.'");';
+            echo 'openDialog("'.addslashes($this->message).'","'. $this->state.'","'. $this->title.'","'. $this->url.'","'. $this->width.'","'. $this->height.'");';
 
         }
         echo '</script>';

@@ -87,7 +87,7 @@ class MForm
         return $this->divTarget;
     }
 
-    public function setPost($objPost)
+    public function setPost($objPost, $showId = true)
     {   
         $primaryKey = DB::getPrimaryKey($this->id);
         foreach (get_object_vars($objPost) as $key => $value)
@@ -98,7 +98,7 @@ class MForm
             }
             else
             {
-                if($key == $primaryKey)
+                if($key == $primaryKey && $showId)
                 {   
                     $objInput = new MText($value,$key, $key,true);
                     $objInput->setDisabled(true);
