@@ -778,28 +778,6 @@ function mostraProdutosOrdemServico($linhaProdutos)
     return $html;
 }
 
-function mandaMail($mensagem, $email, $subJect)
-{
-
-    $phpmailer = new PHPMailer();
-    $phpmailer->IsSMTP();
-    $phpmailer->SMTPAuth = true;
-    $phpmailer->Host = 'smtp.gmail.com';
-    $phpmailer->Port = '587';
-    $phpmailer->SMTPSecure = 'tls';
-    $phpmailer->Username = 'matheusagnes@gmail.com';
-    $phpmailer->Password = '';
-    $phpmailer->CharSet = 'UTF-8';
-    $phpmailer->SetLanguage("br");
-    $phpmailer->IsHTML(true);
-    $phpmailer->SetFrom('matheusagnes@gmail.com', 'Matheus');
-    $phpmailer->AddReplyTo('matheusagnes@gmail.com', 'Matheus');
-    $phpmailer->AddAddress($email);
-    $phpmailer->Subject = $subJect;
-    $phpmailer->Body = $mensagem;
-
-    return $phpmailer->Send();
-}
 
 function parseGet($get)
 {
@@ -831,6 +809,42 @@ function parseGet($get)
         $cont++;
     }    
     return $url;
+}
+
+
+function sendMail($mensagem, $emails, $subJect)
+{   
+    $phpmailer = new PHPMailer();
+    $phpmailer->IsSMTP();
+    $phpmailer->SMTPAuth = true;
+    $phpmailer->Host = 'smtp.gmail.com';
+    $phpmailer->Port = '587';
+    $phpmailer->SMTPSecure = 'tls';
+    $phpmailer->Username = 'contato@deliverysnovale.com.br';
+    $phpmailer->Password = '@#delivery@#vale';
+    $phpmailer->CharSet = 'UTF-8';
+    $phpmailer->SetLanguage("br");
+    $phpmailer->IsHTML(true);
+    $phpmailer->SetFrom('contato@deliverysnovale.com.br', 'Deliverys no Vale');
+    $phpmailer->AddReplyTo('contato@deliverysnovale.com.br', 'Deliverys no Vale');
+    $phpmailer->AddReplyTo('matheusagnes@gmail.com', 'Matheus Agnes Dias');
+    
+    if(is_array($emails))
+    {
+        foreach ($emails as $email) 
+        {
+            $phpmailer->AddAddress($email);    
+        }
+    }
+    else
+    {
+        $phpmailer->AddAddress($emails);
+    }
+    
+    $phpmailer->Subject = $subJect;
+    $phpmailer->Body = $mensagem;
+
+    return $phpmailer->Send();
 }
 
 ?>

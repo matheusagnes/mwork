@@ -3,6 +3,11 @@
 class CrudFormControl extends MControl
 {
 
+    public function __construct($validate = false, $getView = true)
+    {
+        parent::__construct($validate, $getView);
+    }
+    
     public function save()
     {
        

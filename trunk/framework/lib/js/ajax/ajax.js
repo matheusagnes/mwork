@@ -14,10 +14,6 @@ var showDefaultError = true;
 // mensagem de erro padrao
 var stringDefaultError = 'Erro ao carregar página';
 
-//Carregar imagens para nao precisar carregar no momento em que chama o ajax // testei isso com o debug - e funciona
-imgLoad = new Image(); 
-imgLoad.src = 'framework/lib/js/ajax/images/ajax-loader.png';
-
 
 var cache = {
     // If url is '' (no fragment), display this div's content.

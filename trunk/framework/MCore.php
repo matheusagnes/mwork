@@ -91,6 +91,7 @@ class MCore
 //        if(!self::$configs)
 //            self::$configs = require_once dirname( __FILE__ ).'/../configs.php';
         require_once dirname( __FILE__ ).'/lib/php/tools.php';
+        require_once dirname( __FILE__ ).'/lib/php/funcoes.php';
         require_once dirname( __FILE__ ).'/DB.php';
         require_once dirname( __FILE__ ).'/Model.php';
         require_once dirname( __FILE__ ).'/MView.php';
