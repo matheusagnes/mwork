@@ -14,7 +14,7 @@ class MControl
         if($validate)
             if(!$this->MCore->isLoged()) #FIXME trocar para permissao apenas temporario
             {
-                new Message('Você precisa estar logado!!', Message::ERROR, Message::DIALOG);
+                new Message('Você precisa estar logado!!', Message::ERROR, Message::DIALOG, 'Atenção');
                 echo '<script> window.location.href = "index.php" </script>';
                 die; #FIXME
             }        
@@ -60,15 +60,15 @@ class MControl
         }
     }
 
-    public function validatePost()
+    public function validatePost($formId = 'save', $alert_type = 'HIGHLIGHT')
     {
         $debug = debug_backtrace();
         $callerClass = get_called_class() == 'MControl' ? $debug[2]['class'] : get_called_class();
-        $callerFunction = $debug[1]['function'] ? 'save' : $debug[1]['function'];
+        $callerFunction = $debug[1]['function'] ? $formId : $debug[1]['function'];
 
         $sessionFormName = $callerClass . '::' . $callerFunction;
         $aObligatories = $this->MCore->getSession($sessionFormName);
-
+        
         $missed_fields = '';
         if ($aObligatories)
         {
@@ -83,7 +83,7 @@ class MControl
 
         if ($missed_fields)
         {
-            new Message('Preencha todos os campos obrigatóros :' . $missed_fields, Message::WARNING);
+            new Message('Preencha todos os campos obrigatóros :' . $missed_fields, Message::WARNING, $alert_type,'Atenção');
             return false;
         }
 
