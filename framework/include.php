@@ -59,9 +59,10 @@ function __autoload($classe)
             return true;
         }
         
-        if (preg_match('.View.', $classe) && !preg_match('.Form.', $classe))
+        if ((preg_match('.View.', $classe) && !preg_match('.Form.', $classe)) || preg_match('.List.', $classe) ) 
         {            
             $arquivo = 'class/view/' . $classe . '.class.php';
+            
             if (file_exists($arquivo))
             {
                 require_once $arquivo;

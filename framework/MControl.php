@@ -74,7 +74,7 @@ class MControl
         {
             foreach ($aObligatories as $key => $value)
             {
-                if (!$this->post->{$key})
+                if (!$this->post->{$key} && !isset($this->post->{$key.'_file'}))
                 {
                     $missed_fields .= '<br>- ' . $value;
                 }

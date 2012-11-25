@@ -17,7 +17,8 @@ class MListControl extends MList
             die; #FIXME
         }
 
-        parent::__construct(get_called_class());        
+        parent::__construct(get_called_class());  
+        
         $this->listView = parent::getListView();
         $this->postFilters = $this->getFiltersFromPost();       
         
