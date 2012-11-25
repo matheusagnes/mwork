@@ -43,10 +43,12 @@ class MList extends MGrid
     public function getListView()
     {   
         $listView = $this->MCore->getList(str_replace('Control', 'View', $this->listId));
+        
         // para testes, pois ao modificar nao muda pois ja esta na sessao
         //if(!$listView)
         {
             $viewName = str_replace('Control', 'View', $this->listId);
+
             return new $viewName();        
         }
         return $listView;
