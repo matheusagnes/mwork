@@ -190,8 +190,8 @@ class MMultiField extends MInput
                                 
                 $( '#dialog-form-{$this->id}' ).dialog({
                     autoOpen: false,
-                    height: 300,
-                    width: 350,
+                    height: 400,
+                    width: 500,
                     modal: true,
                     buttons: {                        
                         Cancelar: function() {

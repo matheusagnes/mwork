@@ -2,15 +2,16 @@
 
 function arrayToObject($array)
 {
-    
     foreach($array as $key=>$value)
     {
         if($value)
         {
             if(!is_array($value))
-            if(json_decode($value))
             {
-                $array[$key] = json_decode($value);
+                if(json_decode(stripslashes($value)))
+                {
+                    $array[$key] = json_decode(stripslashes($value));
+                }
             }
         }
     }
@@ -193,6 +194,26 @@ function getBrowserClientInfo()
         'pattern'    => $pattern
     );
 } 
+
+function updateBrowser()
+{
+	$browser = getBrowserClientInfo();
+
+	$version = explode('.',$browser['version']);
+	$version = $version[0];
+	
+	if(preg_match('/Internet Explorer/i',$browser['name'])) 
+    { 
+        if($version < 9)
+        	echo "<script> location.href = 'atualize';  </script>";
+    } 
+    elseif(preg_match('/Mozilla Firefox/i',$browser['name'])) 
+    { 
+        if($version < 15)        	
+        	echo "<script> location.href = 'atualize';  </script>";
+    } 	
+}
+
 
 
 ?>

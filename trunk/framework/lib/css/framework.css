@@ -416,7 +416,8 @@ select{
     border:1px solid #aaa;
     color:#333333;
     padding:3px;
-    background:url(images/input_bg.gif)
+    background:url(images/input_bg.gif);
+    font-size:13px;
 }
 
 select[multiple] {
