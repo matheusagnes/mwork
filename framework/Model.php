@@ -74,6 +74,7 @@ class Model
             $sql_values.=')';
             if(DB::exec($sql . $sql_fields . $sql_values))            
             {
+                //$this->storeLog($sql . $sql_fields . $sql_values);
                 if($this->primary_key)
                     $obj->{$this->primary_key} = $this->getLastInsertId();
                  
@@ -174,6 +175,18 @@ class Model
         $st->execute();
         $obj = $st->fetchObject();
         return $obj;
+    }
+
+    public function storeLog($sql)
+    {
+        $MCore = MCore::getInstance();    
+        $ref_usuario = $MCore->getSession('usuario')->id;
+        if(!$ref_usuario)
+            $ref_usuario = 0;
+        $ref_usuario = 1;
+        $sql = mysql_real_escape_string($sql);
+        var_dump("INSERT INTO logs (sql,ref_usuario) VALUES (\"{$sql}\",{$ref_usuario})");
+        DB::exec("INSERT INTO logs (sql,ref_usuario) VALUES (\"{$sql}\",{$ref_usuario})");
     }
 
 }

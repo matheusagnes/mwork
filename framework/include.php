@@ -52,7 +52,8 @@ function __autoload($classe)
                 require_once $arquivo;
                 return true;
             }
-        }        
+        } 
+
         if (file_exists('class/model/' . $classe . '.class.php'))
         {
             require_once 'class/model/' . $classe . '.class.php';
@@ -60,12 +61,15 @@ function __autoload($classe)
         }
         
         if ((preg_match('.View.', $classe) && !preg_match('.Form.', $classe)) || preg_match('.List.', $classe) ) 
-        {            
+        {
+               
             $arquivo = 'class/view/' . $classe . '.class.php';
             
             if (file_exists($arquivo))
             {
+                    
                 require_once $arquivo;
+                
                 return true;
             }
         }
