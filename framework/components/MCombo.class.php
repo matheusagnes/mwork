@@ -8,12 +8,25 @@ class MCombo extends MInput
     private $click;
     private $selected;
     private $multiple;
+    private $selecione = true;
+    private $search = false;
 
     public function __construct($itens = null)
     {
+        $this->selecione = true;
         parent::__construct();
         if ($itens)
             $this->addItens($itens);
+    }
+
+    function setSelecione($selecione)
+    {
+        $this->selecione = $selecione;
+    }
+
+    public function setSearch($search)
+    {
+        $this->search = $search;
     }
 
     function setMultiple()
@@ -51,6 +64,9 @@ class MCombo extends MInput
 
     function show()
     {
+        if(!$this->id)
+            $this->id = $this->name;
+        
         parent::show(); //talvez nem precisara moastrar o show..        
         $add = '';
         if ($this->properties)
@@ -67,56 +83,64 @@ class MCombo extends MInput
         }
 
         if (!$this->multiple)
-            $htmlCombo = "<select name='{$this->name}'  {$required}' id='{$this->id}'   $add >";
+        {                        
+            if(!$add)
+                $add = " style='width:90%'";
+            $htmlCombo = "<select name='{$this->name}' {$required} id='{$this->id}' $add >";
+        }
         else
         {
-            $htmlCombo = '<script type="text/javascript">
-                            $(function(){
-                            // choose either the full version
-                            $(".multiselect").multiselect();
-                            // or disable some features
-                            $(".multiselect").multiselect({sortable: false, searchable: true});
-                            });
-                            </script>';
+            $htmlCombo = "
+                <script type='text/javascript'>                    
+                    $(document).ready(function() { $('#{$this->name}').select2({allowClear: true}); });                    
+                </script>";
             
-            $htmlCombo .= "<select name='{$this->name}[]' class='multiselect' multiple='multiple' {$required}' id='{$this->id}'   $add >";
+            $htmlCombo .= "<select name='{$this->name}[]'  multiple='multiple' {$required}' id='{$this->id}'   $add >";
         }    
-        if(!$this->multiple)
+        if(!$this->multiple && $this->selecione)
              $htmlCombo .= "<option value=\"0\">  Selecione </option>";
 
         if ($this->items)
         {
             
-            $keysValue = array();
             if (is_array($this->value))
-            {
+            {                            
                 foreach ($this->value as $k => $v)
-                {
-                    $keysValue[$k] = $k; 
+                {        
+                    foreach ($this->items as $key => $item)
+                    {                    
+                        if($k == $key)
+                        {
+                            $htmlCombo .= "<option selected = 'selected' $text value=\"$key\">$item</option>";
+                            unset($this->items[$key]);
+                        }
+                    }
                 }
             }
+
             foreach ($this->items as $key => $item)
             {
                 $text = '';
                 
-                if ($keysValue)
-                {
-                    if ($keysValue[$key])
-                    {
-                        $text = "selected = 'selected' ";
-                    }
-                }
-                else
-                {
+                
                     if ($this->selected && $this->selected == $key || $this->value && $this->value == $key)
                     {
                         $text = "selected = 'selected' ";
                     }
-                }
+                
                 $htmlCombo .= "<option $text value=\"$key\">$item</option>";
             }
+            
         }
         $htmlCombo .= "</select>";
+        if (!$this->multiple && $this->search) 
+        $htmlCombo .= 
+                "
+                    <script>
+                        $(document).ready(function() { $('select').select2(); });
+                    </script>
+
+                ";
         return $htmlCombo;
     }
 
