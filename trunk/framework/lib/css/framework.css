@@ -1,10 +1,15 @@
 body {
 
     font-family: Verdana,Arial,sans-serif;
-    font-size: 10px;
+    font-size: 12px;
     margin: 0px;
     padding: 0px;
     background-color: whitesmoke;
+}
+
+.check_horizontal
+{
+    float:left;
 }
 
 p {
@@ -12,14 +17,14 @@ p {
 
     color:#525757;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold
 }
 
 a {
     color:#6b7272;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
 }
 #container {
@@ -102,7 +107,7 @@ a {
     width: 100%;
     margin-top: 10px;
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
 }
 .paginacao table {
@@ -241,7 +246,7 @@ input[type=submit]{
     background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
     background: -moz-linear-gradient(top,  #ffffff,  #cccccc);
     background: -o-linear-gradient(top,  #ffffff,  #cccccc);
-    font-size:11px;
+    font-size:12px;
 }
 
 input[type=submit]:hover
@@ -252,7 +257,7 @@ input[type=submit]:hover
         background: -moz-linear-gradient(top,  #cccccc,  #dddddd);
         background: -o-linear-gradient(top,  #cccccc,  #dddddd);
         cursor:pointer;
-        font-size:11px;
+        font-size:12px;
 }
 
 input[type=submit]:active{	
@@ -417,7 +422,7 @@ select{
     color:#333333;
     padding:3px;
     background:url(images/input_bg.gif);
-    font-size:13px;
+    font-size:14px;
 }
 
 select[multiple] {
@@ -557,7 +562,7 @@ select[multiple] {
     margin:auto;
     border:solid 1px #BBB;
     background-color:white;
-    font-size: 11px;
+    font-size: 12px;
     padding-top:15px;
     padding-bottom:15px;
 }

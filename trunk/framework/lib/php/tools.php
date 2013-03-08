@@ -69,6 +69,7 @@ function changeCombo($array, $id_field)
 {
     $script = "<script>";
     $script.="clearCombo('{$id_field}');";
+    if($array)
     foreach ($array as $key=>$value)
     {
         $script.="addSelectOption(document.getElementById('{$id_field}'),'{$value}','{$key}'); \n";
@@ -209,11 +210,18 @@ function updateBrowser()
     } 
     elseif(preg_match('/Mozilla Firefox/i',$browser['name'])) 
     { 
-        if($version < 15)        	
+        if($version < 8)        	
         	echo "<script> location.href = 'atualize';  </script>";
     } 	
 }
 
-
+function dateFormat($datahora, $formato = 'd/m/Y H:i')
+{
+    if (!$datahora)
+    {
+        return $datahora;
+    }
+    return date($formato, strtotime($datahora));
+}
 
 ?>

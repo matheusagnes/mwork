@@ -72,6 +72,7 @@ class Model
 
             $sql_fields.=')';
             $sql_values.=')';
+          
             if(DB::exec($sql . $sql_fields . $sql_values))            
             {
                 //$this->storeLog($sql . $sql_fields . $sql_values);
@@ -87,6 +88,7 @@ class Model
                 #FIXME retornar obj de erros com nome de erros do banco ?!?!
                 return false;
             }
+      
         }
         else
         {
@@ -109,6 +111,7 @@ class Model
 
         $sql = substr($sql, 0, -1);
         $sql.= "WHERE {$this->primary_key} = {$obj->{$this->primary_key}}";
+        
 
         try
         {

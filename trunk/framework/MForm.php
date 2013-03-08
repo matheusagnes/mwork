@@ -166,7 +166,7 @@ class MForm
         $this->buttons[] = " <input type='{$type}'  name='{$nome}' value='{$nome}' {$js_function} /> ";
     }
 
-    public function show()
+    public function show($print = true)
     {
         // create objForm to use in session for validade the form in control
         $this->MCore->setSession($this->sessionFormName, $this->aObligatories);
@@ -279,7 +279,10 @@ class MForm
             }
                     $htmlForm.='</form>';
         }
-        echo $htmlForm;
+        if($print)
+            echo $htmlForm;
+        else
+            return $htmlForm;
     }
 
 }

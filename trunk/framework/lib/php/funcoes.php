@@ -847,4 +847,36 @@ function sendMail($mensagem, $emails, $subJect)
     return $phpmailer->Send();
 }
 
+function highLight($message, $highLightType = 'info', $div = 'high-light')
+{
+    if($highLightType == 'error')
+    {
+        $type = 'alert-error';
+    }
+    elseif($highLightType == 'success')
+    {
+        $type = 'alert-success';
+    }
+    elseif($highLightType == 'info')
+    {
+        $type = 'alert-info';
+    }
+
+    $html = 
+    "
+        <div id='my-alert'class='alert {$type} fade in'>
+            <button type='button' class='close' data-dismiss='alert'>&times;</button>
+            {$message}
+        </div>
+    ";
+    $html = str_replace("\n", '', $html);
+
+    echo
+    "
+        <script>
+            $('#{$div}').html(\"{$html}\").alert();
+        </script>
+    ";
+}
+
 ?>

@@ -3,91 +3,109 @@
 class MRadio extends MInput
 {
 
-    private $vertical          = null;
-    private $options           = null;
-    private $helps             = null;
-    private $propertiesOptions = null;
+    private $labelCheck;
+    private $checked;
+    private $aChecks;
+    private $orientation;
 
-
-    function setVertical($vertical=true)
+  
+    function __construct()
     {
-        $this->vertical = $vertical;
+        
     }
+
+    function setOrientationGroup($orientation)
+    {
+        $this->orientation = $orientation;
+    }
+
     
+    function setLabelCheck($label)
+    {
+        $this->labelCheck = $label;
+    }
+
+    function setChecked($checked)
+    {
+        $this->checked = $checked;
+    }
+    // array com objChecks contendo value, label, property e checked
+    function addChecks($aChecks)
+    {
+        $this->aChecks = $aChecks;
+    }
+
+    function addItem($value, $label, $checked = false,$properties = null)
+    {
+        $check = new stdClass();
+        $check->value = $value;
+        $check->label = $label;
+        $check->checked = $checked;
+        $check->properties = $properties;
+        $this->aChecks[] = $check;
+    }
+
+ 
     function show()
     {
         parent::show();
-        if (parent::getVisibility())
+
+        if (count($this->properties) > 0)
         {
-            if ($this->options)
+            $props = '';
+            foreach ($this->properties as $key => $value)
             {
-                if (count($this->properties)>0)
-                {
-                    foreach($this->properties as $key => $value)
-                    {
-                        $add .= " $key='$value' ";
-                    }
-                }
-                $id = 0;
-                foreach ($this->options as $index => $label)
-                {
+                $props .= ' ' . $key . '=\'' . $value . '\'';
+            }
+        }
+       
+        unset($checked);
+        if ($this->checked)
+        {
+            $checked = " checked = '1' ";
+        }
+        
+        if(!is_array($this->value))
+        {         
+            $this->value = 1;            
+        }
 
-                    // Prepara as propriedades de cada option
-                    $addPropertyOption = '';
-                    if (count($this->propertiesOptions[$index])>0)
-                    {
-                        foreach($this->propertiesOptions[$index] as $key => $value)
-                        {
-                            $addPropertyOption .= " $key='$value' ";
-                        }
-                    }
+        if($this->aChecks)
+        {
+            $cont = 0;
+            foreach ($this->aChecks as $check) 
+            {    
+                $checked = '';                       
+                if($check->checked || $this->value[$check->value])
+                {
+                    $checked = " checked = '1' ";
+                }      
 
-                    $label->addProperty('for',"{$this->name}_$id");
-                    $text_label = $label->getValue();
-                    // $checked = $this->value ? 'checked' : '';
-                    $checked = $this->value == $index ? 'checked' : '';
-                    echo "\n<input name='{$this->name}' id='{$this->name}_{$id}' text='{$text_label}' size='{$this->size}' title='{$this->helps[$index]}' alt='{$this->helps[$index]}' value='$index' type='radio' class='loginentry' $add $addPropertyOption $checked>";
-                    $label->show();
-                    if($this->vertical)
-                        echo "<br>\n";
-                    $id++;
-                }
+                if (count($check->properties) > 0)
+                {
+                    $props = '';
+                    foreach ($check->properties as $key => $value)
+                    {
+                        $props .= ' ' . $key . '=\'' . $value . '\'';
+                    }
+                }                           
+                
+                $cont++;
+                $htmlCheckBox .= " 
+                <div class='container_radio'>
+                    <input {$props} class='radio_input' id='{$this->name}_{$cont}' {$check->property} name='{$this->name}' value='{$check->value}' type='radio'  $checked $props > 
+                    <label style='width:auto; padding:2px;font-weight: normal; cursor:pointer;' class = 'radio_label' for='{$this->name}_{$cont}'> {$check->label} </label> 
+                </div>";
             }
         }
         else
         {
-            $text_label = $this->options[$this->value]->getValue();
-            echo "<input type=text size='{$this->size}' name='_n_{$this->name}' value='{$text_label}' readonly='1' class='field_style_disabled' />";
+            $htmlCheckBox = "<input id='{$this->name}' name='{$this->name}' value='{$this->value}' type='radio'  $checked $props >";
         }
+        //$htmlCheckBox .= "<label for='{$this->name}'> {$this->labelCheck} </label>";
+        return $htmlCheckBox;
     }
 
- 
-    function addItem($index, $label,$help = null, $properties = null)
-    {
-        if ( !is_object($label) )
-        {
-            $lblObj = new TLabel( $label );
-        }
-        elseif ( strtolower( get_class( $label ) ) != 'tlabel' )
-        {
-            $lblObj = new TLabel('');
-        }
-        else
-        {
-            $lblObj = $label;
-        }
-        $this->options[$index] = $lblObj;
-        $this->helps[$index]   = $help;
-        $this->propertiesOptions[$index] = $properties;
-
-    }
-
-    function addItems($items)
-    {
-        foreach( $items as $index => $label )
-        {
-            $this->addItem( $index, $label );
-        }
-    }
 }
+
 ?>
